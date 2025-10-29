@@ -1,0 +1,608 @@
+---
+title: Spinner | Vòng Quay Tải
+description: Loading spinner with multiple animation styles | Vòng quay tải với nhiều kiểu hoạt ảnh
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Spinner** component provides visual feedback during loading states with multiple animation styles. Perfect for indicating background processes or data fetching.
+
+**Spinner** là component cung cấp phản hồi trực quan trong khi tải với nhiều kiểu hoạt ảnh. Hoàn hảo để chỉ báo các quy trình nền hoặc tải dữ liệu.
+
+## Features | Tính Năng
+
+- **5 animation types** | **5 loại hoạt ảnh**: Spin, pulse, bounce, dots, bars
+- **Size variants** | **Biến thể kích thước**: Tiny, small, medium, large, huge
+- **Color customization** | **Tùy chỉnh màu**: Primary, success, warning, danger, custom colors
+- **Optional text** | **Văn bản tùy chọn**: Loading text alongside spinner
+- **Overlay mode** | **Chế độ lớp phủ**: Full-screen or container overlay
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add spinner
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/spinner).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component } from '@angular/core';
+import { SpinnerComponent } from '@/components/ui/spinner';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [SpinnerComponent],
+  template: `
+    <g-spinner />
+  `
+})
+export class ExampleComponent {}
+```
+
+### Animation Types | Các Loại Hoạt Ảnh
+
+```typescript
+@Component({
+  template: `
+    <div class="flex gap-8">
+      <!-- Spin (default) | Quay (mặc định) -->
+      <g-spinner type="spin" />
+
+      <!-- Pulse | Nhấp nháy -->
+      <g-spinner type="pulse" />
+
+      <!-- Bounce | Nảy -->
+      <g-spinner type="bounce" />
+
+      <!-- Dots | Chấm -->
+      <g-spinner type="dots" />
+
+      <!-- Bars | Thanh -->
+      <g-spinner type="bars" />
+    </div>
+  `
+})
+```
+
+### Sizes | Kích Thước
+
+```typescript
+@Component({
+  template: `
+    <div class="flex items-center gap-6">
+      <!-- Tiny | Rất nhỏ -->
+      <g-spinner size="xs" />
+
+      <!-- Small | Nhỏ -->
+      <g-spinner size="sm" />
+
+      <!-- Medium (default) | Vừa (mặc định) -->
+      <g-spinner size="md" />
+
+      <!-- Large | Lớn -->
+      <g-spinner size="lg" />
+
+      <!-- Extra large | Rất lớn -->
+      <g-spinner size="xl" />
+    </div>
+  `
+})
+```
+
+### Colors | Màu Sắc
+
+```typescript
+@Component({
+  template: `
+    <div class="flex gap-6">
+      <!-- Primary (default) | Chính (mặc định) -->
+      <g-spinner color="primary" />
+
+      <!-- Success | Thành công -->
+      <g-spinner color="success" />
+
+      <!-- Warning | Cảnh báo -->
+      <g-spinner color="warning" />
+
+      <!-- Danger | Nguy hiểm -->
+      <g-spinner color="danger" />
+
+      <!-- Custom color | Màu tùy chỉnh -->
+      <g-spinner [customColor]="'#9333ea'" />
+    </div>
+  `
+})
+```
+
+### With Text | Với Văn Bản
+
+```typescript
+@Component({
+  template: `
+    <!-- Text below spinner | Văn bản dưới spinner -->
+    <g-spinner text="Loading..." />
+
+    <!-- Custom text | Văn bản tùy chỉnh -->
+    <g-spinner text="Processing your request..." />
+
+    <!-- Bilingual text | Văn bản song ngữ -->
+    <g-spinner text="Loading data | Đang tải dữ liệu" />
+
+    <!-- Text position inline | Vị trí văn bản ngang hàng -->
+    <g-spinner
+      text="Please wait..."
+      textPosition="inline" />
+  `
+})
+```
+
+### Inline Spinner | Spinner Nội Tuyến
+
+```typescript
+@Component({
+  template: `
+    <div class="flex items-center gap-2">
+      <g-spinner size="sm" />
+      <span>Loading data...</span>
+    </div>
+
+    <!-- In button | Trong nút -->
+    <button class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded">
+      <g-spinner size="sm" color="white" />
+      <span>Submitting...</span>
+    </button>
+  `
+})
+```
+
+### Overlay Spinner | Spinner Lớp Phủ
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <div class="relative min-h-[200px] border rounded-lg p-6">
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold">Content Area</h3>
+        <p>This content will be overlaid when loading.</p>
+      </div>
+
+      @if (isLoading()) {
+        <g-spinner-overlay text="Loading data..." />
+      }
+    </div>
+  `
+})
+export class OverlayExample {
+  isLoading = signal(true);
+}
+```
+
+### Full Screen Spinner | Spinner Toàn Màn Hình
+
+```typescript
+@Component({
+  template: `
+    @if (isInitializing()) {
+      <div class="fixed inset-0 bg-white dark:bg-gray-900 flex items-center justify-center z-50">
+        <g-spinner
+          size="xl"
+          text="Initializing application..."
+          type="spin" />
+      </div>
+    }
+
+    <!-- App content -->
+    <div>
+      <h1>Application Content</h1>
+    </div>
+  `
+})
+export class FullScreenExample {
+  isInitializing = signal(true);
+
+  constructor() {
+    this.initialize();
+  }
+
+  async initialize() {
+    await this.loadAppData();
+    this.isInitializing.set(false);
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `type` | `'spin' \| 'pulse' \| 'bounce' \| 'dots' \| 'bars'` | `'spin'` | Animation type <br/> Loại hoạt ảnh |
+| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Spinner size <br/> Kích thước spinner |
+| `color` | `'primary' \| 'success' \| 'warning' \| 'danger'` | `'primary'` | Spinner color <br/> Màu spinner |
+| `customColor` | `string` | - | Custom CSS color <br/> Màu CSS tùy chỉnh |
+| `text` | `string` | - | Loading text <br/> Văn bản tải |
+| `textPosition` | `'below' \| 'inline'` | `'below'` | Text position <br/> Vị trí văn bản |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses ARIA `role="status"` for live region
+- Uses ARIA `aria-live="polite"` for screen readers
+- Includes `aria-label` for accessibility
+- Respects `prefers-reduced-motion`
+- Semantic loading indicators
+
+## Examples | Ví Dụ
+
+### Button Loading States | Trạng Thái Tải Nút
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <div class="space-x-4">
+      <!-- Primary button loading | Nút chính đang tải -->
+      <button
+        (click)="handleSave()"
+        [disabled]="isSaving()"
+        class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 flex items-center gap-2">
+        @if (isSaving()) {
+          <g-spinner size="sm" customColor="white" type="spin" />
+          <span>Saving...</span>
+        } @else {
+          <span>Save</span>
+        }
+      </button>
+
+      <!-- Danger button loading | Nút nguy hiểm đang tải -->
+      <button
+        (click)="handleDelete()"
+        [disabled]="isDeleting()"
+        class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50 flex items-center gap-2">
+        @if (isDeleting()) {
+          <g-spinner size="sm" customColor="white" type="dots" />
+          <span>Deleting...</span>
+        } @else {
+          <span>Delete</span>
+        }
+      </button>
+
+      <!-- Success button loading | Nút thành công đang tải -->
+      <button
+        (click)="handleSubmit()"
+        [disabled]="isSubmitting()"
+        class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 flex items-center gap-2">
+        @if (isSubmitting()) {
+          <g-spinner size="sm" customColor="white" type="pulse" />
+          <span>Submitting...</span>
+        } @else {
+          <span>Submit</span>
+        }
+      </button>
+    </div>
+  `
+})
+export class ButtonLoadingStates {
+  isSaving = signal(false);
+  isDeleting = signal(false);
+  isSubmitting = signal(false);
+
+  async handleSave() {
+    this.isSaving.set(true);
+    await this.api.save();
+    this.isSaving.set(false);
+  }
+
+  async handleDelete() {
+    this.isDeleting.set(true);
+    await this.api.delete();
+    this.isDeleting.set(false);
+  }
+
+  async handleSubmit() {
+    this.isSubmitting.set(true);
+    await this.api.submit();
+    this.isSubmitting.set(false);
+  }
+}
+```
+
+### Content Loading | Tải Nội Dung
+
+```typescript
+@Component({
+  template: `
+    <div class="border rounded-lg">
+      <!-- Header -->
+      <div class="border-b p-4">
+        <h2 class="text-xl font-semibold">User List | Danh Sách Người Dùng</h2>
+      </div>
+
+      <!-- Content area -->
+      <div class="p-4 min-h-[300px]">
+        @if (isLoading()) {
+          <div class="flex flex-col items-center justify-center h-full py-12">
+            <g-spinner
+              type="dots"
+              size="lg"
+              text="Loading users..."
+              color="primary" />
+          </div>
+        } @else if (users().length === 0) {
+          <div class="text-center py-12 text-gray-500">
+            <p>No users found</p>
+          </div>
+        } @else {
+          <div class="space-y-4">
+            @for (user of users(); track user.id) {
+              <div class="flex items-center gap-4 p-4 border rounded hover:bg-gray-50">
+                <img [src]="user.avatar" class="w-12 h-12 rounded-full" />
+                <div class="flex-1">
+                  <h3 class="font-semibold">{{ user.name }}</h3>
+                  <p class="text-sm text-gray-600">{{ user.email }}</p>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  `
+})
+export class ContentLoading {
+  isLoading = signal(true);
+  users = signal([]);
+
+  constructor() {
+    this.loadUsers();
+  }
+
+  async loadUsers() {
+    this.isLoading.set(true);
+    const data = await this.api.getUsers();
+    this.users.set(data);
+    this.isLoading.set(false);
+  }
+}
+```
+
+### Page Loading | Tải Trang
+
+```typescript
+@Component({
+  template: `
+    @if (isPageLoading()) {
+      <!-- Full page spinner | Spinner toàn trang -->
+      <div class="fixed inset-0 bg-white dark:bg-gray-900 flex flex-col items-center justify-center">
+        <div class="mb-8">
+          <img src="logo.svg" alt="Logo" class="w-24 h-24" />
+        </div>
+        <g-spinner
+          type="spin"
+          size="xl"
+          color="primary" />
+        <p class="mt-4 text-gray-600 dark:text-gray-400">
+          Loading application... | Đang tải ứng dụng...
+        </p>
+      </div>
+    } @else {
+      <!-- Main application content -->
+      <div class="min-h-screen">
+        <nav>...</nav>
+        <main>
+          <router-outlet />
+        </main>
+      </div>
+    }
+  `
+})
+export class PageLoading implements OnInit {
+  isPageLoading = signal(true);
+
+  async ngOnInit() {
+    await Promise.all([
+      this.loadUserData(),
+      this.loadAppConfig(),
+      this.loadPermissions()
+    ]);
+
+    this.isPageLoading.set(false);
+  }
+}
+```
+
+### Infinite Scroll Loading | Tải Cuộn Vô Hạn
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      @for (item of items(); track item.id) {
+        <div class="border rounded-lg p-4">
+          <h3 class="font-semibold">{{ item.title }}</h3>
+          <p class="text-gray-600">{{ item.description }}</p>
+        </div>
+      }
+
+      <!-- Load more spinner | Spinner tải thêm -->
+      @if (isLoadingMore()) {
+        <div class="flex justify-center py-8">
+          <g-spinner
+            type="dots"
+            text="Loading more..."
+            color="primary" />
+        </div>
+      }
+
+      <!-- End of list | Hết danh sách -->
+      @if (!hasMore() && items().length > 0) {
+        <div class="text-center py-8 text-gray-500">
+          <p>No more items to load | Không còn mục để tải</p>
+        </div>
+      }
+    </div>
+
+    <!-- Scroll trigger -->
+    <div #scrollTrigger></div>
+  `
+})
+export class InfiniteScrollLoading implements OnInit, AfterViewInit {
+  @ViewChild('scrollTrigger') scrollTrigger!: ElementRef;
+
+  items = signal([]);
+  isLoadingMore = signal(false);
+  hasMore = signal(true);
+  page = signal(1);
+
+  ngAfterViewInit() {
+    // Setup intersection observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !this.isLoadingMore() && this.hasMore()) {
+          this.loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(this.scrollTrigger.nativeElement);
+  }
+
+  async loadMore() {
+    this.isLoadingMore.set(true);
+
+    try {
+      const newItems = await this.api.getItems(this.page());
+
+      if (newItems.length === 0) {
+        this.hasMore.set(false);
+      } else {
+        this.items.update(current => [...current, ...newItems]);
+        this.page.update(p => p + 1);
+      }
+    } finally {
+      this.isLoadingMore.set(false);
+    }
+  }
+}
+```
+
+### Search Loading | Tải Tìm Kiếm
+
+```typescript
+import { Component, signal, effect } from '@angular/core';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
+@Component({
+  template: `
+    <div class="space-y-4">
+      <!-- Search input | Ô tìm kiếm -->
+      <div class="relative">
+        <input
+          type="text"
+          [(ngModel)]="searchQuery"
+          placeholder="Search users... | Tìm kiếm người dùng..."
+          class="w-full border rounded-lg pl-10 pr-10 py-2" />
+
+        <!-- Search icon -->
+        <svg class="absolute left-3 top-2.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+
+        <!-- Loading spinner in input -->
+        @if (isSearching()) {
+          <div class="absolute right-3 top-2.5">
+            <g-spinner size="xs" type="spin" />
+          </div>
+        }
+      </div>
+
+      <!-- Results -->
+      <div class="border rounded-lg">
+        @if (isSearching()) {
+          <div class="flex justify-center py-12">
+            <g-spinner
+              type="pulse"
+              text="Searching..."
+              color="primary" />
+          </div>
+        } @else if (searchResults().length === 0 && searchQuery()) {
+          <div class="text-center py-12 text-gray-500">
+            <p>No results found for "{{ searchQuery() }}"</p>
+          </div>
+        } @else if (searchResults().length > 0) {
+          <div class="divide-y">
+            @for (result of searchResults(); track result.id) {
+              <div class="p-4 hover:bg-gray-50">
+                <h3 class="font-semibold">{{ result.name }}</h3>
+                <p class="text-sm text-gray-600">{{ result.email }}</p>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  `
+})
+export class SearchLoading {
+  searchQuery = signal('');
+  searchResults = signal([]);
+  isSearching = signal(false);
+
+  constructor() {
+    // Watch search query changes
+    effect(() => {
+      const query = this.searchQuery();
+      if (query.length >= 2) {
+        this.performSearch(query);
+      } else {
+        this.searchResults.set([]);
+      }
+    });
+  }
+
+  async performSearch(query: string) {
+    this.isSearching.set(true);
+
+    // Debounce search
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    try {
+      const results = await this.api.search(query);
+      this.searchResults.set(results);
+    } finally {
+      this.isSearching.set(false);
+    }
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Appropriate size** | **Kích thước phù hợp**: Use small spinners for inline, larger for full-screen
+
+2. **Add context** | **Thêm ngữ cảnh**: Include descriptive text when possible (e.g., "Loading data...")
+
+3. **Don't overuse** | **Đừng lạm dụng**: Show spinners only for operations > 300ms
+
+4. **Reduced motion** | **Giảm chuyển động**: Respect user's motion preferences
+
+5. **Color contrast** | **Tương phản màu**: Ensure spinner is visible against background
+
+## Related Components | Components Liên Quan
+
+- [Progress](./progress) - Progress indicator | Chỉ báo tiến trình
+- [Skeleton](./skeleton) - Content placeholder | Placeholder nội dung
+- [Toast](./toast) - Loading notification | Thông báo tải

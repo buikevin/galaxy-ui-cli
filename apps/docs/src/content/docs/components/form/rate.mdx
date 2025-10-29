@@ -1,0 +1,500 @@
+---
+title: Rate | Đánh Giá Sao
+description: Star rating component for collecting ratings | Component đánh giá sao để thu thập xếp hạng
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Rate** component provides an intuitive way to collect star ratings from users with customizable features.
+
+**Rate** là component cung cấp cách trực quan để thu thập đánh giá sao từ người dùng với các tính năng tùy chỉnh.
+
+## Features | Tính Năng
+
+- **Customizable stars** | **Tùy chỉnh sao**: Set custom star count (default 5)
+- **Half star support** | **Hỗ trợ nửa sao**: Allow half-star ratings
+- **Read-only mode** | **Chế độ chỉ đọc**: Display ratings without editing
+- **6 status colors** | **6 màu trạng thái**: Basic, primary, success, info, warning, danger
+- **Angular Forms integration** | **Tích hợp Angular Forms**: Works with ngModel and Reactive Forms
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add rate
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/rate).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { RateComponent } from '@/components/ui/rate';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [RateComponent],
+  template: `
+    <g-rate [(value)]="rating">
+    </g-rate>
+
+    <p>Rating: {{ rating() }} stars</p>
+  `
+})
+export class ExampleComponent {
+  rating = signal(0);
+}
+```
+
+### With Half Stars | Với Nửa Sao
+
+```html
+<g-rate
+  [(value)]="rating"
+  [allowHalf]="true">
+</g-rate>
+```
+
+### Custom Star Count | Số Sao Tùy Chỉnh
+
+```html
+<!-- 10 stars | 10 sao -->
+<g-rate
+  [(value)]="rating"
+  [count]="10">
+</g-rate>
+
+<!-- 3 stars | 3 sao -->
+<g-rate
+  [(value)]="rating"
+  [count]="3">
+</g-rate>
+```
+
+### With Status Colors | Với Màu Trạng Thái
+
+```typescript
+@Component({
+  template: `
+    <!-- Primary (default) | Chính (mặc định) -->
+    <g-rate
+      status="primary"
+      [(value)]="rating1">
+    </g-rate>
+
+    <!-- Success | Thành công -->
+    <g-rate
+      status="success"
+      [(value)]="rating2">
+    </g-rate>
+
+    <!-- Warning | Cảnh báo -->
+    <g-rate
+      status="warning"
+      [(value)]="rating3">
+    </g-rate>
+
+    <!-- Danger | Nguy hiểm -->
+    <g-rate
+      status="danger"
+      [(value)]="rating4">
+    </g-rate>
+  `
+})
+```
+
+### Read-Only Mode | Chế độ Chỉ Đọc
+
+```html
+<!-- Display rating | Hiển thị đánh giá -->
+<g-rate
+  [value]="4.5"
+  [readonly]="true"
+  [allowHalf]="true">
+</g-rate>
+```
+
+### Reactive Forms | Forms Phản Ứng
+
+```typescript
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Validators } from '@angular/forms';
+
+@Component({
+  imports: [RateComponent, ReactiveFormsModule],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="submitReview()">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Overall Rating | Đánh Giá Chung
+          </label>
+          <g-rate
+            formControlName="rating"
+            [allowHalf]="true">
+          </g-rate>
+          @if (form.get('rating')?.hasError('required') && form.get('rating')?.touched) {
+            <p class="text-sm text-red-600 mt-1">
+              Rating is required | Đánh giá là bắt buộc
+            </p>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+          [disabled]="form.invalid">
+          Submit Review | Gửi Đánh Giá
+        </button>
+      </div>
+    </form>
+  `
+})
+export class ReviewFormComponent {
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      rating: [0, [Validators.required, Validators.min(1)]]
+    });
+  }
+
+  submitReview() {
+    if (this.form.valid) {
+      console.log('Review submitted:', this.form.value);
+    }
+  }
+}
+```
+
+### With Text Description | Với Mô Tả Văn Bản
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-2">
+      <g-rate
+        [(value)]="rating"
+        (valueChange)="onRatingChange($event)">
+      </g-rate>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        {{ getRatingText() }}
+      </p>
+    </div>
+  `
+})
+export class RateWithTextComponent {
+  rating = signal(0);
+
+  ratingDescriptions = [
+    'Select a rating | Chọn đánh giá',
+    'Poor | Kém',
+    'Fair | Trung bình',
+    'Good | Tốt',
+    'Very Good | Rất tốt',
+    'Excellent | Xuất sắc'
+  ];
+
+  getRatingText(): string {
+    return this.ratingDescriptions[this.rating()] || this.ratingDescriptions[0];
+  }
+
+  onRatingChange(value: number) {
+    console.log('Rating changed to:', value);
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `value` | `number` | `0` | Current rating value <br/> Giá trị đánh giá hiện tại |
+| `count` | `number` | `5` | Total number of stars <br/> Tổng số sao |
+| `allowHalf` | `boolean` | `false` | Allow half-star ratings <br/> Cho phép đánh giá nửa sao |
+| `readonly` | `boolean` | `false` | Read-only mode <br/> Chế độ chỉ đọc |
+| `status` | `'basic' \| 'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'warning'` | Color theme <br/> Màu chủ đề |
+| `disabled` | `boolean` | `false` | Disable rating <br/> Vô hiệu hóa đánh giá |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `valueChange` | `number` | Emitted when rating changes <br/> Phát ra khi đánh giá thay đổi |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Keyboard accessible (Arrow keys and number keys)
+- Proper ARIA attributes (aria-label, aria-valuenow)
+- Focus visible indicators
+- Screen reader announcements for rating changes
+- Clear visual states for interactive and readonly modes
+
+## Examples | Ví Dụ
+
+### Product Review Form | Form Đánh Giá Sản Phẩm
+
+```typescript
+@Component({
+  template: `
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 space-y-6">
+      <h3 class="text-lg font-semibold">
+        Review Product | Đánh Giá Sản Phẩm
+      </h3>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Overall Rating | Đánh Giá Chung
+          </label>
+          <g-rate
+            status="warning"
+            [(value)]="ratings.overall"
+            [allowHalf]="true">
+          </g-rate>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Quality | Chất Lượng
+          </label>
+          <g-rate
+            status="success"
+            [(value)]="ratings.quality"
+            [allowHalf]="true">
+          </g-rate>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Value for Money | Giá Trị Tiền Bạc
+          </label>
+          <g-rate
+            status="primary"
+            [(value)]="ratings.value"
+            [allowHalf]="true">
+          </g-rate>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Delivery | Giao Hàng
+          </label>
+          <g-rate
+            status="info"
+            [(value)]="ratings.delivery"
+            [allowHalf]="true">
+          </g-rate>
+        </div>
+
+        <div class="pt-4">
+          <label class="block text-sm font-medium mb-2">
+            Comments | Nhận Xét
+          </label>
+          <textarea
+            [(ngModel)]="comment"
+            rows="4"
+            class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            placeholder="Share your experience... | Chia sẻ trải nghiệm của bạn...">
+          </textarea>
+        </div>
+
+        <button
+          class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+          (click)="submitReview()">
+          Submit Review | Gửi Đánh Giá
+        </button>
+      </div>
+    </div>
+  `
+})
+export class ProductReviewComponent {
+  ratings = {
+    overall: signal(0),
+    quality: signal(0),
+    value: signal(0),
+    delivery: signal(0)
+  };
+
+  comment = '';
+
+  submitReview() {
+    console.log('Review submitted:', {
+      overall: this.ratings.overall(),
+      quality: this.ratings.quality(),
+      value: this.ratings.value(),
+      delivery: this.ratings.delivery(),
+      comment: this.comment
+    });
+  }
+}
+```
+
+### Display Reviews | Hiển Thị Đánh Giá
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <h3 class="text-xl font-bold">Customer Reviews | Đánh Giá Khách Hàng</h3>
+
+      <div class="space-y-4">
+        @for (review of reviews(); track review.id) {
+          <div class="border rounded-lg p-4 dark:border-gray-700">
+            <div class="flex items-center justify-between mb-2">
+              <div class="flex items-center gap-3">
+                <div class="font-medium">{{ review.author }}</div>
+                <g-rate
+                  [value]="review.rating"
+                  [readonly]="true"
+                  [count]="5"
+                  status="warning">
+                </g-rate>
+              </div>
+              <span class="text-sm text-gray-500">
+                {{ review.date }}
+              </span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-400">
+              {{ review.comment }}
+            </p>
+          </div>
+        }
+      </div>
+    </div>
+  `
+})
+export class ReviewsListComponent {
+  reviews = signal([
+    {
+      id: 1,
+      author: 'John Doe',
+      rating: 5,
+      comment: 'Excellent product! Highly recommended.',
+      date: '2025-10-28'
+    },
+    {
+      id: 2,
+      author: 'Jane Smith',
+      rating: 4,
+      comment: 'Good quality, fast delivery.',
+      date: '2025-10-27'
+    },
+    {
+      id: 3,
+      author: 'Bob Johnson',
+      rating: 3,
+      comment: 'Average product, could be better.',
+      date: '2025-10-26'
+    }
+  ]);
+}
+```
+
+### Feedback Widget | Widget Phản Hồi
+
+```typescript
+@Component({
+  template: `
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-auto">
+      <h3 class="text-lg font-semibold mb-4 text-center">
+        How was your experience? | Trải nghiệm của bạn thế nào?
+      </h3>
+
+      <div class="flex flex-col items-center space-y-4">
+        <g-rate
+          status="warning"
+          [count]="5"
+          [(value)]="rating"
+          (valueChange)="onRatingChange($event)">
+        </g-rate>
+
+        @if (rating() > 0) {
+          <div class="text-center">
+            <p class="text-2xl mb-2">{{ getEmoji() }}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ getFeedbackText() }}
+            </p>
+          </div>
+        }
+
+        @if (rating() > 0) {
+          <textarea
+            [(ngModel)]="feedback"
+            rows="3"
+            class="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            placeholder="Tell us more... | Cho chúng tôi biết thêm...">
+          </textarea>
+
+          <button
+            class="w-full px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+            (click)="submitFeedback()">
+            Submit Feedback | Gửi Phản Hồi
+          </button>
+        }
+      </div>
+    </div>
+  `
+})
+export class FeedbackWidgetComponent {
+  rating = signal(0);
+  feedback = '';
+
+  feedbackData = [
+    { emoji: '', text: '' },
+    { emoji: '😢', text: 'We\'re sorry | Chúng tôi xin lỗi' },
+    { emoji: '😕', text: 'Could be better | Có thể tốt hơn' },
+    { emoji: '😊', text: 'Good | Tốt' },
+    { emoji: '😃', text: 'Great | Tuyệt vời' },
+    { emoji: '🤩', text: 'Amazing! | Tuyệt vời!' }
+  ];
+
+  getEmoji(): string {
+    return this.feedbackData[this.rating()]?.emoji || '';
+  }
+
+  getFeedbackText(): string {
+    return this.feedbackData[this.rating()]?.text || '';
+  }
+
+  onRatingChange(value: number) {
+    console.log('Rating:', value);
+  }
+
+  submitFeedback() {
+    console.log('Feedback submitted:', {
+      rating: this.rating(),
+      feedback: this.feedback
+    });
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Use appropriate scale** | **Dùng thang đo phù hợp**: 5 stars is standard, use others sparingly
+
+2. **Allow half stars for precision** | **Cho phép nửa sao cho chính xác**: Enable allowHalf for more granular ratings
+
+3. **Provide context** | **Cung cấp ngữ cảnh**: Add labels or text to explain what's being rated
+
+4. **Visual feedback** | **Phản hồi trực quan**: Show rating text or emoji for better UX
+
+5. **Read-only for display** | **Chỉ đọc để hiển thị**: Use readonly mode when showing existing ratings
+
+6. **Validation** | **Xác thực**: Require ratings in forms where applicable
+
+## Related Components | Components Liên Quan
+
+- [Slider](../slider) - Range selection | Chọn khoảng
+- [Radio](../radio) - Single selection | Chọn đơn
+- [Button Group](../button-group) - Multiple selection | Chọn nhiều

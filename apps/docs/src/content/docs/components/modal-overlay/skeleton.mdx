@@ -1,0 +1,572 @@
+---
+title: Skeleton | Bộ Khung
+description: Skeleton loading placeholder for content | Placeholder bộ khung tải cho nội dung
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Skeleton** component provides a placeholder preview of content before data loads. Inspired by Ant Design's Skeleton component with avatar, title, and paragraph options.
+
+**Skeleton** là component cung cấp bản xem trước placeholder của nội dung trước khi dữ liệu tải. Lấy cảm hứng từ Skeleton component của Ant Design với các tùy chọn avatar, tiêu đề, và đoạn văn.
+
+## Features | Tính Năng
+
+- **Flexible layouts** | **Bố cục linh hoạt**: Avatar, title, paragraph combinations
+- **Animated loading** | **Tải động**: Wave animation effect
+- **Custom shapes** | **Hình dạng tùy chỉnh**: Circle, square, rounded variants
+- **Responsive sizing** | **Kích thước đáp ứng**: Configurable width and height
+- **Loading state control** | **Kiểm soát trạng thái tải**: Toggle between skeleton and content
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add skeleton
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/skeleton).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { SkeletonComponent } from '@/components/ui/skeleton';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [SkeletonComponent],
+  template: `
+    <g-skeleton [loading]="isLoading()">
+      <div class="content">
+        <h2>Content Title</h2>
+        <p>Your actual content goes here...</p>
+      </div>
+    </g-skeleton>
+  `
+})
+export class ExampleComponent {
+  isLoading = signal(true);
+}
+```
+
+### With Avatar | Với Avatar
+
+```typescript
+@Component({
+  template: `
+    <g-skeleton
+      [loading]="isLoading()"
+      [avatar]="true"
+      [paragraph]="{ rows: 3 }">
+      <div class="flex gap-4">
+        <img src="avatar.jpg" class="w-12 h-12 rounded-full" />
+        <div>
+          <h3>John Doe</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+      </div>
+    </g-skeleton>
+  `
+})
+export class AvatarExample {
+  isLoading = signal(true);
+}
+```
+
+### Avatar Shapes | Hình Dạng Avatar
+
+```typescript
+@Component({
+  template: `
+    <!-- Circle avatar (default) | Avatar tròn (mặc định) -->
+    <g-skeleton
+      [loading]="true"
+      [avatar]="{ shape: 'circle' }" />
+
+    <!-- Square avatar | Avatar vuông -->
+    <g-skeleton
+      [loading]="true"
+      [avatar]="{ shape: 'square' }" />
+  `
+})
+```
+
+### Custom Avatar Size | Kích Thước Avatar Tùy Chỉnh
+
+```typescript
+@Component({
+  template: `
+    <!-- Small avatar | Avatar nhỏ -->
+    <g-skeleton
+      [loading]="true"
+      [avatar]="{ size: 'sm' }" />
+
+    <!-- Default avatar | Avatar mặc định -->
+    <g-skeleton
+      [loading]="true"
+      [avatar]="{ size: 'default' }" />
+
+    <!-- Large avatar | Avatar lớn -->
+    <g-skeleton
+      [loading]="true"
+      [avatar]="{ size: 'lg' }" />
+
+    <!-- Custom size | Kích thước tùy chỉnh -->
+    <g-skeleton
+      [loading]="true"
+      [avatar]="{ size: 64 }" />
+  `
+})
+```
+
+### Title and Paragraph | Tiêu Đề và Đoạn Văn
+
+```typescript
+@Component({
+  template: `
+    <!-- With title only | Chỉ có tiêu đề -->
+    <g-skeleton
+      [loading]="true"
+      [title]="true"
+      [paragraph]="false" />
+
+    <!-- With paragraph only | Chỉ có đoạn văn -->
+    <g-skeleton
+      [loading]="true"
+      [title]="false"
+      [paragraph]="{ rows: 4 }" />
+
+    <!-- With both | Có cả hai -->
+    <g-skeleton
+      [loading]="true"
+      [title]="true"
+      [paragraph]="{ rows: 3 }" />
+
+    <!-- Custom title width | Chiều rộng tiêu đề tùy chỉnh -->
+    <g-skeleton
+      [loading]="true"
+      [title]="{ width: '50%' }"
+      [paragraph]="{ rows: 2 }" />
+  `
+})
+```
+
+### Custom Paragraph Rows | Hàng Đoạn Văn Tùy Chỉnh
+
+```typescript
+@Component({
+  template: `
+    <!-- Different row counts | Số lượng hàng khác nhau -->
+    <g-skeleton
+      [loading]="true"
+      [paragraph]="{ rows: 2 }" />
+
+    <g-skeleton
+      [loading]="true"
+      [paragraph]="{ rows: 5 }" />
+
+    <!-- Custom row widths | Chiều rộng hàng tùy chỉnh -->
+    <g-skeleton
+      [loading]="true"
+      [paragraph]="{
+        rows: 3,
+        width: ['100%', '90%', '60%']
+      }" />
+  `
+})
+```
+
+### Active Animation | Hoạt Ảnh
+
+```typescript
+@Component({
+  template: `
+    <!-- Static (no animation) | Tĩnh (không hoạt ảnh) -->
+    <g-skeleton
+      [loading]="true"
+      [active]="false" />
+
+    <!-- Animated (default) | Có hoạt ảnh (mặc định) -->
+    <g-skeleton
+      [loading]="true"
+      [active]="true" />
+  `
+})
+```
+
+### Rounded Corners | Bo Góc
+
+```typescript
+@Component({
+  template: `
+    <!-- Sharp corners | Góc vuông -->
+    <g-skeleton
+      [loading]="true"
+      [round]="false" />
+
+    <!-- Rounded corners (default) | Bo góc (mặc định) -->
+    <g-skeleton
+      [loading]="true"
+      [round]="true" />
+  `
+})
+```
+
+### Custom Skeleton Elements | Phần Tử Skeleton Tùy Chỉnh
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <!-- Custom line | Dòng tùy chỉnh -->
+      <div class="h-4 bg-gray-200 rounded animate-pulse"></div>
+
+      <!-- Custom circle | Vòng tròn tùy chỉnh -->
+      <div class="w-12 h-12 bg-gray-200 rounded-full animate-pulse"></div>
+
+      <!-- Custom rectangle | Hình chữ nhật tùy chỉnh -->
+      <div class="w-full h-24 bg-gray-200 rounded animate-pulse"></div>
+    </div>
+  `
+})
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `loading` | `boolean` | `true` | Show skeleton or content <br/> Hiển thị skeleton hoặc nội dung |
+| `active` | `boolean` | `true` | Show animation effect <br/> Hiển thị hiệu ứng hoạt ảnh |
+| `avatar` | `boolean \| AvatarProps` | `false` | Show avatar placeholder <br/> Hiển thị placeholder avatar |
+| `title` | `boolean \| TitleProps` | `true` | Show title placeholder <br/> Hiển thị placeholder tiêu đề |
+| `paragraph` | `boolean \| ParagraphProps` | `true` | Show paragraph placeholder <br/> Hiển thị placeholder đoạn văn |
+| `round` | `boolean` | `true` | Rounded corners <br/> Bo góc |
+
+### AvatarProps Interface
+
+```typescript
+interface AvatarProps {
+  shape?: 'circle' | 'square';  // Avatar shape | Hình dạng avatar
+  size?: 'sm' | 'default' | 'lg' | number;  // Avatar size | Kích thước avatar
+}
+```
+
+### TitleProps Interface
+
+```typescript
+interface TitleProps {
+  width?: string | number;  // Title width | Chiều rộng tiêu đề
+}
+```
+
+### ParagraphProps Interface
+
+```typescript
+interface ParagraphProps {
+  rows?: number;  // Number of rows | Số lượng hàng
+  width?: string | number | Array<string | number>;  // Row widths | Chiều rộng hàng
+}
+```
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses ARIA `aria-busy="true"` during loading
+- Uses ARIA `aria-label="Loading"` for screen readers
+- Respects `prefers-reduced-motion` for animations
+- Semantic HTML structure
+- Proper focus management
+
+## Examples | Ví Dụ
+
+### Card Loading | Tải Card
+
+```typescript
+import { Component, signal, OnInit } from '@angular/core';
+
+@Component({
+  template: `
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      @for (item of items(); track item.id) {
+        <div class="border rounded-lg p-4">
+          <g-skeleton [loading]="isLoading()">
+            <div>
+              <img [src]="item.image" class="w-full h-48 object-cover rounded mb-4" />
+              <h3 class="font-semibold text-lg mb-2">{{ item.title }}</h3>
+              <p class="text-gray-600 mb-4">{{ item.description }}</p>
+              <button class="w-full bg-blue-600 text-white py-2 rounded">
+                View Details
+              </button>
+            </div>
+          </g-skeleton>
+        </div>
+      }
+    </div>
+  `
+})
+export class CardLoading implements OnInit {
+  isLoading = signal(true);
+  items = signal([]);
+
+  ngOnInit() {
+    // Simulate API call
+    setTimeout(() => {
+      this.items.set([
+        {
+          id: 1,
+          image: 'product1.jpg',
+          title: 'Product 1',
+          description: 'Product description...'
+        },
+        {
+          id: 2,
+          image: 'product2.jpg',
+          title: 'Product 2',
+          description: 'Product description...'
+        },
+        {
+          id: 3,
+          image: 'product3.jpg',
+          title: 'Product 3',
+          description: 'Product description...'
+        }
+      ]);
+      this.isLoading.set(false);
+    }, 2000);
+  }
+}
+```
+
+### List Loading | Tải Danh Sách
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      @if (isLoading()) {
+        @for (i of [1, 2, 3, 4, 5]; track i) {
+          <g-skeleton
+            [loading]="true"
+            [avatar]="{ size: 'lg', shape: 'circle' }"
+            [paragraph]="{ rows: 2 }" />
+        }
+      } @else {
+        @for (user of users(); track user.id) {
+          <div class="flex gap-4 items-start">
+            <img [src]="user.avatar" class="w-12 h-12 rounded-full" />
+            <div class="flex-1">
+              <h4 class="font-semibold">{{ user.name }}</h4>
+              <p class="text-gray-600 text-sm">{{ user.email }}</p>
+              <p class="text-gray-500 text-sm mt-1">{{ user.bio }}</p>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  `
+})
+export class ListLoading {
+  isLoading = signal(true);
+  users = signal([]);
+
+  constructor() {
+    this.loadUsers();
+  }
+
+  async loadUsers() {
+    this.isLoading.set(true);
+    const data = await this.api.getUsers();
+    this.users.set(data);
+    this.isLoading.set(false);
+  }
+}
+```
+
+### Profile Loading | Tải Hồ Sơ
+
+```typescript
+@Component({
+  template: `
+    <div class="max-w-2xl mx-auto">
+      <g-skeleton [loading]="isLoading()">
+        <!-- Actual profile content -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <!-- Cover image | Ảnh bìa -->
+          <div class="relative mb-16">
+            <img
+              [src]="profile().coverImage"
+              class="w-full h-48 object-cover rounded-lg" />
+            <img
+              [src]="profile().avatar"
+              class="absolute -bottom-12 left-6 w-24 h-24 rounded-full border-4 border-white" />
+          </div>
+
+          <!-- Profile info | Thông tin hồ sơ -->
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold mb-2">{{ profile().name }}</h1>
+            <p class="text-gray-600 mb-4">{{ profile().bio }}</p>
+            <div class="flex gap-4 text-sm">
+              <span><strong>{{ profile().followers }}</strong> followers</span>
+              <span><strong>{{ profile().following }}</strong> following</span>
+            </div>
+          </div>
+
+          <!-- Action buttons | Nút hành động -->
+          <div class="flex gap-2">
+            <button class="flex-1 bg-blue-600 text-white py-2 rounded">
+              Follow
+            </button>
+            <button class="px-4 py-2 border rounded">
+              Message
+            </button>
+          </div>
+        </div>
+      </g-skeleton>
+
+      <!-- Custom skeleton for profile -->
+      @if (isLoading()) {
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <!-- Cover skeleton -->
+          <div class="w-full h-48 bg-gray-200 rounded-lg animate-pulse mb-16"></div>
+
+          <!-- Avatar skeleton -->
+          <div class="flex items-start gap-4 -mt-12 mb-6">
+            <div class="w-24 h-24 bg-gray-200 rounded-full animate-pulse"></div>
+          </div>
+
+          <!-- Info skeleton -->
+          <div class="space-y-3 mb-6">
+            <div class="h-8 bg-gray-200 rounded w-1/3 animate-pulse"></div>
+            <div class="h-4 bg-gray-200 rounded w-2/3 animate-pulse"></div>
+            <div class="h-4 bg-gray-200 rounded w-1/4 animate-pulse"></div>
+          </div>
+
+          <!-- Button skeleton -->
+          <div class="flex gap-2">
+            <div class="flex-1 h-10 bg-gray-200 rounded animate-pulse"></div>
+            <div class="w-24 h-10 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+        </div>
+      }
+    </div>
+  `
+})
+export class ProfileLoading {
+  isLoading = signal(true);
+  profile = signal({});
+
+  constructor() {
+    this.loadProfile();
+  }
+
+  async loadProfile() {
+    this.isLoading.set(true);
+    const data = await this.api.getProfile();
+    this.profile.set(data);
+    this.isLoading.set(false);
+  }
+}
+```
+
+### Table Loading | Tải Bảng
+
+```typescript
+@Component({
+  template: `
+    <div class="border rounded-lg overflow-hidden">
+      <table class="w-full">
+        <thead class="bg-gray-50">
+          <tr>
+            <th class="px-6 py-3 text-left">Name</th>
+            <th class="px-6 py-3 text-left">Email</th>
+            <th class="px-6 py-3 text-left">Role</th>
+            <th class="px-6 py-3 text-left">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @if (isLoading()) {
+            @for (i of [1, 2, 3, 4, 5]; track i) {
+              <tr class="border-t">
+                <td class="px-6 py-4">
+                  <div class="h-4 bg-gray-200 rounded animate-pulse w-32"></div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="h-4 bg-gray-200 rounded animate-pulse w-48"></div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="h-4 bg-gray-200 rounded animate-pulse w-20"></div>
+                </td>
+              </tr>
+            }
+          } @else {
+            @for (row of data(); track row.id) {
+              <tr class="border-t">
+                <td class="px-6 py-4">{{ row.name }}</td>
+                <td class="px-6 py-4">{{ row.email }}</td>
+                <td class="px-6 py-4">{{ row.role }}</td>
+                <td class="px-6 py-4">
+                  <span class="px-2 py-1 rounded text-sm" [class]="getStatusClass(row.status)">
+                    {{ row.status }}
+                  </span>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  `
+})
+export class TableLoading {
+  isLoading = signal(true);
+  data = signal([]);
+
+  constructor() {
+    this.loadData();
+  }
+
+  async loadData() {
+    this.isLoading.set(true);
+    const result = await this.api.getTableData();
+    this.data.set(result);
+    this.isLoading.set(false);
+  }
+
+  getStatusClass(status: string): string {
+    const classes = {
+      active: 'bg-green-100 text-green-800',
+      inactive: 'bg-gray-100 text-gray-800',
+      pending: 'bg-yellow-100 text-yellow-800'
+    };
+    return classes[status] || '';
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Match content structure** | **Khớp cấu trúc nội dung**: Skeleton should mirror the actual content layout
+
+2. **Use appropriate animation** | **Dùng hoạt ảnh phù hợp**: Enable animation for better UX, disable for performance
+
+3. **Show realistic timing** | **Hiển thị thời gian thực tế**: Don't hide skeleton too quickly (min 300-500ms)
+
+4. **Avoid flash** | **Tránh nhấp nháy**: If content loads very fast, don't show skeleton
+
+5. **Progressive loading** | **Tải tiến bộ**: Show skeleton for individual items as they load
+
+## Related Components | Components Liên Quan
+
+- [Spinner](./spinner) - Loading spinner | Spinner tải
+- [Progress](./progress) - Progress indicator | Chỉ báo tiến trình
+- [Empty](../other/empty) - Empty state | Trạng thái trống

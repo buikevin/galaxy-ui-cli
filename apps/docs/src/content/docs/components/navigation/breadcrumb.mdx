@@ -1,0 +1,277 @@
+---
+title: Breadcrumb
+description: Navigation breadcrumbs showing current page location
+---
+
+The **Breadcrumb** component displays the user's current location within the app hierarchy, providing easy navigation back to parent pages.
+
+## Features
+
+- Router integration for navigation
+- Lucide icons support
+- Chevron separators
+- Active state for current page
+- Responsive design
+- Inspired by shadcn/AntD
+
+## Installation
+
+```bash
+npx galaxy-ui-cli@latest add breadcrumb
+```
+
+## Usage
+
+### Basic Breadcrumb
+
+```typescript
+import { Component } from '@angular/core';
+import { BreadcrumbComponent, BreadcrumbItemComponent } from '@/components/ui/breadcrumb';
+
+@Component({
+  standalone: true,
+  imports: [BreadcrumbComponent, BreadcrumbItemComponent],
+  template: `
+    <g-breadcrumb>
+      <g-breadcrumb-item [itemHref]="'/'">
+        Home
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemHref]="'/products'">
+        Products
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemActive]="true">
+        Laptop
+      </g-breadcrumb-item>
+    </g-breadcrumb>
+  `
+})
+```
+
+### With Icons
+
+```html
+<g-breadcrumb>
+  <g-breadcrumb-item
+    [itemIcon]="'home'"
+    [itemHref]="'/'">
+    Home
+  </g-breadcrumb-item>
+  <g-breadcrumb-item
+    [itemIcon]="'folder'"
+    [itemHref]="'/documents'">
+    Documents
+  </g-breadcrumb-item>
+  <g-breadcrumb-item
+    [itemIcon]="'file-text'"
+    [itemActive]="true">
+    Report.pdf
+  </g-breadcrumb-item>
+</g-breadcrumb>
+```
+
+### Icon Only
+
+```html
+<g-breadcrumb>
+  <g-breadcrumb-item
+    [itemIcon]="'home'"
+    [itemHref]="'/'"
+    aria-label="Home">
+  </g-breadcrumb-item>
+  <g-breadcrumb-item
+    [itemIcon]="'shopping-cart'"
+    [itemHref]="'/cart'"
+    aria-label="Shopping Cart">
+  </g-breadcrumb-item>
+  <g-breadcrumb-item
+    [itemIcon]="'credit-card'"
+    [itemActive]="true"
+    aria-label="Checkout">
+  </g-breadcrumb-item>
+</g-breadcrumb>
+```
+
+### Custom Separator
+
+```html
+<g-breadcrumb [breadcrumbSeparator]="'/'">
+  <g-breadcrumb-item [itemHref]="'/'">Home</g-breadcrumb-item>
+  <g-breadcrumb-item [itemHref]="'/blog'">Blog</g-breadcrumb-item>
+  <g-breadcrumb-item [itemActive]="true">Post Title</g-breadcrumb-item>
+</g-breadcrumb>
+```
+
+### With Router
+
+```typescript
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+
+@Component({
+  imports: [BreadcrumbComponent, BreadcrumbItemComponent, RouterModule],
+  template: `
+    <g-breadcrumb>
+      <g-breadcrumb-item [itemHref]="'/dashboard'">
+        Dashboard
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemHref]="'/projects'">
+        Projects
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemActive]="true">
+        {{ projectName() }}
+      </g-breadcrumb-item>
+    </g-breadcrumb>
+  `
+})
+export class ProjectBreadcrumb {
+  projectName = signal('Website Redesign');
+}
+```
+
+## Props
+
+### Breadcrumb
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `breadcrumbSeparator` | `string \| null` | `null` | Custom separator (default is chevron) |
+
+### Breadcrumb Item
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `itemHref` | `string \| null` | `null` | Navigation link |
+| `itemIcon` | `string \| null` | `null` | Lucide icon name |
+| `itemActive` | `boolean` | `false` | Current page (not clickable) |
+
+## Examples
+
+### E-commerce Navigation
+
+```typescript
+@Component({
+  template: `
+    <g-breadcrumb>
+      <g-breadcrumb-item [itemIcon]="'home'" [itemHref]="'/'">
+        Home
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemHref]="'/category/electronics'">
+        Electronics
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemHref]="'/category/electronics/laptops'">
+        Laptops
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemActive]="true">
+        {{ productName() }}
+      </g-breadcrumb-item>
+    </g-breadcrumb>
+  `
+})
+export class ProductBreadcrumb {
+  productName = signal('MacBook Pro 16"');
+}
+```
+
+### File System
+
+```html
+<g-breadcrumb [breadcrumbSeparator]="'/'">
+  <g-breadcrumb-item [itemIcon]="'hard-drive'" [itemHref]="'/'">
+    Root
+  </g-breadcrumb-item>
+  <g-breadcrumb-item [itemIcon]="'folder'" [itemHref]="'/users'">
+    Users
+  </g-breadcrumb-item>
+  <g-breadcrumb-item [itemIcon]="'folder'" [itemHref]="'/users/john'">
+    john
+  </g-breadcrumb-item>
+  <g-breadcrumb-item [itemIcon]="'folder'" [itemActive]="true">
+    Documents
+  </g-breadcrumb-item>
+</g-breadcrumb>
+```
+
+### Admin Dashboard
+
+```html
+<g-breadcrumb>
+  <g-breadcrumb-item [itemIcon]="'home'" [itemHref]="'/admin'">
+    Admin
+  </g-breadcrumb-item>
+  <g-breadcrumb-item [itemIcon]="'users'" [itemHref]="'/admin/users'">
+    Users
+  </g-breadcrumb-item>
+  <g-breadcrumb-item [itemActive]="true">
+    Edit User
+  </g-breadcrumb-item>
+</g-breadcrumb>
+```
+
+### Multi-step Form
+
+```typescript
+@Component({
+  template: `
+    <g-breadcrumb>
+      <g-breadcrumb-item
+        [itemHref]="currentStep() > 1 ? '/form/step1' : null"
+        [itemActive]="currentStep() === 1">
+        Personal Info
+      </g-breadcrumb-item>
+      <g-breadcrumb-item
+        [itemHref]="currentStep() > 2 ? '/form/step2' : null"
+        [itemActive]="currentStep() === 2">
+        Address
+      </g-breadcrumb-item>
+      <g-breadcrumb-item
+        [itemHref]="currentStep() > 3 ? '/form/step3' : null"
+        [itemActive]="currentStep() === 3">
+        Payment
+      </g-breadcrumb-item>
+      <g-breadcrumb-item [itemActive]="currentStep() === 4">
+        Confirmation
+      </g-breadcrumb-item>
+    </g-breadcrumb>
+  `
+})
+export class FormBreadcrumb {
+  currentStep = signal(2);
+}
+```
+
+## Best Practices
+
+1. **Show hierarchy** - Display full navigation path
+2. **Current page last** - Active item is non-clickable
+3. **Home icon** - Use home icon for root level
+4. **Keep concise** - Shorten long labels on mobile
+5. **Max depth** - Consider dropdown for very deep paths
+
+## Accessibility
+
+- Use `<nav>` element with `aria-label="Breadcrumb"`
+- Provide `aria-current="page"` for active item
+- Use semantic links for navigation
+- Add `aria-label` for icon-only items
+- Maintain keyboard navigation support
+
+## Responsive Design
+
+The breadcrumb automatically handles overflow on mobile:
+
+```html
+<!-- Mobile: Shows only last 2 items -->
+<g-breadcrumb class="md:flex hidden">
+  <!-- Full breadcrumb on desktop -->
+</g-breadcrumb>
+
+<g-breadcrumb class="md:hidden">
+  <!-- Shortened breadcrumb on mobile -->
+  <g-breadcrumb-item [itemIcon]="'chevron-left'" [itemHref]="'/products'">
+    Back
+  </g-breadcrumb-item>
+  <g-breadcrumb-item [itemActive]="true">
+    Current Page
+  </g-breadcrumb-item>
+</g-breadcrumb>
+```

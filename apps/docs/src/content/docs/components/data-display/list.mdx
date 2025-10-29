@@ -1,0 +1,678 @@
+---
+title: List | Danh Sách
+description: Versatile list component for displaying items | Component danh sách linh hoạt để hiển thị các mục
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **List** component provides a flexible way to display a series of items with support for avatars, actions, metadata, and various layouts. Inspired by Ant Design's List component.
+
+**List** là component cung cấp cách linh hoạt để hiển thị một loạt các mục với hỗ trợ cho avatar, thao tác, metadata và nhiều bố cục khác nhau. Lấy cảm hứng từ component List của Ant Design.
+
+## Features | Tính Năng
+
+- **Avatar support** | **Hỗ trợ avatar**: Show user avatars or icons
+- **Action buttons** | **Nút thao tác**: Inline actions for each item
+- **Metadata** | **Metadata**: Display additional information
+- **Load more** | **Tải thêm**: Infinite scroll or load more button
+- **Empty state** | **Trạng thái trống**: Customizable empty state
+- **Loading skeleton** | **Skeleton tải**: Built-in loading state
+- **Grid layout** | **Bố cục lưới**: Display items in grid
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add list
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/list).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { ListComponent } from '@/components/ui/list';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [ListComponent],
+  template: `
+    <g-list [items]="items()">
+      <ng-template #itemTemplate let-item>
+        <div class="flex items-center gap-3">
+          <img [src]="item.avatar" [alt]="item.name" class="w-10 h-10 rounded-full">
+          <div>
+            <h4 class="font-semibold">{{ item.name }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{{ item.email }}</p>
+          </div>
+        </div>
+      </ng-template>
+    </g-list>
+  `
+})
+export class ExampleComponent {
+  items = signal([
+    { id: 1, name: 'John Doe', email: 'john@example.com', avatar: '/avatars/john.jpg' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', avatar: '/avatars/jane.jpg' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', avatar: '/avatars/bob.jpg' }
+  ]);
+}
+```
+
+### With Actions | Với Thao Tác
+
+```typescript
+@Component({
+  template: `
+    <g-list [items]="items()">
+      <ng-template #itemTemplate let-item>
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center">
+              <span class="text-blue-600 dark:text-blue-400 font-semibold">
+                {{ item.name.charAt(0) }}
+              </span>
+            </div>
+            <div>
+              <h4 class="font-semibold">{{ item.name }}</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ item.role }}</p>
+            </div>
+          </div>
+          <div class="flex gap-2">
+            <button
+              (click)="edit(item)"
+              class="px-3 py-1 text-sm text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded">
+              Edit | Sửa
+            </button>
+            <button
+              (click)="delete(item)"
+              class="px-3 py-1 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded">
+              Delete | Xóa
+            </button>
+          </div>
+        </div>
+      </ng-template>
+    </g-list>
+  `
+})
+export class ActionsListComponent {
+  items = signal([
+    { id: 1, name: 'John Doe', role: 'Admin' },
+    { id: 2, name: 'Jane Smith', role: 'Editor' },
+    { id: 3, name: 'Bob Johnson', role: 'User' }
+  ]);
+
+  edit(item: any) {
+    console.log('Edit:', item);
+  }
+
+  delete(item: any) {
+    console.log('Delete:', item);
+  }
+}
+```
+
+### With Metadata | Với Metadata
+
+```typescript
+@Component({
+  template: `
+    <g-list [items]="items()">
+      <ng-template #itemTemplate let-item>
+        <div class="space-y-2">
+          <div class="flex items-start justify-between">
+            <div>
+              <h4 class="font-semibold">{{ item.title }}</h4>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ item.description }}</p>
+            </div>
+            <span [class]="getStatusClass(item.status)">
+              {{ item.status }}
+            </span>
+          </div>
+          <div class="flex gap-4 text-sm text-gray-500 dark:text-gray-500">
+            <span>👤 {{ item.author }}</span>
+            <span>📅 {{ item.date }}</span>
+            <span>💬 {{ item.comments }} comments</span>
+          </div>
+        </div>
+      </ng-template>
+    </g-list>
+  `
+})
+export class MetadataListComponent {
+  items = signal([
+    {
+      id: 1,
+      title: 'New feature release',
+      description: 'We have released a new feature...',
+      status: 'Published',
+      author: 'John Doe',
+      date: '2024-10-29',
+      comments: 12
+    },
+    {
+      id: 2,
+      title: 'Bug fix update',
+      description: 'Fixed critical bugs in the system...',
+      status: 'Published',
+      author: 'Jane Smith',
+      date: '2024-10-28',
+      comments: 5
+    },
+    {
+      id: 3,
+      title: 'Upcoming changes',
+      description: 'Draft article about upcoming changes...',
+      status: 'Draft',
+      author: 'Bob Johnson',
+      date: '2024-10-27',
+      comments: 0
+    }
+  ]);
+
+  getStatusClass(status: string): string {
+    return status === 'Published'
+      ? 'px-2 py-1 text-xs rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+      : 'px-2 py-1 text-xs rounded bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
+  }
+}
+```
+
+### Grid Layout | Bố Cục Lưới
+
+```typescript
+@Component({
+  template: `
+    <g-list
+      [items]="items()"
+      [grid]="{ gutter: 16, column: 3 }">
+      <ng-template #itemTemplate let-item>
+        <div class="border rounded-lg overflow-hidden hover:shadow-lg transition">
+          <img [src]="item.image" [alt]="item.title" class="w-full h-48 object-cover">
+          <div class="p-4">
+            <h4 class="font-semibold mb-2">{{ item.title }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">
+              {{ item.description }}
+            </p>
+            <div class="flex justify-between items-center">
+              <span class="text-lg font-bold text-blue-600 dark:text-blue-400">
+                ${{ item.price }}
+              </span>
+              <button class="btn btn-sm btn-primary">
+                Add to Cart | Thêm vào giỏ
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </g-list>
+  `
+})
+export class GridLayoutComponent {
+  items = signal([
+    {
+      id: 1,
+      title: 'Product 1',
+      description: 'High quality product',
+      price: 99.99,
+      image: '/products/1.jpg'
+    },
+    {
+      id: 2,
+      title: 'Product 2',
+      description: 'Premium quality',
+      price: 149.99,
+      image: '/products/2.jpg'
+    },
+    {
+      id: 3,
+      title: 'Product 3',
+      description: 'Best seller',
+      price: 79.99,
+      image: '/products/3.jpg'
+    }
+  ]);
+}
+```
+
+### With Load More | Với Tải Thêm
+
+```typescript
+@Component({
+  template: `
+    <g-list
+      [items]="items()"
+      [loading]="loading()"
+      [loadMore]="hasMore()"
+      (loadMoreClick)="onLoadMore()">
+      <ng-template #itemTemplate let-item>
+        <div class="flex items-center gap-3 py-2">
+          <div class="w-12 h-12 rounded bg-gradient-to-br from-blue-400 to-purple-600 flex items-center justify-center text-white font-bold">
+            {{ item.name.charAt(0) }}
+          </div>
+          <div class="flex-1">
+            <h4 class="font-semibold">{{ item.name }}</h4>
+            <p class="text-sm text-gray-600 dark:text-gray-400">{{ item.message }}</p>
+          </div>
+          <span class="text-sm text-gray-500">{{ item.time }}</span>
+        </div>
+      </ng-template>
+
+      <ng-template #loadMoreTemplate>
+        <button
+          (click)="onLoadMore()"
+          [disabled]="loading()"
+          class="w-full py-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded">
+          @if (loading()) {
+            Loading... | Đang tải...
+          } @else {
+            Load More | Tải thêm
+          }
+        </button>
+      </ng-template>
+    </g-list>
+  `
+})
+export class LoadMoreListComponent {
+  items = signal<any[]>([]);
+  loading = signal(false);
+  hasMore = signal(true);
+  page = 1;
+
+  ngOnInit() {
+    this.loadItems();
+  }
+
+  async onLoadMore() {
+    if (this.loading() || !this.hasMore()) return;
+
+    this.loading.set(true);
+    this.page++;
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulate API call
+
+      const newItems = [
+        { id: this.page * 10 + 1, name: `User ${this.page * 10 + 1}`, message: 'New message...', time: '5m ago' },
+        { id: this.page * 10 + 2, name: `User ${this.page * 10 + 2}`, message: 'Another message...', time: '10m ago' }
+      ];
+
+      this.items.update(items => [...items, ...newItems]);
+
+      // Check if there are more items
+      if (this.page >= 5) {
+        this.hasMore.set(false);
+      }
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async loadItems() {
+    this.items.set([
+      { id: 1, name: 'User 1', message: 'Hello world!', time: '2m ago' },
+      { id: 2, name: 'User 2', message: 'Nice to meet you', time: '5m ago' }
+    ]);
+  }
+}
+```
+
+### Empty State | Trạng Thái Trống
+
+```typescript
+@Component({
+  template: `
+    <g-list
+      [items]="items()"
+      [loading]="loading()"
+      [emptyText]="emptyText"
+      [emptyTemplate]="emptyTemplate">
+      <ng-template #itemTemplate let-item>
+        <div>{{ item.name }}</div>
+      </ng-template>
+
+      <ng-template #emptyTemplate>
+        <div class="text-center py-12">
+          <div class="text-6xl mb-4">📭</div>
+          <h3 class="text-xl font-semibold mb-2">No items found</h3>
+          <p class="text-gray-600 dark:text-gray-400 mb-4">
+            There are no items to display
+            <br/>
+            Không có mục nào để hiển thị
+          </p>
+          <button (click)="addItem()" class="btn btn-primary">
+            Add First Item | Thêm Mục Đầu Tiên
+          </button>
+        </div>
+      </ng-template>
+    </g-list>
+  `
+})
+export class EmptyStateComponent {
+  items = signal<any[]>([]);
+  loading = signal(false);
+  emptyText = 'No data available | Không có dữ liệu';
+
+  addItem() {
+    this.items.update(items => [
+      ...items,
+      { id: Date.now(), name: `Item ${items.length + 1}` }
+    ]);
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `items` | `any[]` | `[]` | Array of items to display <br/> Mảng các mục để hiển thị |
+| `loading` | `boolean` | `false` | Show loading state <br/> Hiển thị trạng thái tải |
+| `itemTemplate` | `TemplateRef` | - | Custom item template <br/> Template mục tùy chỉnh |
+| `emptyText` | `string` | `'No data'` | Empty state text <br/> Văn bản trạng thái trống |
+| `emptyTemplate` | `TemplateRef` | - | Custom empty state template <br/> Template trạng thái trống tùy chỉnh |
+| `grid` | `{ gutter?: number; column?: number }` | - | Grid layout config <br/> Cấu hình bố cục lưới |
+| `loadMore` | `boolean` | `false` | Show load more button <br/> Hiển thị nút tải thêm |
+| `loadMoreTemplate` | `TemplateRef` | - | Custom load more template <br/> Template tải thêm tùy chỉnh |
+| `bordered` | `boolean` | `false` | Add borders <br/> Thêm viền |
+| `split` | `boolean` | `true` | Split items with divider <br/> Ngăn cách mục bằng đường kẻ |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `itemClick` | `any` | Emitted when item is clicked <br/> Phát ra khi mục được nhấp |
+| `loadMoreClick` | `void` | Emitted when load more is clicked <br/> Phát ra khi tải thêm được nhấp |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses semantic `<ul>` and `<li>` elements
+- Keyboard navigation support
+- ARIA labels for interactive elements
+- Focus visible indicators
+- Screen reader friendly
+- Accessible empty state
+
+## Examples | Ví Dụ
+
+### User List | Danh Sách Người Dùng
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold">Team Members | Thành Viên Nhóm</h2>
+        <button class="btn btn-primary">Invite | Mời</button>
+      </div>
+
+      <g-list
+        [items]="users()"
+        [bordered]="true"
+        [split]="true">
+        <ng-template #itemTemplate let-item>
+          <div class="flex items-center justify-between py-3">
+            <div class="flex items-center gap-3">
+              <img [src]="item.avatar" [alt]="item.name" class="w-12 h-12 rounded-full">
+              <div>
+                <h4 class="font-semibold">{{ item.name }}</h4>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ item.email }}</p>
+                <div class="flex gap-2 mt-1">
+                  @for (role of item.roles; track role) {
+                    <span class="text-xs px-2 py-0.5 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded">
+                      {{ role }}
+                    </span>
+                  }
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <span [class]="getStatusClass(item.status)">
+                {{ item.status }}
+              </span>
+              <button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded">
+                <span class="text-xl">⋮</span>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </g-list>
+    </div>
+  `
+})
+export class UserListComponent {
+  users = signal([
+    {
+      id: 1,
+      name: 'John Doe',
+      email: 'john@example.com',
+      avatar: '/avatars/john.jpg',
+      roles: ['Admin', 'Developer'],
+      status: 'Online'
+    },
+    {
+      id: 2,
+      name: 'Jane Smith',
+      email: 'jane@example.com',
+      avatar: '/avatars/jane.jpg',
+      roles: ['Designer'],
+      status: 'Offline'
+    }
+  ]);
+
+  getStatusClass(status: string): string {
+    return status === 'Online'
+      ? 'w-2 h-2 rounded-full bg-green-500'
+      : 'w-2 h-2 rounded-full bg-gray-400';
+  }
+}
+```
+
+### Activity Feed | Nguồn Hoạt Động
+
+```typescript
+@Component({
+  template: `
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">Activity Feed | Hoạt Động Gần Đây</h2>
+
+      <g-list
+        [items]="activities()"
+        [loadMore]="hasMore()"
+        (loadMoreClick)="loadMore()">
+        <ng-template #itemTemplate let-item>
+          <div class="flex gap-3 py-4">
+            <div class="flex-shrink-0">
+              <div [class]="getActivityIconClass(item.type)">
+                {{ getActivityIcon(item.type) }}
+              </div>
+            </div>
+            <div class="flex-1">
+              <div class="flex items-start justify-between">
+                <div>
+                  <p class="font-semibold">{{ item.user }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ item.action }}</p>
+                  @if (item.details) {
+                    <p class="text-sm mt-1 text-gray-500 dark:text-gray-500">{{ item.details }}</p>
+                  }
+                </div>
+                <span class="text-sm text-gray-500">{{ item.time }}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </g-list>
+    </div>
+  `
+})
+export class ActivityFeedComponent {
+  activities = signal([
+    {
+      id: 1,
+      user: 'John Doe',
+      action: 'Created a new project',
+      details: 'E-commerce Website',
+      type: 'create',
+      time: '2 minutes ago'
+    },
+    {
+      id: 2,
+      user: 'Jane Smith',
+      action: 'Updated the design',
+      details: 'Homepage mockup v2',
+      type: 'update',
+      time: '15 minutes ago'
+    },
+    {
+      id: 3,
+      user: 'Bob Johnson',
+      action: 'Commented on task',
+      details: 'Need to review the code',
+      type: 'comment',
+      time: '1 hour ago'
+    }
+  ]);
+
+  hasMore = signal(true);
+
+  getActivityIcon(type: string): string {
+    const icons = {
+      create: '➕',
+      update: '✏️',
+      comment: '💬',
+      delete: '🗑️'
+    };
+    return icons[type] || '📌';
+  }
+
+  getActivityIconClass(type: string): string {
+    const baseClass = 'w-10 h-10 rounded-full flex items-center justify-center text-lg';
+    const colors = {
+      create: 'bg-green-100 dark:bg-green-900',
+      update: 'bg-blue-100 dark:bg-blue-900',
+      comment: 'bg-purple-100 dark:bg-purple-900',
+      delete: 'bg-red-100 dark:bg-red-900'
+    };
+    return `${baseClass} ${colors[type] || 'bg-gray-100 dark:bg-gray-900'}`;
+  }
+
+  loadMore() {
+    console.log('Load more activities');
+  }
+}
+```
+
+### File List | Danh Sách File
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-xl font-bold">Documents | Tài Liệu</h2>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary">Upload | Tải lên</button>
+          <button class="btn btn-primary">New Folder | Thư mục mới</button>
+        </div>
+      </div>
+
+      <g-list
+        [items]="files()"
+        [bordered]="true">
+        <ng-template #itemTemplate let-item>
+          <div class="flex items-center justify-between py-3">
+            <div class="flex items-center gap-3">
+              <div [class]="getFileIconClass(item.type)">
+                {{ getFileIcon(item.type) }}
+              </div>
+              <div>
+                <h4 class="font-semibold">{{ item.name }}</h4>
+                <div class="flex gap-3 text-sm text-gray-600 dark:text-gray-400">
+                  <span>{{ item.size }}</span>
+                  <span>Modified {{ item.modified }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex gap-2">
+              <button (click)="download(item)" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded" title="Download">
+                ⬇️
+              </button>
+              <button (click)="share(item)" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded" title="Share">
+                🔗
+              </button>
+              <button (click)="deleteFile(item)" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded" title="Delete">
+                🗑️
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </g-list>
+    </div>
+  `
+})
+export class FileListComponent {
+  files = signal([
+    { id: 1, name: 'Project Proposal.pdf', type: 'pdf', size: '2.5 MB', modified: '2 hours ago' },
+    { id: 2, name: 'Design Assets', type: 'folder', size: '15 items', modified: 'Yesterday' },
+    { id: 3, name: 'Report.xlsx', type: 'excel', size: '1.2 MB', modified: '3 days ago' },
+    { id: 4, name: 'Presentation.pptx', type: 'powerpoint', size: '5.8 MB', modified: 'Last week' }
+  ]);
+
+  getFileIcon(type: string): string {
+    const icons = {
+      pdf: '📄',
+      folder: '📁',
+      excel: '📊',
+      powerpoint: '📽️',
+      word: '📝',
+      image: '🖼️'
+    };
+    return icons[type] || '📎';
+  }
+
+  getFileIconClass(type: string): string {
+    return 'w-12 h-12 rounded flex items-center justify-center text-2xl bg-gray-100 dark:bg-gray-800';
+  }
+
+  download(file: any) {
+    console.log('Download:', file);
+  }
+
+  share(file: any) {
+    console.log('Share:', file);
+  }
+
+  deleteFile(file: any) {
+    console.log('Delete:', file);
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Use virtual scrolling** | **Dùng cuộn ảo**: For long lists (100+ items)
+
+2. **Provide empty states** | **Cung cấp trạng thái trống**: Guide users when list is empty
+
+3. **Loading indicators** | **Chỉ báo tải**: Show skeleton or spinner while loading
+
+4. **Consistent item height** | **Chiều cao mục nhất quán**: Improves performance and UX
+
+5. **Actions visibility** | **Hiển thị thao tác**: Show on hover or always visible for touch devices
+
+6. **Pagination or infinite scroll** | **Phân trang hoặc cuộn vô hạn**: For large datasets
+
+## Related Components | Components Liên Quan
+
+- [Table](./table) - Tabular data display | Hiển thị dữ liệu dạng bảng
+- [Pagination](./pagination) - Page navigation | Điều hướng trang
+- [Tag](./tag) - Labels and categories | Nhãn và danh mục

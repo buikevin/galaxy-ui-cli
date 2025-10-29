@@ -1,0 +1,458 @@
+---
+title: Carousel | Băng Chuyền
+description: Carousel component for image and content slides with autoplay (Ant Design style) | Component băng chuyền cho ảnh và nội dung với tự động phát (phong cách Ant Design)
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Carousel** component provides a smooth, animated way to cycle through images and content, inspired by Ant Design's carousel implementation.
+
+**Carousel** là component mượt mà, có hoạt ảnh để xoay vòng qua ảnh và nội dung, lấy cảm hứng từ carousel của Ant Design.
+
+## Features | Tính Năng
+
+- **Autoplay** | **Tự động phát**: Automatic slide transitions with custom speed
+- **Effects** | **Hiệu ứng**: Scroll and fade transition effects
+- **Dots indicator** | **Chỉ thị chấm**: Navigation dots with active state
+- **Navigation arrows** | **Mũi tên điều hướng**: Previous/next arrow buttons
+- **Infinite loop** | **Vòng lặp vô hạn**: Seamless looping through slides
+- **Touch support** | **Hỗ trợ chạm**: Swipe gestures on mobile devices
+- **Keyboard navigation** | **Điều hướng bàn phím**: Arrow keys for slide control
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add carousel
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/carousel).
+
+    Sao chép code component từ [nguồn](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/carousel).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component } from '@angular/core';
+import { CarouselComponent, CarouselItemComponent } from '@/components/ui/carousel';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [CarouselComponent, CarouselItemComponent],
+  template: `
+    <g-carousel>
+      <g-carousel-item>
+        <img src="/slides/slide1.jpg" alt="Slide 1" class="w-full h-64 object-cover">
+      </g-carousel-item>
+      <g-carousel-item>
+        <img src="/slides/slide2.jpg" alt="Slide 2" class="w-full h-64 object-cover">
+      </g-carousel-item>
+      <g-carousel-item>
+        <img src="/slides/slide3.jpg" alt="Slide 3" class="w-full h-64 object-cover">
+      </g-carousel-item>
+    </g-carousel>
+  `
+})
+export class ExampleComponent {}
+```
+
+### With Autoplay | Với Tự Động Phát
+
+```html
+<!-- Autoplay with 3 second intervals | Tự động phát mỗi 3 giây -->
+<g-carousel
+  [autoplay]="true"
+  [autoplaySpeed]="3000">
+  <g-carousel-item>
+    <img src="/slides/slide1.jpg" alt="Slide 1">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide2.jpg" alt="Slide 2">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide3.jpg" alt="Slide 3">
+  </g-carousel-item>
+</g-carousel>
+
+<!-- Custom autoplay speed | Tốc độ tự động phát tùy chỉnh -->
+<g-carousel
+  [autoplay]="true"
+  [autoplaySpeed]="5000">
+  <!-- 5 seconds per slide | 5 giây mỗi slide -->
+  <g-carousel-item>...</g-carousel-item>
+</g-carousel>
+```
+
+### With Navigation Arrows | Với Mũi Tên Điều Hướng
+
+```html
+<!-- Show navigation arrows | Hiển thị mũi tên điều hướng -->
+<g-carousel [arrows]="true">
+  <g-carousel-item>
+    <img src="/slides/slide1.jpg" alt="Slide 1">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide2.jpg" alt="Slide 2">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide3.jpg" alt="Slide 3">
+  </g-carousel-item>
+</g-carousel>
+
+<!-- Arrows with autoplay | Mũi tên với tự động phát -->
+<g-carousel
+  [arrows]="true"
+  [autoplay]="true"
+  [autoplaySpeed]="4000">
+  <g-carousel-item>...</g-carousel-item>
+</g-carousel>
+```
+
+### Dots Indicator | Chỉ Thị Chấm
+
+```html
+<!-- Show dots (default true) | Hiển thị chấm (mặc định true) -->
+<g-carousel [dots]="true">
+  <g-carousel-item>
+    <img src="/slides/slide1.jpg" alt="Slide 1">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide2.jpg" alt="Slide 2">
+  </g-carousel-item>
+</g-carousel>
+
+<!-- Hide dots | Ẩn chấm -->
+<g-carousel [dots]="false">
+  <g-carousel-item>...</g-carousel-item>
+</g-carousel>
+```
+
+### Fade Effect | Hiệu Ứng Mờ Dần
+
+```html
+<!-- Scroll effect (default) | Hiệu ứng cuộn (mặc định) -->
+<g-carousel effect="scroll">
+  <g-carousel-item>
+    <img src="/slides/slide1.jpg" alt="Slide 1">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide2.jpg" alt="Slide 2">
+  </g-carousel-item>
+</g-carousel>
+
+<!-- Fade effect | Hiệu ứng mờ dần -->
+<g-carousel effect="fade">
+  <g-carousel-item>
+    <img src="/slides/slide1.jpg" alt="Slide 1">
+  </g-carousel-item>
+  <g-carousel-item>
+    <img src="/slides/slide2.jpg" alt="Slide 2">
+  </g-carousel-item>
+</g-carousel>
+```
+
+### Infinite Loop | Vòng Lặp Vô Hạn
+
+```html
+<!-- Infinite loop (default true) | Vòng lặp vô hạn (mặc định true) -->
+<g-carousel [infinite]="true">
+  <g-carousel-item>...</g-carousel-item>
+</g-carousel>
+
+<!-- No loop | Không lặp -->
+<g-carousel [infinite]="false">
+  <g-carousel-item>...</g-carousel-item>
+</g-carousel>
+```
+
+### Controlled Carousel | Carousel Có Kiểm Soát
+
+```typescript
+@Component({
+  template: `
+    <g-carousel
+      [currentSlide]="activeSlide()"
+      (afterChange)="onSlideChange($event)">
+      <g-carousel-item>
+        <img src="/slides/slide1.jpg" alt="Slide 1">
+      </g-carousel-item>
+      <g-carousel-item>
+        <img src="/slides/slide2.jpg" alt="Slide 2">
+      </g-carousel-item>
+      <g-carousel-item>
+        <img src="/slides/slide3.jpg" alt="Slide 3">
+      </g-carousel-item>
+    </g-carousel>
+
+    <!-- Custom controls | Điều khiển tùy chỉnh -->
+    <div class="flex justify-center gap-2 mt-4">
+      <button (click)="goToSlide(0)">1</button>
+      <button (click)="goToSlide(1)">2</button>
+      <button (click)="goToSlide(2)">3</button>
+    </div>
+  `
+})
+export class ControlledCarouselComponent {
+  activeSlide = signal(0);
+
+  onSlideChange(index: number) {
+    this.activeSlide.set(index);
+    console.log('Slide changed to:', index);
+  }
+
+  goToSlide(index: number) {
+    this.activeSlide.set(index);
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+### CarouselComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `autoplay` | `boolean` | `false` | Enable autoplay <br/> Bật tự động phát |
+| `autoplaySpeed` | `number` | `3000` | Autoplay interval in ms <br/> Khoảng thời gian tự động phát (ms) |
+| `arrows` | `boolean` | `false` | Show navigation arrows <br/> Hiển thị mũi tên điều hướng |
+| `dots` | `boolean` | `true` | Show dot indicators <br/> Hiển thị chỉ thị chấm |
+| `infinite` | `boolean` | `true` | Enable infinite loop <br/> Bật vòng lặp vô hạn |
+| `effect` | `'scroll' \| 'fade'` | `'scroll'` | Transition effect <br/> Hiệu ứng chuyển đổi |
+| `currentSlide` | `number` | `0` | Current active slide index <br/> Chỉ số slide đang hoạt động |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `afterChange` | `number` | Emitted after slide changes <br/> Phát ra sau khi slide thay đổi |
+| `beforeChange` | `number` | Emitted before slide changes <br/> Phát ra trước khi slide thay đổi |
+
+### CarouselItemComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| Content | `any` | - | Slide content via ng-content <br/> Nội dung slide qua ng-content |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- **Keyboard navigation** | **Điều hướng bàn phím**: Left/right arrows for slide control
+- **ARIA attributes** | **Thuộc tính ARIA**: Proper role="region" and aria-label
+- **Focus management** | **Quản lý focus**: Focus visible on navigation elements
+- **Pause on hover** | **Tạm dừng khi hover**: Autoplay pauses on mouse hover
+- **Alt text** | **Văn bản thay thế**: Ensure images have descriptive alt text
+
+## Examples | Ví Dụ
+
+### Hero Banner | Banner Chính
+
+```typescript
+@Component({
+  template: `
+    <g-carousel
+      [autoplay]="true"
+      [autoplaySpeed]="5000"
+      [arrows]="true"
+      effect="fade"
+      class="w-full">
+      <g-carousel-item>
+        <div class="relative h-96 bg-gradient-to-r from-blue-600 to-blue-800">
+          <div class="absolute inset-0 flex items-center justify-center text-white">
+            <div class="text-center">
+              <h1 class="text-5xl font-bold mb-4">Welcome to Our Platform</h1>
+              <p class="text-xl mb-6">Build amazing things together</p>
+              <button class="px-6 py-3 bg-white text-blue-600 rounded-lg font-medium">
+                Get Started
+              </button>
+            </div>
+          </div>
+        </div>
+      </g-carousel-item>
+
+      <g-carousel-item>
+        <div class="relative h-96 bg-gradient-to-r from-purple-600 to-purple-800">
+          <div class="absolute inset-0 flex items-center justify-center text-white">
+            <div class="text-center">
+              <h1 class="text-5xl font-bold mb-4">Powerful Features</h1>
+              <p class="text-xl mb-6">Everything you need in one place</p>
+              <button class="px-6 py-3 bg-white text-purple-600 rounded-lg font-medium">
+                Learn More
+              </button>
+            </div>
+          </div>
+        </div>
+      </g-carousel-item>
+    </g-carousel>
+  `
+})
+```
+
+### Product Gallery | Thư Viện Sản Phẩm
+
+```typescript
+@Component({
+  template: `
+    <div class="max-w-2xl mx-auto">
+      <g-carousel
+        [arrows]="true"
+        [dots]="true"
+        effect="scroll">
+        @for (image of productImages; track image.id) {
+          <g-carousel-item>
+            <img
+              [src]="image.url"
+              [alt]="image.alt"
+              class="w-full h-96 object-cover rounded-lg">
+          </g-carousel-item>
+        }
+      </g-carousel>
+    </div>
+  `
+})
+export class ProductGalleryComponent {
+  productImages = [
+    { id: 1, url: '/products/product1.jpg', alt: 'Product view 1' },
+    { id: 2, url: '/products/product2.jpg', alt: 'Product view 2' },
+    { id: 3, url: '/products/product3.jpg', alt: 'Product view 3' },
+    { id: 4, url: '/products/product4.jpg', alt: 'Product view 4' }
+  ];
+}
+```
+
+### Testimonials Carousel | Carousel Đánh Giá
+
+```typescript
+@Component({
+  template: `
+    <g-carousel
+      [autoplay]="true"
+      [autoplaySpeed]="6000"
+      effect="fade"
+      class="max-w-4xl mx-auto py-12">
+      @for (testimonial of testimonials; track testimonial.id) {
+        <g-carousel-item>
+          <div class="text-center px-8">
+            <div class="mb-6">
+              <svg class="w-12 h-12 mx-auto text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+              </svg>
+            </div>
+
+            <p class="text-xl text-gray-700 dark:text-gray-300 mb-6 italic">
+              "{{ testimonial.quote }}"
+            </p>
+
+            <div class="flex items-center justify-center gap-3">
+              <g-avatar [src]="testimonial.avatar" [alt]="testimonial.name"></g-avatar>
+              <div>
+                <div class="font-medium text-gray-900 dark:text-white">
+                  {{ testimonial.name }}
+                </div>
+                <div class="text-sm text-gray-500 dark:text-gray-400">
+                  {{ testimonial.title }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </g-carousel-item>
+      }
+    </g-carousel>
+  `
+})
+export class TestimonialsComponent {
+  testimonials = [
+    {
+      id: 1,
+      quote: 'This platform has transformed how we work. Highly recommended!',
+      name: 'Sarah Johnson',
+      title: 'CEO, TechCorp',
+      avatar: '/testimonials/sarah.jpg'
+    },
+    {
+      id: 2,
+      quote: 'Amazing features and excellent support. Worth every penny.',
+      name: 'Michael Chen',
+      title: 'Product Manager, StartupXYZ',
+      avatar: '/testimonials/michael.jpg'
+    },
+    {
+      id: 3,
+      quote: 'The best tool we\'ve used for our team collaboration.',
+      name: 'Emily Rodriguez',
+      title: 'Team Lead, DesignCo',
+      avatar: '/testimonials/emily.jpg'
+    }
+  ];
+}
+```
+
+### Content Cards Carousel | Carousel Thẻ Nội Dung
+
+```html
+<g-carousel
+  [autoplay]="true"
+  [arrows]="true"
+  [dots]="true"
+  class="px-12">
+  <g-carousel-item>
+    <g-card>
+      <h3 class="text-2xl font-bold mb-2">Feature 1 | Tính Năng 1</h3>
+      <p class="text-gray-600 dark:text-gray-400">
+        Description of the first amazing feature.
+        Mô tả tính năng tuyệt vời đầu tiên.
+      </p>
+    </g-card>
+  </g-carousel-item>
+
+  <g-carousel-item>
+    <g-card>
+      <h3 class="text-2xl font-bold mb-2">Feature 2 | Tính Năng 2</h3>
+      <p class="text-gray-600 dark:text-gray-400">
+        Description of the second great feature.
+        Mô tả tính năng tuyệt vời thứ hai.
+      </p>
+    </g-card>
+  </g-carousel-item>
+
+  <g-carousel-item>
+    <g-card>
+      <h3 class="text-2xl font-bold mb-2">Feature 3 | Tính Năng 3</h3>
+      <p class="text-gray-600 dark:text-gray-400">
+        Description of the third powerful feature.
+        Mô tả tính năng mạnh mẽ thứ ba.
+      </p>
+    </g-card>
+  </g-carousel-item>
+</g-carousel>
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Image optimization** | **Tối ưu ảnh**: Use optimized images to ensure fast loading
+
+2. **Slide count** | **Số lượng slide**: Keep between 3-7 slides for best UX
+
+3. **Autoplay speed** | **Tốc độ tự động phát**: 3-6 seconds is ideal, adjust based on content
+
+4. **Pause on interaction** | **Tạm dừng khi tương tác**: Autoplay pauses on hover/focus
+
+5. **Mobile responsiveness** | **Đáp ứng di động**: Ensure slides look good on all screen sizes
+
+6. **Alt text** | **Văn bản thay thế**: Always provide descriptive alt text for images
+
+7. **Loading states** | **Trạng thái tải**: Show skeleton or spinner while images load
+
+8. **Content length** | **Độ dài nội dung**: Keep text concise, especially on slides
+
+## Related Components | Components Liên Quan
+
+- [Card](../../layout/card) - Content containers | Container nội dung
+- [Avatar](../avatar) - User images | Ảnh người dùng
+- [Badge](../badge) - Status indicators | Chỉ thị trạng thái

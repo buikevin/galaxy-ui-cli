@@ -1,0 +1,605 @@
+---
+title: Popconfirm | Xác Nhận Popup
+description: Popconfirm component for confirmation dialogs | Component popconfirm cho hộp thoại xác nhận
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Popconfirm** component displays a confirmation popup when users trigger a potentially destructive action. Inspired by Ant Design's Popconfirm component.
+
+**Popconfirm** là component hiển thị popup xác nhận khi người dùng kích hoạt một hành động có thể phá hủy. Lấy cảm hứng từ Popconfirm component của Ant Design.
+
+## Features | Tính Năng
+
+- **Title and description** | **Tiêu đề và mô tả**: Two-line content for context
+- **Custom buttons** | **Nút tùy chỉnh**: Configurable OK and Cancel buttons
+- **Trigger types** | **Kiểu kích hoạt**: Click trigger (default)
+- **Status icons** | **Icon trạng thái**: Warning, error, info, question icons
+- **Placement control** | **Kiểm soát vị trí**: 12 positioning options
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add popconfirm
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/popconfirm).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component } from '@angular/core';
+import { PopconfirmDirective } from '@/components/ui/popconfirm';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [PopconfirmDirective],
+  template: `
+    <button
+      gPopconfirm
+      popconfirmTitle="Are you sure?"
+      (popconfirmConfirm)="handleConfirm()">
+      Delete
+    </button>
+  `
+})
+export class ExampleComponent {
+  handleConfirm() {
+    console.log('Confirmed');
+  }
+}
+```
+
+### With Description | Với Mô Tả
+
+```typescript
+@Component({
+  template: `
+    <button
+      gPopconfirm
+      popconfirmTitle="Delete this item?"
+      popconfirmDescription="This action cannot be undone. The item will be permanently deleted."
+      (popconfirmConfirm)="handleDelete()"
+      (popconfirmCancel)="handleCancel()"
+      class="px-4 py-2 bg-red-600 text-white rounded">
+      Delete
+    </button>
+  `
+})
+export class DescriptionExample {
+  handleDelete() {
+    console.log('Item deleted');
+  }
+
+  handleCancel() {
+    console.log('Cancelled');
+  }
+}
+```
+
+### Custom Button Text | Văn Bản Nút Tùy Chỉnh
+
+```typescript
+@Component({
+  template: `
+    <!-- English buttons | Nút tiếng Anh -->
+    <button
+      gPopconfirm
+      popconfirmTitle="Confirm action?"
+      okText="Yes, proceed"
+      cancelText="No, cancel"
+      (popconfirmConfirm)="handleConfirm()">
+      Confirm
+    </button>
+
+    <!-- Vietnamese buttons | Nút tiếng Việt -->
+    <button
+      gPopconfirm
+      popconfirmTitle="Xác nhận hành động?"
+      okText="Có, tiếp tục"
+      cancelText="Không, hủy"
+      (popconfirmConfirm)="handleConfirm()">
+      Xác nhận
+    </button>
+  `
+})
+```
+
+### Status Icons | Icon Trạng Thái
+
+```typescript
+@Component({
+  template: `
+    <!-- Warning (default) | Cảnh báo (mặc định) -->
+    <button
+      gPopconfirm
+      popconfirmTitle="Are you sure?"
+      icon="warning"
+      (popconfirmConfirm)="handleConfirm()">
+      Warning
+    </button>
+
+    <!-- Error | Lỗi -->
+    <button
+      gPopconfirm
+      popconfirmTitle="Delete permanently?"
+      popconfirmDescription="This cannot be undone"
+      icon="error"
+      (popconfirmConfirm)="handleDelete()">
+      Delete
+    </button>
+
+    <!-- Info | Thông tin -->
+    <button
+      gPopconfirm
+      popconfirmTitle="Did you know?"
+      popconfirmDescription="This action will notify all users"
+      icon="info"
+      (popconfirmConfirm)="handleConfirm()">
+      Notify
+    </button>
+
+    <!-- Question | Câu hỏi -->
+    <button
+      gPopconfirm
+      popconfirmTitle="Switch account?"
+      icon="question"
+      (popconfirmConfirm)="handleSwitch()">
+      Switch
+    </button>
+  `
+})
+```
+
+### Placement Options | Các Vị Trí
+
+```typescript
+@Component({
+  template: `
+    <div class="flex flex-wrap gap-4">
+      <!-- Top placements | Vị trí trên -->
+      <button
+        gPopconfirm
+        popconfirmTitle="Confirm?"
+        placement="top"
+        (popconfirmConfirm)="handleConfirm()">
+        Top
+      </button>
+
+      <button
+        gPopconfirm
+        popconfirmTitle="Confirm?"
+        placement="top-start"
+        (popconfirmConfirm)="handleConfirm()">
+        Top Start
+      </button>
+
+      <!-- Bottom placements | Vị trí dưới -->
+      <button
+        gPopconfirm
+        popconfirmTitle="Confirm?"
+        placement="bottom"
+        (popconfirmConfirm)="handleConfirm()">
+        Bottom
+      </button>
+
+      <!-- Left/Right placements | Vị trí trái/phải -->
+      <button
+        gPopconfirm
+        popconfirmTitle="Confirm?"
+        placement="left"
+        (popconfirmConfirm)="handleConfirm()">
+        Left
+      </button>
+
+      <button
+        gPopconfirm
+        popconfirmTitle="Confirm?"
+        placement="right"
+        (popconfirmConfirm)="handleConfirm()">
+        Right
+      </button>
+    </div>
+  `
+})
+```
+
+### Async Confirmation | Xác Nhận Bất Đồng Bộ
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <button
+      gPopconfirm
+      popconfirmTitle="Delete user?"
+      popconfirmDescription="This will permanently delete the user account"
+      okText="Delete"
+      cancelText="Cancel"
+      [okButtonLoading]="isDeleting()"
+      (popconfirmConfirm)="handleAsyncDelete()">
+      Delete User
+    </button>
+  `
+})
+export class AsyncExample {
+  isDeleting = signal(false);
+
+  async handleAsyncDelete() {
+    this.isDeleting.set(true);
+
+    try {
+      await this.api.deleteUser(this.userId);
+      this.toast.success('User deleted successfully');
+    } catch (error) {
+      this.toast.error('Failed to delete user');
+    } finally {
+      this.isDeleting.set(false);
+    }
+  }
+}
+```
+
+### Conditional Confirmation | Xác Nhận Có Điều Kiện
+
+```typescript
+@Component({
+  template: `
+    <button
+      gPopconfirm
+      [popconfirmDisabled]="canDeleteDirectly()"
+      popconfirmTitle="Delete this item?"
+      popconfirmDescription="You are about to delete an important item"
+      (popconfirmConfirm)="handleDelete()"
+      (click)="canDeleteDirectly() && handleDelete()">
+      Delete
+    </button>
+  `
+})
+export class ConditionalExample {
+  canDeleteDirectly = signal(false);
+
+  handleDelete() {
+    // Delete logic
+    console.log('Item deleted');
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `popconfirmTitle` | `string` | required | Confirmation title <br/> Tiêu đề xác nhận |
+| `popconfirmDescription` | `string` | - | Additional description <br/> Mô tả bổ sung |
+| `okText` | `string` | `'OK'` | Confirm button text <br/> Văn bản nút xác nhận |
+| `cancelText` | `string` | `'Cancel'` | Cancel button text <br/> Văn bản nút hủy |
+| `icon` | `'warning' \| 'error' \| 'info' \| 'question'` | `'warning'` | Status icon <br/> Icon trạng thái |
+| `placement` | `'top' \| 'top-start' \| 'top-end' \| 'bottom' \| 'bottom-start' \| 'bottom-end' \| 'left' \| 'left-start' \| 'left-end' \| 'right' \| 'right-start' \| 'right-end'` | `'top'` | Popconfirm position <br/> Vị trí popconfirm |
+| `okButtonLoading` | `boolean` | `false` | Show loading on OK button <br/> Hiển thị loading trên nút OK |
+| `popconfirmDisabled` | `boolean` | `false` | Disable popconfirm <br/> Vô hiệu hóa popconfirm |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `popconfirmConfirm` | `void` | Emitted when OK clicked <br/> Phát ra khi click OK |
+| `popconfirmCancel` | `void` | Emitted when Cancel clicked <br/> Phát ra khi click Cancel |
+| `popconfirmVisibleChange` | `boolean` | Emitted when visibility changes <br/> Phát ra khi hiển thị thay đổi |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses ARIA `role="alertdialog"` for semantic meaning
+- Proper `aria-describedby` for description text
+- Keyboard navigation (Tab, Enter, Escape)
+- Focus management (focus OK button on open)
+- Screen reader announcements
+
+## Examples | Ví Dụ
+
+### Delete Confirmation | Xác Nhận Xóa
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <div class="space-y-4">
+      @for (item of items(); track item.id) {
+        <div class="flex items-center justify-between p-4 border rounded">
+          <div>
+            <h3 class="font-semibold">{{ item.name }}</h3>
+            <p class="text-sm text-gray-600">{{ item.description }}</p>
+          </div>
+
+          <button
+            gPopconfirm
+            popconfirmTitle="Delete this item?"
+            [popconfirmDescription]="'Are you sure you want to delete ' + item.name + '? This action cannot be undone.'"
+            okText="Delete"
+            cancelText="Cancel"
+            icon="error"
+            [okButtonLoading]="deletingId() === item.id"
+            (popconfirmConfirm)="handleDelete(item.id)"
+            class="px-3 py-1 text-red-600 hover:bg-red-50 rounded">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+  `
+})
+export class DeleteConfirmation {
+  items = signal([
+    { id: 1, name: 'Document 1', description: 'Important file' },
+    { id: 2, name: 'Document 2', description: 'Draft version' },
+    { id: 3, name: 'Document 3', description: 'Final version' }
+  ]);
+
+  deletingId = signal<number | null>(null);
+
+  async handleDelete(id: number) {
+    this.deletingId.set(id);
+
+    try {
+      await this.api.deleteItem(id);
+      this.items.update(items => items.filter(item => item.id !== id));
+      this.toast.success('Item deleted successfully');
+    } catch (error) {
+      this.toast.error('Failed to delete item');
+    } finally {
+      this.deletingId.set(null);
+    }
+  }
+}
+```
+
+### Logout Confirmation | Xác Nhận Đăng Xuất
+
+```typescript
+@Component({
+  template: `
+    <button
+      gPopconfirm
+      popconfirmTitle="Log out?"
+      popconfirmDescription="Are you sure you want to log out from your account?"
+      okText="Log out"
+      cancelText="Stay logged in"
+      icon="question"
+      (popconfirmConfirm)="handleLogout()"
+      class="px-4 py-2 text-red-600 hover:bg-red-50 rounded">
+      <svg class="w-5 h-5 inline mr-2" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+      </svg>
+      Log out
+    </button>
+  `
+})
+export class LogoutConfirmation {
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {}
+
+  handleLogout() {
+    this.auth.logout();
+    this.router.navigate(['/login']);
+  }
+}
+```
+
+### Status Change Confirmation | Xác Nhận Thay Đổi Trạng Thái
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      @for (user of users(); track user.id) {
+        <div class="flex items-center justify-between p-4 border rounded">
+          <div class="flex items-center gap-3">
+            <img [src]="user.avatar" class="w-10 h-10 rounded-full" />
+            <div>
+              <h3 class="font-semibold">{{ user.name }}</h3>
+              <p class="text-sm text-gray-600">{{ user.email }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span
+              [class]="user.status === 'active' ? 'text-green-600' : 'text-gray-400'">
+              {{ user.status }}
+            </span>
+
+            @if (user.status === 'active') {
+              <button
+                gPopconfirm
+                popconfirmTitle="Deactivate user?"
+                popconfirmDescription="This user will lose access to the system"
+                okText="Deactivate"
+                cancelText="Cancel"
+                icon="warning"
+                (popconfirmConfirm)="handleDeactivate(user.id)"
+                class="px-3 py-1 text-orange-600 hover:bg-orange-50 rounded">
+                Deactivate
+              </button>
+            } @else {
+              <button
+                gPopconfirm
+                popconfirmTitle="Activate user?"
+                popconfirmDescription="This user will regain access to the system"
+                okText="Activate"
+                cancelText="Cancel"
+                icon="info"
+                (popconfirmConfirm)="handleActivate(user.id)"
+                class="px-3 py-1 text-green-600 hover:bg-green-50 rounded">
+                Activate
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  `
+})
+export class StatusChangeConfirmation {
+  users = signal([
+    { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active', avatar: 'avatar1.jpg' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive', avatar: 'avatar2.jpg' }
+  ]);
+
+  async handleDeactivate(userId: number) {
+    await this.api.updateUserStatus(userId, 'inactive');
+    this.users.update(users =>
+      users.map(u => u.id === userId ? { ...u, status: 'inactive' } : u)
+    );
+    this.toast.success('User deactivated');
+  }
+
+  async handleActivate(userId: number) {
+    await this.api.updateUserStatus(userId, 'active');
+    this.users.update(users =>
+      users.map(u => u.id === userId ? { ...u, status: 'active' } : u)
+    );
+    this.toast.success('User activated');
+  }
+}
+```
+
+### Bulk Action Confirmation | Xác Nhận Hành Động Hàng Loạt
+
+```typescript
+@Component({
+  template: `
+    <div>
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-4">
+          <label class="flex items-center gap-2">
+            <input
+              type="checkbox"
+              [checked]="allSelected()"
+              (change)="toggleAll()"
+              class="w-4 h-4" />
+            <span>Select All</span>
+          </label>
+          <span class="text-sm text-gray-600">
+            {{ selectedCount() }} selected
+          </span>
+        </div>
+
+        @if (selectedCount() > 0) {
+          <button
+            gPopconfirm
+            [popconfirmTitle]="'Delete ' + selectedCount() + ' items?'"
+            popconfirmDescription="This will permanently delete all selected items. This action cannot be undone."
+            okText="Delete All"
+            cancelText="Cancel"
+            icon="error"
+            [okButtonLoading]="isDeleting()"
+            (popconfirmConfirm)="handleBulkDelete()"
+            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+            Delete Selected ({{ selectedCount() }})
+          </button>
+        }
+      </div>
+
+      <div class="space-y-2">
+        @for (item of items(); track item.id) {
+          <label class="flex items-center gap-3 p-3 border rounded hover:bg-gray-50">
+            <input
+              type="checkbox"
+              [checked]="item.selected"
+              (change)="toggleItem(item.id)"
+              class="w-4 h-4" />
+            <span>{{ item.name }}</span>
+          </label>
+        }
+      </div>
+    </div>
+  `
+})
+export class BulkActionConfirmation {
+  items = signal([
+    { id: 1, name: 'Item 1', selected: false },
+    { id: 2, name: 'Item 2', selected: false },
+    { id: 3, name: 'Item 3', selected: false },
+    { id: 4, name: 'Item 4', selected: false }
+  ]);
+
+  isDeleting = signal(false);
+
+  selectedCount = computed(() => {
+    return this.items().filter(item => item.selected).length;
+  });
+
+  allSelected = computed(() => {
+    return this.items().every(item => item.selected);
+  });
+
+  toggleAll() {
+    const newState = !this.allSelected();
+    this.items.update(items =>
+      items.map(item => ({ ...item, selected: newState }))
+    );
+  }
+
+  toggleItem(id: number) {
+    this.items.update(items =>
+      items.map(item =>
+        item.id === id ? { ...item, selected: !item.selected } : item
+      )
+    );
+  }
+
+  async handleBulkDelete() {
+    this.isDeleting.set(true);
+
+    try {
+      const selectedIds = this.items()
+        .filter(item => item.selected)
+        .map(item => item.id);
+
+      await this.api.bulkDelete(selectedIds);
+
+      this.items.update(items =>
+        items.filter(item => !item.selected)
+      );
+
+      this.toast.success('Items deleted successfully');
+    } catch (error) {
+      this.toast.error('Failed to delete items');
+    } finally {
+      this.isDeleting.set(false);
+    }
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Use for destructive actions** | **Dùng cho hành động phá hủy**: Only use for actions that need confirmation
+
+2. **Clear messaging** | **Thông điệp rõ ràng**: Make the consequence of the action explicit
+
+3. **Appropriate icon** | **Icon phù hợp**: Use error icon for deletions, warning for changes
+
+4. **Button labels** | **Nhãn nút**: Use action verbs (Delete, Logout) not generic (Yes, No)
+
+5. **Loading states** | **Trạng thái loading**: Show loading indicator for async operations
+
+## Related Components | Components Liên Quan
+
+- [Dialog](./dialog) - Modal confirmation | Xác nhận modal
+- [Popover](./popover) - Contextual content | Nội dung theo ngữ cảnh
+- [Toast](./toast) - Feedback notification | Thông báo phản hồi

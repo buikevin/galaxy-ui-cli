@@ -1,0 +1,478 @@
+---
+title: Tour | Hướng Dẫn
+description: Guided tour component for user onboarding (Ant Design style) | Component hướng dẫn tour cho người dùng mới (phong cách Ant Design)
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Tour** component provides an elegant way to guide users through your application's features with step-by-step instructions and spotlight effects, inspired by Ant Design.
+
+**Tour** là component thanh lịch để hướng dẫn người dùng qua các tính năng của ứng dụng với hướng dẫn từng bước và hiệu ứng làm nổi bật, lấy cảm hứng từ Ant Design.
+
+## Features | Tính Năng
+
+- **Spotlight effect** | **Hiệu ứng làm nổi bật**: Highlights target elements with mask overlay
+- **Step-by-step navigation** | **Điều hướng từng bước**: Next/previous/skip controls
+- **Multiple placements** | **Nhiều vị trí**: 12 placement options for popover positioning
+- **Cover images** | **Ảnh bìa**: Optional images for each step
+- **Mask overlay** | **Lớp phủ mờ**: Darkens background to focus attention
+- **Auto scroll** | **Tự động cuộn**: Scrolls target elements into view
+- **Keyboard support** | **Hỗ trợ bàn phím**: ESC to close, arrow keys for navigation
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add tour
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/tour).
+
+    Sao chép code component từ [nguồn](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/tour).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { TourComponent, TourStep } from '@/components/ui/tour';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [TourComponent],
+  template: `
+    <!-- Elements to highlight | Phần tử để làm nổi bật -->
+    <button id="step1" class="px-4 py-2 bg-blue-600 text-white rounded">
+      Create New
+    </button>
+
+    <div id="step2" class="mt-4 p-4 border rounded">
+      Your content here
+    </div>
+
+    <!-- Tour component | Component tour -->
+    <g-tour
+      [open]="tourOpen()"
+      [steps]="tourSteps"
+      [current]="currentStep()"
+      (finish)="handleFinish()"
+      (close)="handleClose()"
+      (change)="handleChange($event)">
+    </g-tour>
+
+    <!-- Start tour button | Nút bắt đầu tour -->
+    <button (click)="startTour()">Start Tour | Bắt Đầu Tour</button>
+  `
+})
+export class ExampleComponent {
+  tourOpen = signal(false);
+  currentStep = signal(0);
+
+  tourSteps: TourStep[] = [
+    {
+      target: '#step1',
+      title: 'Create Button',
+      description: 'Click here to create a new item',
+      placement: 'bottom'
+    },
+    {
+      target: '#step2',
+      title: 'Content Area',
+      description: 'Your content will appear here',
+      placement: 'top'
+    }
+  ];
+
+  startTour() {
+    this.tourOpen.set(true);
+    this.currentStep.set(0);
+  }
+
+  handleFinish() {
+    console.log('Tour finished!');
+    this.tourOpen.set(false);
+  }
+
+  handleClose() {
+    this.tourOpen.set(false);
+  }
+
+  handleChange(step: number) {
+    this.currentStep.set(step);
+  }
+}
+```
+
+### Vietnamese Content | Nội Dung Tiếng Việt
+
+```typescript
+tourSteps: TourStep[] = [
+  {
+    target: '#step1',
+    title: 'Nút Tạo Mới',
+    description: 'Nhấn vào đây để tạo một mục mới',
+    placement: 'bottom'
+  },
+  {
+    target: '#step2',
+    title: 'Khu Vực Nội Dung',
+    description: 'Nội dung của bạn sẽ xuất hiện ở đây',
+    placement: 'top'
+  },
+  {
+    target: '#step3',
+    title: 'Cài Đặt',
+    description: 'Tùy chỉnh các tùy chọn của bạn tại đây',
+    placement: 'left'
+  }
+];
+```
+
+### With Cover Images | Với Ảnh Bìa
+
+```typescript
+tourSteps: TourStep[] = [
+  {
+    target: '#dashboard',
+    title: 'Welcome to Dashboard | Chào Mừng Đến Dashboard',
+    description: 'This is your main control center where you can see all your data at a glance.',
+    cover: '/images/tour/dashboard.jpg',
+    placement: 'bottom'
+  },
+  {
+    target: '#analytics',
+    title: 'Analytics Section | Phần Phân Tích',
+    description: 'View detailed analytics and insights about your data.',
+    cover: '/images/tour/analytics.jpg',
+    placement: 'right'
+  },
+  {
+    target: '#settings',
+    title: 'Settings | Cài Đặt',
+    description: 'Customize your experience and preferences here.',
+    cover: '/images/tour/settings.jpg',
+    placement: 'left'
+  }
+];
+```
+
+### Placement Options | Tùy Chọn Vị Trí
+
+12 placement options for flexible positioning | 12 tùy chọn vị trí cho định vị linh hoạt:
+
+```typescript
+const placements: TourPlacement[] = [
+  'top',           // Above target | Trên mục tiêu
+  'top-start',     // Top left | Trên bên trái
+  'top-end',       // Top right | Trên bên phải
+  'bottom',        // Below target | Dưới mục tiêu
+  'bottom-start',  // Bottom left | Dưới bên trái
+  'bottom-end',    // Bottom right | Dưới bên phải
+  'left',          // Left side | Bên trái
+  'left-start',    // Left top | Trái trên
+  'left-end',      // Left bottom | Trái dưới
+  'right',         // Right side | Bên phải
+  'right-start',   // Right top | Phải trên
+  'right-end'      // Right bottom | Phải dưới
+];
+
+tourSteps: TourStep[] = [
+  { target: '#el1', title: 'Top', description: 'Positioned above', placement: 'top' },
+  { target: '#el2', title: 'Right', description: 'Positioned to the right', placement: 'right' },
+  { target: '#el3', title: 'Bottom', description: 'Positioned below', placement: 'bottom' },
+  { target: '#el4', title: 'Left', description: 'Positioned to the left', placement: 'left' }
+];
+```
+
+### Controlled Mode | Chế Độ Có Kiểm Soát
+
+Full control over tour state | Kiểm soát hoàn toàn trạng thái tour:
+
+```typescript
+@Component({
+  template: `
+    <g-tour
+      [open]="isOpen()"
+      [steps]="steps"
+      [current]="currentStep()"
+      (change)="onStepChange($event)"
+      (close)="onClose()">
+    </g-tour>
+
+    <!-- Custom controls | Điều khiển tùy chỉnh -->
+    <div class="flex gap-2">
+      <button (click)="previousStep()">Previous | Trước</button>
+      <button (click)="nextStep()">Next | Tiếp</button>
+      <button (click)="skipTour()">Skip | Bỏ Qua</button>
+    </div>
+  `
+})
+export class ControlledTourComponent {
+  isOpen = signal(true);
+  currentStep = signal(0);
+
+  steps: TourStep[] = [/* ... */];
+
+  onStepChange(step: number) {
+    this.currentStep.set(step);
+  }
+
+  onClose() {
+    this.isOpen.set(false);
+  }
+
+  previousStep() {
+    if (this.currentStep() > 0) {
+      this.currentStep.update(step => step - 1);
+    }
+  }
+
+  nextStep() {
+    if (this.currentStep() < this.steps.length - 1) {
+      this.currentStep.update(step => step + 1);
+    }
+  }
+
+  skipTour() {
+    this.isOpen.set(false);
+  }
+}
+```
+
+### Multi-Page Tour | Tour Nhiều Trang
+
+Tour across different routes | Tour qua các route khác nhau:
+
+```typescript
+import { Router } from '@angular/router';
+
+@Component({
+  template: `
+    <g-tour
+      [open]="tourOpen()"
+      [steps]="currentPageSteps()"
+      [current]="currentStep()"
+      (finish)="handleFinish()"
+      (close)="handleClose()">
+    </g-tour>
+  `
+})
+export class MultiPageTourComponent {
+  constructor(private router: Router) {}
+
+  tourOpen = signal(false);
+  currentStep = signal(0);
+  currentPage = signal('dashboard');
+
+  allSteps: Record<string, TourStep[]> = {
+    dashboard: [
+      { target: '#overview', title: 'Overview', description: '...' },
+      { target: '#stats', title: 'Statistics', description: '...' }
+    ],
+    settings: [
+      { target: '#profile', title: 'Profile', description: '...' },
+      { target: '#security', title: 'Security', description: '...' }
+    ]
+  };
+
+  currentPageSteps = computed(() => this.allSteps[this.currentPage()]);
+
+  async handleFinish() {
+    const currentPageSteps = this.currentPageSteps();
+
+    if (this.currentStep() >= currentPageSteps.length - 1) {
+      // Move to next page | Chuyển sang trang tiếp theo
+      if (this.currentPage() === 'dashboard') {
+        this.currentPage.set('settings');
+        this.currentStep.set(0);
+        await this.router.navigate(['/settings']);
+      } else {
+        // Tour complete | Tour hoàn thành
+        this.tourOpen.set(false);
+      }
+    }
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+### TourComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `open` | `boolean` | `false` | Whether tour is visible <br/> Tour có hiển thị không |
+| `steps` | `TourStep[]` | `[]` | Array of tour steps <br/> Mảng các bước tour |
+| `current` | `number` | `0` | Current step index <br/> Chỉ số bước hiện tại |
+| `mask` | `boolean` | `true` | Show mask overlay <br/> Hiển thị lớp phủ mờ |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `close` | `void` | Emitted when tour closes <br/> Phát ra khi tour đóng |
+| `finish` | `void` | Emitted when tour completes <br/> Phát ra khi tour hoàn thành |
+| `change` | `number` | Emitted when step changes <br/> Phát ra khi bước thay đổi |
+
+### TourStep Interface
+
+```typescript
+interface TourStep {
+  target: string;           // CSS selector | Bộ chọn CSS
+  title: string;            // Step title | Tiêu đề bước
+  description: string;      // Step description | Mô tả bước
+  cover?: string;           // Optional cover image | Ảnh bìa tùy chọn
+  placement?: TourPlacement; // Popover placement | Vị trí popover
+}
+
+type TourPlacement =
+  | 'top' | 'top-start' | 'top-end'
+  | 'bottom' | 'bottom-start' | 'bottom-end'
+  | 'left' | 'left-start' | 'left-end'
+  | 'right' | 'right-start' | 'right-end';
+```
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- **Keyboard navigation** | **Điều hướng bàn phím**: ESC to close, arrow keys for steps
+- **Focus management** | **Quản lý focus**: Traps focus within tour popover
+- **ARIA attributes** | **Thuộc tính ARIA**: Proper role and aria-labelledby
+- **Screen reader support** | **Hỗ trợ trình đọc màn hình**: Announces step changes
+- **Skip option** | **Tùy chọn bỏ qua**: Users can always skip the tour
+
+## Examples | Ví Dụ
+
+### Onboarding Tour | Tour Giới Thiệu
+
+```typescript
+@Component({
+  template: `
+    <g-tour
+      [open]="showOnboarding()"
+      [steps]="onboardingSteps"
+      [current]="onboardingStep()"
+      (finish)="completeOnboarding()"
+      (close)="skipOnboarding()">
+    </g-tour>
+  `
+})
+export class OnboardingComponent implements OnInit {
+  showOnboarding = signal(false);
+  onboardingStep = signal(0);
+
+  onboardingSteps: TourStep[] = [
+    {
+      target: '#welcome',
+      title: 'Welcome! | Chào Mừng!',
+      description: 'Let me show you around our platform.',
+      cover: '/images/welcome.jpg',
+      placement: 'bottom'
+    },
+    {
+      target: '#create-button',
+      title: 'Create Your First Project | Tạo Dự Án Đầu Tiên',
+      description: 'Click here to get started with your first project.',
+      placement: 'right'
+    },
+    {
+      target: '#templates',
+      title: 'Browse Templates | Duyệt Mẫu',
+      description: 'Choose from our pre-built templates to save time.',
+      placement: 'left'
+    },
+    {
+      target: '#help',
+      title: 'Need Help? | Cần Giúp Đỡ?',
+      description: 'Access documentation and support anytime.',
+      placement: 'bottom'
+    }
+  ];
+
+  ngOnInit() {
+    // Check if user is new | Kiểm tra nếu người dùng mới
+    const hasSeenOnboarding = localStorage.getItem('onboarding_complete');
+    if (!hasSeenOnboarding) {
+      this.showOnboarding.set(true);
+    }
+  }
+
+  completeOnboarding() {
+    localStorage.setItem('onboarding_complete', 'true');
+    this.showOnboarding.set(false);
+  }
+
+  skipOnboarding() {
+    this.showOnboarding.set(false);
+  }
+}
+```
+
+### Feature Announcement | Thông Báo Tính Năng
+
+```typescript
+@Component({
+  template: `
+    <g-tour
+      [open]="showFeatureTour()"
+      [steps]="featureSteps"
+      (finish)="dismissFeatureTour()">
+    </g-tour>
+  `
+})
+export class FeatureAnnouncementComponent {
+  showFeatureTour = signal(true);
+
+  featureSteps: TourStep[] = [
+    {
+      target: '#new-feature',
+      title: 'New Feature: Dark Mode | Tính Năng Mới: Chế Độ Tối',
+      description: 'We\'ve added dark mode support! Toggle it in settings.',
+      cover: '/images/features/dark-mode.jpg',
+      placement: 'bottom'
+    },
+    {
+      target: '#ai-assistant',
+      title: 'AI Assistant | Trợ Lý AI',
+      description: 'Try our new AI-powered assistant for better productivity.',
+      cover: '/images/features/ai-assistant.jpg',
+      placement: 'left'
+    }
+  ];
+
+  dismissFeatureTour() {
+    this.showFeatureTour.set(false);
+    localStorage.setItem('feature_tour_v2', 'seen');
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Keep steps concise** | **Giữ các bước ngắn gọn**: 3-5 steps is ideal for user attention
+
+2. **Use cover images** | **Sử dụng ảnh bìa**: Visual aids help users understand faster
+
+3. **Allow skipping** | **Cho phép bỏ qua**: Always provide a skip/close option
+
+4. **Save tour state** | **Lưu trạng thái tour**: Use localStorage to not show tour again
+
+5. **Test placements** | **Kiểm tra vị trí**: Ensure popover is visible on all screen sizes
+
+6. **Bilingual support** | **Hỗ trợ song ngữ**: Provide content in user's preferred language
+
+7. **Feature-specific tours** | **Tour theo tính năng**: Create separate tours for different features
+
+8. **Version tours** | **Tour theo phiên bản**: Show tours for new feature releases
+
+## Related Components | Components Liên Quan
+
+- [Tooltip](../../modal-overlay/tooltip) - Quick hints | Gợi ý nhanh
+- [Popover](../../modal-overlay/popover) - Contextual info | Thông tin ngữ cảnh
+- [Dialog](../../modal-overlay/dialog) - Modal dialogs | Hộp thoại modal

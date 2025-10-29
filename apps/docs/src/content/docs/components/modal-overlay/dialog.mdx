@@ -1,0 +1,631 @@
+---
+title: Dialog | Hộp Thoại
+description: Modal dialog component for focused interactions | Component hộp thoại modal cho tương tác tập trung
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Dialog** component displays content in a layer above the page, requiring user interaction before returning to the main content. Perfect for forms, confirmations, and focused tasks.
+
+**Dialog** là component hiển thị nội dung trong một lớp phía trên trang, yêu cầu tương tác người dùng trước khi quay lại nội dung chính. Hoàn hảo cho form, xác nhận, và các tác vụ tập trung.
+
+## Features | Tính Năng
+
+- **Header/footer/body structure** | **Cấu trúc header/footer/body**: Organized content sections
+- **Backdrop click** | **Click vào nền**: Configurable close on backdrop
+- **Keyboard escape** | **Phím ESC**: Close with ESC key
+- **Custom sizes** | **Kích thước tùy chỉnh**: Small, medium, large, full-screen
+- **Focus trap** | **Bẫy focus**: Keeps focus within dialog
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add dialog
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/dialog).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { DialogComponent } from '@/components/ui/dialog';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [DialogComponent],
+  template: `
+    <button (click)="isOpen.set(true)">Open Dialog</button>
+
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      title="Dialog Title">
+      <div class="p-6">
+        <p>Dialog content goes here</p>
+      </div>
+    </g-dialog>
+  `
+})
+export class ExampleComponent {
+  isOpen = signal(false);
+}
+```
+
+### With Footer | Với Footer
+
+```typescript
+@Component({
+  template: `
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      title="Confirm Action">
+      <div class="p-6">
+        <p>Are you sure you want to proceed with this action?</p>
+      </div>
+
+      <div footer class="flex justify-end gap-2 px-6 py-4 border-t">
+        <button
+          (click)="isOpen.set(false)"
+          class="px-4 py-2 border rounded hover:bg-gray-50">
+          Cancel | Hủy
+        </button>
+        <button
+          (click)="handleConfirm()"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Confirm | Xác nhận
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+export class FooterExample {
+  isOpen = signal(false);
+
+  handleConfirm() {
+    console.log('Confirmed');
+    this.isOpen.set(false);
+  }
+}
+```
+
+### Dialog Sizes | Kích Thước Dialog
+
+```typescript
+@Component({
+  template: `
+    <!-- Small dialog | Dialog nhỏ -->
+    <g-dialog
+      [open]="smallOpen()"
+      (openChange)="smallOpen.set($event)"
+      size="sm"
+      title="Small Dialog">
+      <div class="p-6">Small dialog content (max-width: 400px)</div>
+    </g-dialog>
+
+    <!-- Medium dialog (default) | Dialog vừa (mặc định) -->
+    <g-dialog
+      [open]="mediumOpen()"
+      (openChange)="mediumOpen.set($event)"
+      size="md"
+      title="Medium Dialog">
+      <div class="p-6">Medium dialog content (max-width: 600px)</div>
+    </g-dialog>
+
+    <!-- Large dialog | Dialog lớn -->
+    <g-dialog
+      [open]="largeOpen()"
+      (openChange)="largeOpen.set($event)"
+      size="lg"
+      title="Large Dialog">
+      <div class="p-6">Large dialog content (max-width: 800px)</div>
+    </g-dialog>
+
+    <!-- Extra large dialog | Dialog rất lớn -->
+    <g-dialog
+      [open]="xlOpen()"
+      (openChange)="xlOpen.set($event)"
+      size="xl"
+      title="Extra Large Dialog">
+      <div class="p-6">Extra large dialog content (max-width: 1024px)</div>
+    </g-dialog>
+
+    <!-- Full screen dialog | Dialog toàn màn hình -->
+    <g-dialog
+      [open]="fullOpen()"
+      (openChange)="fullOpen.set($event)"
+      size="full"
+      title="Full Screen Dialog">
+      <div class="p-6">Full screen dialog content</div>
+    </g-dialog>
+  `
+})
+export class SizeExample {
+  smallOpen = signal(false);
+  mediumOpen = signal(false);
+  largeOpen = signal(false);
+  xlOpen = signal(false);
+  fullOpen = signal(false);
+}
+```
+
+### Without Close Button | Không Có Nút Đóng
+
+```typescript
+@Component({
+  template: `
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [closable]="false"
+      title="Required Action">
+      <div class="p-6">
+        <p>This dialog requires you to take an action.</p>
+        <button
+          (click)="handleAction()"
+          class="mt-4 w-full bg-blue-600 text-white py-2 rounded">
+          Complete Action
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+```
+
+### Prevent Backdrop Close | Ngăn Đóng Khi Click Nền
+
+```typescript
+@Component({
+  template: `
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [closeOnBackdropClick]="false"
+      [closeOnEscape]="false"
+      title="Important Form">
+      <div class="p-6">
+        <p class="mb-4">Please complete this form. You cannot close this dialog until submitted.</p>
+        <form (ngSubmit)="handleSubmit()">
+          <input type="text" placeholder="Name" class="w-full border rounded px-3 py-2 mb-4" />
+          <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">
+            Submit
+          </button>
+        </form>
+      </div>
+    </g-dialog>
+  `
+})
+export class PreventCloseExample {
+  isOpen = signal(false);
+
+  handleSubmit() {
+    // Submit logic
+    this.isOpen.set(false);
+  }
+}
+```
+
+### Without Footer | Không Có Footer
+
+```typescript
+@Component({
+  template: `
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [showFooter]="false"
+      title="Information">
+      <div class="p-6">
+        <p class="mb-4">This is an informational dialog.</p>
+        <button
+          (click)="isOpen.set(false)"
+          class="w-full bg-blue-600 text-white py-2 rounded">
+          Got it
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+```
+
+### Centered Content | Nội Dung Căn Giữa
+
+```typescript
+@Component({
+  template: `
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [centered]="true"
+      title="Success!">
+      <div class="p-6 text-center">
+        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <svg class="w-8 h-8 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Success!</h3>
+        <p class="text-gray-600 mb-4">Your action has been completed successfully.</p>
+      </div>
+
+      <div footer class="flex justify-center gap-2 px-6 py-4 border-t">
+        <button
+          (click)="isOpen.set(false)"
+          class="px-6 py-2 bg-blue-600 text-white rounded">
+          OK
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `open` | `boolean` | `false` | Controls dialog visibility <br/> Kiểm soát hiển thị dialog |
+| `title` | `string` | - | Dialog title <br/> Tiêu đề dialog |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'xl' \| 'full'` | `'md'` | Dialog size <br/> Kích thước dialog |
+| `closable` | `boolean` | `true` | Show close button <br/> Hiển thị nút đóng |
+| `closeOnBackdropClick` | `boolean` | `true` | Close on backdrop click <br/> Đóng khi click nền |
+| `closeOnEscape` | `boolean` | `true` | Close on ESC key <br/> Đóng khi nhấn ESC |
+| `showFooter` | `boolean` | `true` | Show footer section <br/> Hiển thị phần footer |
+| `centered` | `boolean` | `false` | Center dialog vertically <br/> Căn giữa dialog theo chiều dọc |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `openChange` | `boolean` | Emitted when dialog opens/closes <br/> Phát ra khi dialog mở/đóng |
+| `afterOpen` | `void` | Emitted after dialog opened <br/> Phát ra sau khi dialog mở |
+| `afterClose` | `void` | Emitted after dialog closed <br/> Phát ra sau khi dialog đóng |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses ARIA `role="dialog"` and `aria-modal="true"`
+- Proper `aria-labelledby` for title
+- Focus trap (keeps focus within dialog)
+- Keyboard navigation (ESC to close, Tab for cycling)
+- Focus returns to trigger element on close
+- Screen reader announcements
+
+## Examples | Ví Dụ
+
+### Form Dialog | Dialog Form
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  imports: [DialogComponent, ReactiveFormsModule],
+  template: `
+    <button
+      (click)="openDialog()"
+      class="px-4 py-2 bg-blue-600 text-white rounded">
+      Add User | Thêm Người Dùng
+    </button>
+
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="handleOpenChange($event)"
+      title="Add New User"
+      size="md">
+      <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="p-6 space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">
+            Name | Tên <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            formControlName="name"
+            class="w-full border rounded px-3 py-2"
+            [class.border-red-500]="form.get('name')?.invalid && form.get('name')?.touched" />
+          @if (form.get('name')?.invalid && form.get('name')?.touched) {
+            <p class="text-red-500 text-sm mt-1">Name is required</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">
+            Email <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="email"
+            formControlName="email"
+            class="w-full border rounded px-3 py-2"
+            [class.border-red-500]="form.get('email')?.invalid && form.get('email')?.touched" />
+          @if (form.get('email')?.invalid && form.get('email')?.touched) {
+            <p class="text-red-500 text-sm mt-1">Valid email is required</p>
+          }
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">
+            Role | Vai Trò <span class="text-red-500">*</span>
+          </label>
+          <select
+            formControlName="role"
+            class="w-full border rounded px-3 py-2">
+            <option value="">Select role | Chọn vai trò</option>
+            <option value="admin">Admin</option>
+            <option value="user">User</option>
+            <option value="viewer">Viewer</option>
+          </select>
+        </div>
+      </form>
+
+      <div footer class="flex justify-end gap-2 px-6 py-4 border-t">
+        <button
+          (click)="isOpen.set(false)"
+          type="button"
+          class="px-4 py-2 border rounded hover:bg-gray-50">
+          Cancel | Hủy
+        </button>
+        <button
+          (click)="handleSubmit()"
+          [disabled]="form.invalid || isSubmitting()"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50">
+          {{ isSubmitting() ? 'Adding...' : 'Add User' }}
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+export class FormDialog {
+  isOpen = signal(false);
+  isSubmitting = signal(false);
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder, private toast: ToastService) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      role: ['', Validators.required]
+    });
+  }
+
+  openDialog() {
+    this.form.reset();
+    this.isOpen.set(true);
+  }
+
+  handleOpenChange(open: boolean) {
+    this.isOpen.set(open);
+    if (!open) {
+      this.form.reset();
+    }
+  }
+
+  async handleSubmit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    this.isSubmitting.set(true);
+
+    try {
+      await this.api.createUser(this.form.value);
+      this.toast.success('User added successfully');
+      this.isOpen.set(false);
+      this.form.reset();
+    } catch (error) {
+      this.toast.error('Failed to add user');
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+}
+```
+
+### Confirmation Modal | Modal Xác Nhận
+
+```typescript
+@Component({
+  template: `
+    <button
+      (click)="isOpen.set(true)"
+      class="px-4 py-2 bg-red-600 text-white rounded">
+      Delete Account | Xóa Tài Khoản
+    </button>
+
+    <g-dialog
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      title="Delete Account"
+      size="sm"
+      [centered]="true">
+      <div class="p-6">
+        <div class="flex items-start gap-4 mb-4">
+          <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+            <svg class="w-6 h-6 text-red-600" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+          <div class="flex-1">
+            <h3 class="font-semibold mb-2">Are you absolutely sure?</h3>
+            <p class="text-gray-600 text-sm">
+              This action cannot be undone. This will permanently delete your account and remove your data from our servers.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-yellow-50 border border-yellow-200 rounded p-3">
+          <p class="text-sm text-yellow-800">
+            <strong>Warning:</strong> Type <code class="bg-yellow-100 px-1 rounded">DELETE</code> to confirm
+          </p>
+          <input
+            type="text"
+            [(ngModel)]="confirmText"
+            placeholder="Type DELETE"
+            class="mt-2 w-full border rounded px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div footer class="flex justify-end gap-2 px-6 py-4 border-t">
+        <button
+          (click)="isOpen.set(false)"
+          class="px-4 py-2 border rounded hover:bg-gray-50">
+          Cancel | Hủy
+        </button>
+        <button
+          (click)="handleDelete()"
+          [disabled]="confirmText() !== 'DELETE' || isDeleting()"
+          class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50">
+          {{ isDeleting() ? 'Deleting...' : 'Delete Account' }}
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+export class ConfirmationModal {
+  isOpen = signal(false);
+  confirmText = signal('');
+  isDeleting = signal(false);
+
+  async handleDelete() {
+    this.isDeleting.set(true);
+
+    try {
+      await this.api.deleteAccount();
+      this.toast.success('Account deleted');
+      // Redirect to login or home
+    } catch (error) {
+      this.toast.error('Failed to delete account');
+    } finally {
+      this.isDeleting.set(false);
+    }
+  }
+}
+```
+
+### Image Viewer | Trình Xem Ảnh
+
+```typescript
+@Component({
+  template: `
+    <div class="grid grid-cols-4 gap-4">
+      @for (image of images(); track image.id) {
+        <img
+          [src]="image.thumbnail"
+          [alt]="image.title"
+          (click)="openImage(image)"
+          class="w-full h-32 object-cover rounded cursor-pointer hover:opacity-80" />
+      }
+    </div>
+
+    <g-dialog
+      [open]="viewerOpen()"
+      (openChange)="viewerOpen.set($event)"
+      [title]="selectedImage()?.title"
+      size="xl"
+      [centered]="true">
+      <div class="p-6">
+        @if (selectedImage()) {
+          <img
+            [src]="selectedImage()!.full"
+            [alt]="selectedImage()!.title"
+            class="w-full h-auto rounded" />
+          <div class="mt-4 text-sm text-gray-600">
+            <p>{{ selectedImage()!.description }}</p>
+            <p class="mt-2">Taken on {{ selectedImage()!.date }}</p>
+          </div>
+        }
+      </div>
+
+      <div footer class="flex justify-between items-center px-6 py-4 border-t">
+        <div class="flex gap-2">
+          <button
+            (click)="previousImage()"
+            [disabled]="!hasPrevious()"
+            class="p-2 border rounded hover:bg-gray-50 disabled:opacity-50">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <button
+            (click)="nextImage()"
+            [disabled]="!hasNext()"
+            class="p-2 border rounded hover:bg-gray-50 disabled:opacity-50">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+        </div>
+        <button
+          (click)="viewerOpen.set(false)"
+          class="px-4 py-2 bg-blue-600 text-white rounded">
+          Close
+        </button>
+      </div>
+    </g-dialog>
+  `
+})
+export class ImageViewer {
+  viewerOpen = signal(false);
+  selectedImage = signal<any>(null);
+  currentIndex = signal(0);
+
+  images = signal([
+    { id: 1, title: 'Image 1', thumbnail: 'thumb1.jpg', full: 'full1.jpg', description: 'Description 1', date: '2024-01-01' },
+    { id: 2, title: 'Image 2', thumbnail: 'thumb2.jpg', full: 'full2.jpg', description: 'Description 2', date: '2024-01-02' },
+    // ... more images
+  ]);
+
+  hasPrevious = computed(() => this.currentIndex() > 0);
+  hasNext = computed(() => this.currentIndex() < this.images().length - 1);
+
+  openImage(image: any) {
+    const index = this.images().findIndex(img => img.id === image.id);
+    this.currentIndex.set(index);
+    this.selectedImage.set(image);
+    this.viewerOpen.set(true);
+  }
+
+  previousImage() {
+    if (this.hasPrevious()) {
+      const newIndex = this.currentIndex() - 1;
+      this.currentIndex.set(newIndex);
+      this.selectedImage.set(this.images()[newIndex]);
+    }
+  }
+
+  nextImage() {
+    if (this.hasNext()) {
+      const newIndex = this.currentIndex() + 1;
+      this.currentIndex.set(newIndex);
+      this.selectedImage.set(this.images()[newIndex]);
+    }
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Use sparingly** | **Dùng tiết chế**: Don't overuse dialogs - they interrupt user flow
+
+2. **Clear purpose** | **Mục đích rõ ràng**: Dialog should have a single, clear purpose
+
+3. **Appropriate size** | **Kích thước phù hợp**: Choose size based on content, avoid scrolling when possible
+
+4. **Focus management** | **Quản lý focus**: Ensure focus moves to dialog and returns correctly
+
+5. **Mobile considerations** | **Xem xét mobile**: Use full-screen or larger sizes on mobile devices
+
+## Related Components | Components Liên Quan
+
+- [Drawer](./drawer) - Side panel | Panel bên
+- [Popconfirm](./popconfirm) - Quick confirmation | Xác nhận nhanh
+- [Toast](./toast) - Non-blocking notification | Thông báo không chặn

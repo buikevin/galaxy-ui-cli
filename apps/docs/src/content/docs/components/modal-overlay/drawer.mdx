@@ -1,0 +1,534 @@
+---
+title: Drawer | Ngăn Kéo
+description: Drawer component with slide-in animation from any side | Component ngăn kéo với hiệu ứng trượt từ bất kỳ phía nào
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Drawer** component provides a panel that slides in from the edge of the screen, perfect for navigation menus, filters, or forms. Inspired by shadcn's Sheet component.
+
+**Drawer** là component cung cấp một panel trượt vào từ cạnh màn hình, hoàn hảo cho menu điều hướng, bộ lọc, hoặc form. Lấy cảm hứng từ Sheet component của shadcn.
+
+## Features | Tính Năng
+
+- **4 placements** | **4 vị trí**: Left, right, top, bottom
+- **Body scroll lock** | **Khóa cuộn body**: Prevents background scrolling when open
+- **Custom size** | **Kích thước tùy chỉnh**: Flexible width/height configuration
+- **Backdrop overlay** | **Lớp phủ nền**: Semi-transparent backdrop with click-to-close
+- **Keyboard support** | **Hỗ trợ bàn phím**: ESC key to close
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add drawer
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/drawer).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { DrawerComponent } from '@/components/ui/drawer';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [DrawerComponent],
+  template: `
+    <button (click)="isOpen.set(true)">Open Drawer</button>
+
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [title]="'Drawer Title'">
+      <div class="p-4">
+        <p>Drawer content goes here</p>
+      </div>
+    </g-drawer>
+  `
+})
+export class ExampleComponent {
+  isOpen = signal(false);
+}
+```
+
+### Placements | Vị Trí
+
+```typescript
+@Component({
+  template: `
+    <!-- Left (default) | Trái (mặc định) -->
+    <g-drawer
+      [open]="leftOpen()"
+      (openChange)="leftOpen.set($event)"
+      placement="left">
+      <div class="p-4">Left drawer content</div>
+    </g-drawer>
+
+    <!-- Right | Phải -->
+    <g-drawer
+      [open]="rightOpen()"
+      (openChange)="rightOpen.set($event)"
+      placement="right">
+      <div class="p-4">Right drawer content</div>
+    </g-drawer>
+
+    <!-- Top | Trên -->
+    <g-drawer
+      [open]="topOpen()"
+      (openChange)="topOpen.set($event)"
+      placement="top">
+      <div class="p-4">Top drawer content</div>
+    </g-drawer>
+
+    <!-- Bottom | Dưới -->
+    <g-drawer
+      [open]="bottomOpen()"
+      (openChange)="bottomOpen.set($event)"
+      placement="bottom">
+      <div class="p-4">Bottom drawer content</div>
+    </g-drawer>
+  `
+})
+export class PlacementExample {
+  leftOpen = signal(false);
+  rightOpen = signal(false);
+  topOpen = signal(false);
+  bottomOpen = signal(false);
+}
+```
+
+### Custom Size | Kích Thước Tùy Chỉnh
+
+```typescript
+@Component({
+  template: `
+    <!-- Small drawer | Ngăn kéo nhỏ -->
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      size="sm">
+      <div class="p-4">Small drawer (320px)</div>
+    </g-drawer>
+
+    <!-- Medium drawer | Ngăn kéo vừa -->
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      size="md">
+      <div class="p-4">Medium drawer (448px)</div>
+    </g-drawer>
+
+    <!-- Large drawer | Ngăn kéo lớn -->
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      size="lg">
+      <div class="p-4">Large drawer (640px)</div>
+    </g-drawer>
+
+    <!-- Full width | Toàn bộ chiều rộng -->
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      size="full">
+      <div class="p-4">Full width drawer</div>
+    </g-drawer>
+
+    <!-- Custom size | Kích thước tùy chỉnh -->
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [customSize]="'500px'">
+      <div class="p-4">Custom 500px drawer</div>
+    </g-drawer>
+  `
+})
+```
+
+### Without Close Button | Không Có Nút Đóng
+
+```typescript
+@Component({
+  template: `
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [closable]="false">
+      <div class="p-4">
+        <p>This drawer has no close button</p>
+        <button (click)="isOpen.set(false)">
+          Custom Close Button
+        </button>
+      </div>
+    </g-drawer>
+  `
+})
+```
+
+### With Footer | Với Footer
+
+```typescript
+@Component({
+  template: `
+    <g-drawer
+      [open]="isOpen()"
+      (openChange)="isOpen.set($event)"
+      [title]="'Edit Profile'">
+      <div class="p-4 space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Name</label>
+          <input type="text" class="w-full border rounded px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Email</label>
+          <input type="email" class="w-full border rounded px-3 py-2" />
+        </div>
+      </div>
+
+      <div footer class="flex justify-end gap-2 p-4 border-t">
+        <button
+          (click)="isOpen.set(false)"
+          class="px-4 py-2 border rounded hover:bg-gray-50">
+          Cancel | Hủy
+        </button>
+        <button
+          (click)="handleSave()"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Save | Lưu
+        </button>
+      </div>
+    </g-drawer>
+  `
+})
+export class DrawerWithFooter {
+  isOpen = signal(false);
+
+  handleSave() {
+    console.log('Save clicked');
+    this.isOpen.set(false);
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `open` | `boolean` | `false` | Controls drawer visibility <br/> Kiểm soát hiển thị ngăn kéo |
+| `placement` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'left'` | Drawer position <br/> Vị trí ngăn kéo |
+| `title` | `string` | - | Drawer title <br/> Tiêu đề ngăn kéo |
+| `size` | `'sm' \| 'md' \| 'lg' \| 'full'` | `'md'` | Predefined size <br/> Kích thước định sẵn |
+| `customSize` | `string` | - | Custom width/height (e.g., '500px') <br/> Chiều rộng/cao tùy chỉnh |
+| `closable` | `boolean` | `true` | Show close button <br/> Hiển thị nút đóng |
+| `closeOnBackdropClick` | `boolean` | `true` | Close when clicking backdrop <br/> Đóng khi click vào nền |
+| `closeOnEscape` | `boolean` | `true` | Close on ESC key <br/> Đóng khi nhấn ESC |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `openChange` | `boolean` | Emitted when drawer opens/closes <br/> Phát ra khi ngăn kéo mở/đóng |
+| `afterOpen` | `void` | Emitted after drawer opened <br/> Phát ra sau khi ngăn kéo mở |
+| `afterClose` | `void` | Emitted after drawer closed <br/> Phát ra sau khi ngăn kéo đóng |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses ARIA `role="dialog"` and `aria-modal="true"`
+- Proper focus management (traps focus within drawer)
+- Keyboard navigation (ESC to close, Tab for focus cycling)
+- Screen reader announcements for open/close states
+- Prevents background scroll when open
+
+## Examples | Ví Dụ
+
+### Mobile Navigation Menu | Menu Điều Hướng Mobile
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <button
+      (click)="menuOpen.set(true)"
+      class="lg:hidden p-2">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+
+    <g-drawer
+      [open]="menuOpen()"
+      (openChange)="menuOpen.set($event)"
+      placement="left"
+      size="sm">
+      <div class="p-4">
+        <h2 class="text-2xl font-bold mb-6">Menu</h2>
+        <nav class="space-y-2">
+          <a href="/home" class="block px-4 py-3 rounded hover:bg-gray-100">
+            Home | Trang chủ
+          </a>
+          <a href="/products" class="block px-4 py-3 rounded hover:bg-gray-100">
+            Products | Sản phẩm
+          </a>
+          <a href="/about" class="block px-4 py-3 rounded hover:bg-gray-100">
+            About | Giới thiệu
+          </a>
+          <a href="/contact" class="block px-4 py-3 rounded hover:bg-gray-100">
+            Contact | Liên hệ
+          </a>
+        </nav>
+      </div>
+    </g-drawer>
+  `
+})
+export class MobileMenu {
+  menuOpen = signal(false);
+}
+```
+
+### Filter Panel | Bảng Bộ Lọc
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <div class="flex items-center gap-4 mb-4">
+      <button
+        (click)="filterOpen.set(true)"
+        class="flex items-center gap-2 px-4 py-2 border rounded">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+        </svg>
+        Filters | Bộ lọc
+      </button>
+      <div class="text-sm text-gray-600">
+        {{ filteredCount() }} results | kết quả
+      </div>
+    </div>
+
+    <g-drawer
+      [open]="filterOpen()"
+      (openChange)="filterOpen.set($event)"
+      placement="right"
+      [title]="'Filters'">
+      <div class="p-4 space-y-6">
+        <!-- Price range | Khoảng giá -->
+        <div>
+          <h3 class="font-semibold mb-3">Price Range | Khoảng Giá</h3>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="filters().under50" />
+              <span>Under $50 | Dưới $50</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="filters().range50to100" />
+              <span>$50 - $100</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="filters().over100" />
+              <span>Over $100 | Trên $100</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Category | Danh mục -->
+        <div>
+          <h3 class="font-semibold mb-3">Category | Danh Mục</h3>
+          <div class="space-y-2">
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="filters().electronics" />
+              <span>Electronics | Điện tử</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="filters().clothing" />
+              <span>Clothing | Quần áo</span>
+            </label>
+            <label class="flex items-center gap-2">
+              <input type="checkbox" [(ngModel)]="filters().books" />
+              <span>Books | Sách</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Rating | Đánh giá -->
+        <div>
+          <h3 class="font-semibold mb-3">Rating | Đánh Giá</h3>
+          <div class="space-y-2">
+            @for (rating of [4, 3, 2, 1]; track rating) {
+              <label class="flex items-center gap-2">
+                <input type="checkbox" />
+                <span>{{ rating }}+ ⭐</span>
+              </label>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div footer class="flex gap-2 p-4 border-t">
+        <button
+          (click)="clearFilters()"
+          class="flex-1 px-4 py-2 border rounded hover:bg-gray-50">
+          Clear | Xóa
+        </button>
+        <button
+          (click)="applyFilters()"
+          class="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Apply | Áp dụng
+        </button>
+      </div>
+    </g-drawer>
+  `
+})
+export class FilterPanel {
+  filterOpen = signal(false);
+  filteredCount = signal(0);
+
+  filters = signal({
+    under50: false,
+    range50to100: false,
+    over100: false,
+    electronics: false,
+    clothing: false,
+    books: false
+  });
+
+  clearFilters() {
+    this.filters.set({
+      under50: false,
+      range50to100: false,
+      over100: false,
+      electronics: false,
+      clothing: false,
+      books: false
+    });
+  }
+
+  applyFilters() {
+    // Apply filter logic
+    this.filterOpen.set(false);
+  }
+}
+```
+
+### Settings Drawer | Ngăn Kéo Cài Đặt
+
+```typescript
+@Component({
+  template: `
+    <g-drawer
+      [open]="settingsOpen()"
+      (openChange)="settingsOpen.set($event)"
+      placement="right"
+      [title]="'Settings'">
+      <div class="p-4 space-y-6">
+        <!-- Theme | Giao diện -->
+        <div>
+          <h3 class="font-semibold mb-3">Theme | Giao Diện</h3>
+          <div class="space-y-2">
+            @for (theme of themes; track theme.value) {
+              <label class="flex items-center gap-3 p-3 border rounded cursor-pointer hover:bg-gray-50">
+                <input
+                  type="radio"
+                  name="theme"
+                  [value]="theme.value"
+                  [(ngModel)]="selectedTheme" />
+                <div>
+                  <div class="font-medium">{{ theme.label }}</div>
+                  <div class="text-sm text-gray-500">{{ theme.description }}</div>
+                </div>
+              </label>
+            }
+          </div>
+        </div>
+
+        <!-- Notifications | Thông báo -->
+        <div>
+          <h3 class="font-semibold mb-3">Notifications | Thông Báo</h3>
+          <div class="space-y-3">
+            <label class="flex items-center justify-between">
+              <span>Email notifications</span>
+              <input type="checkbox" [(ngModel)]="notifications().email" />
+            </label>
+            <label class="flex items-center justify-between">
+              <span>Push notifications</span>
+              <input type="checkbox" [(ngModel)]="notifications().push" />
+            </label>
+            <label class="flex items-center justify-between">
+              <span>SMS notifications</span>
+              <input type="checkbox" [(ngModel)]="notifications().sms" />
+            </label>
+          </div>
+        </div>
+
+        <!-- Language | Ngôn ngữ -->
+        <div>
+          <h3 class="font-semibold mb-3">Language | Ngôn Ngữ</h3>
+          <select class="w-full border rounded px-3 py-2" [(ngModel)]="language">
+            <option value="en">English</option>
+            <option value="vi">Tiếng Việt</option>
+            <option value="zh">中文</option>
+          </select>
+        </div>
+      </div>
+
+      <div footer class="p-4 border-t">
+        <button
+          (click)="saveSettings()"
+          class="w-full px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+          Save Changes | Lưu Thay Đổi
+        </button>
+      </div>
+    </g-drawer>
+  `
+})
+export class SettingsDrawer {
+  settingsOpen = signal(false);
+  selectedTheme = signal('auto');
+  language = signal('en');
+  notifications = signal({
+    email: true,
+    push: true,
+    sms: false
+  });
+
+  themes = [
+    { value: 'light', label: 'Light', description: 'Light theme' },
+    { value: 'dark', label: 'Dark', description: 'Dark theme' },
+    { value: 'auto', label: 'Auto', description: 'System preference' }
+  ];
+
+  saveSettings() {
+    // Save settings logic
+    this.settingsOpen.set(false);
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Appropriate placement** | **Vị trí phù hợp**: Use left/right for navigation and forms, top/bottom for filters or notifications
+
+2. **Size consideration** | **Xem xét kích thước**: Don't make drawers too wide - leave some background visible
+
+3. **Focus management** | **Quản lý focus**: Ensure focus moves to drawer when opened and returns to trigger when closed
+
+4. **Mobile responsive** | **Đáp ứng mobile**: Consider full-width drawers on mobile devices
+
+5. **Loading states** | **Trạng thái loading**: Show loading indicators when fetching drawer content
+
+## Related Components | Components Liên Quan
+
+- [Dialog](./dialog) - Modal dialog | Hộp thoại modal
+- [Popover](./popover) - Contextual popup | Popup theo ngữ cảnh
+- [Sidebar](../layout/sidebar) - Static navigation | Điều hướng cố định

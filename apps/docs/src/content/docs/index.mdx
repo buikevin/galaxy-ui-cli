@@ -1,0 +1,58 @@
+---
+title: Welcome to Galaxy UI
+description: A modern, framework-agnostic UI component library built with Tailwind CSS
+template: splash
+hero:
+  tagline: Beautiful components inspired by Nebular, with the flexibility of shadcn/ui
+  image:
+    alt: Galaxy UI logo
+  actions:
+    - text: Get Started
+      link: /introduction/
+      icon: right-arrow
+      variant: primary
+    - text: View Components
+      link: /components/button/
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why Galaxy UI?
+
+<CardGrid>
+  <Card title="Copy-Paste Components" icon="document">
+    Components are copied directly into your project. Full control, no magic.
+  </Card>
+  <Card title="Tailwind CSS Powered" icon="pencil">
+    Built with Tailwind CSS for maximum customization and flexibility.
+  </Card>
+  <Card title="Multi-Framework" icon="puzzle">
+    Angular support now. React and Vue coming soon.
+  </Card>
+  <Card title="Beautiful Design" icon="star">
+    Inspired by Nebular's elegant and modern aesthetic.
+  </Card>
+</CardGrid>
+
+## Quick Start
+
+```bash
+# Initialize your project
+npx galaxy-ui-cli@latest init
+
+# Add your first component
+npx galaxy-ui-cli@latest add button
+```
+
+## Philosophy
+
+Galaxy UI follows the **copy-paste component** approach:
+
+- **No npm install**: Components aren't dependencies
+- **Full ownership**: Modify components however you need
+- **Tailwind native**: Uses utility classes, not CSS-in-JS
+- **Type-safe**: Written in TypeScript with full type definitions
+
+Start building beautiful UIs today!

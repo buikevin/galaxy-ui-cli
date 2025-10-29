@@ -1,0 +1,312 @@
+---
+title: Installation
+description: Get started with Galaxy UI in your Angular project
+---
+
+import { Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+This guide will help you set up Galaxy UI in your Angular project. The process is quick and straightforward.
+
+## Requirements
+
+Before you begin, make sure you have:
+
+- **Node.js** 18.x or higher
+- **Angular** 16.x or higher
+- **Tailwind CSS** installed in your project
+
+## Quick Start
+
+<Steps>
+
+1. **Initialize Galaxy UI**
+
+   Run the CLI init command in your project root:
+
+   ```bash
+   npx galaxy-ui-cli@latest init
+   ```
+
+   This will:
+   - Detect that you're using Angular
+   - Check for Tailwind CSS (install if needed)
+   - Create a `components.json` configuration file
+   - Set up necessary utilities
+
+2. **Add your first component**
+
+   ```bash
+   npx galaxy-ui-cli@latest add button
+   ```
+
+   The component will be copied to your project in `src/components/ui/button/`
+
+3. **Use the component**
+
+   ```typescript
+   import { Component } from '@angular/core';
+   import { ButtonComponent } from '@/components/ui/button';
+
+   @Component({
+     selector: 'app-root',
+     standalone: true,
+     imports: [ButtonComponent],
+     template: `
+       <button galaxyButton [buttonStatus]="'primary'">
+         Hello Galaxy UI!
+       </button>
+     `
+   })
+   export class AppComponent {}
+   ```
+
+</Steps>
+
+## Manual Installation
+
+If you prefer to set things up manually:
+
+### 1. Install Tailwind CSS
+
+<Tabs>
+  <TabItem label="npm">
+    ```bash
+    npm install -D tailwindcss postcss autoprefixer
+    npx tailwindcss init
+    ```
+  </TabItem>
+  <TabItem label="bun">
+    ```bash
+    bun add -D tailwindcss postcss autoprefixer
+    bunx tailwindcss init
+    ```
+  </TabItem>
+  <TabItem label="pnpm">
+    ```bash
+    pnpm add -D tailwindcss postcss autoprefixer
+    pnpm dlx tailwindcss init
+    ```
+  </TabItem>
+</Tabs>
+
+### 2. Configure Tailwind
+
+Update your `tailwind.config.js`:
+
+```js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{html,ts}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        // Galaxy UI uses these color names
+        primary: {
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+          950: '#2e1065',
+        },
+      },
+    },
+  },
+  plugins: [],
+}
+```
+
+Add Tailwind directives to your `src/styles.css`:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+### 3. Set up path aliases
+
+Update your `tsconfig.json` to include path aliases:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"]
+    }
+  }
+}
+```
+
+Update `angular.json` to recognize the aliases:
+
+```json
+{
+  "projects": {
+    "your-project": {
+      "architect": {
+        "build": {
+          "options": {
+            "tsConfig": "tsconfig.app.json"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### 4. Create utility functions
+
+Create `src/lib/utils.ts`:
+
+```typescript
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+```
+
+Install dependencies:
+
+```bash
+npm install clsx tailwind-merge
+```
+
+### 5. Copy components manually
+
+You can manually copy component code from the [source repository](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib).
+
+Place components in `src/components/ui/[component-name]/`
+
+## Configuration
+
+After running `galaxy-ui init`, you'll have a `components.json` file:
+
+```json
+{
+  "$schema": "https://galaxy-ui.dev/schema.json",
+  "framework": "angular",
+  "style": "default",
+  "tailwind": {
+    "config": "tailwind.config.js",
+    "css": "src/styles.css",
+    "baseColor": "slate"
+  },
+  "aliases": {
+    "components": "src/components",
+    "utils": "src/lib/utils"
+  }
+}
+```
+
+### Configuration Options
+
+| Option | Description |
+|--------|-------------|
+| `framework` | Detected framework (angular, react, vue) |
+| `style` | Component style variant (default only for now) |
+| `tailwind.config` | Path to tailwind config file |
+| `tailwind.css` | Path to global CSS file |
+| `tailwind.baseColor` | Base color palette (slate, gray, zinc, etc.) |
+| `aliases.components` | Where to place components |
+| `aliases.utils` | Where to place utility functions |
+
+## Existing Angular Projects
+
+Galaxy UI works great with existing Angular projects. Here are some tips:
+
+### Standalone Components
+
+If you're using standalone components (Angular 14+), components work out of the box:
+
+```typescript
+import { ButtonComponent } from '@/components/ui/button';
+
+@Component({
+  standalone: true,
+  imports: [ButtonComponent],
+  // ...
+})
+```
+
+### NgModules
+
+If you're using NgModules, import and declare components in your modules:
+
+```typescript
+import { NgModule } from '@angular/core';
+import { ButtonComponent } from '@/components/ui/button';
+
+@NgModule({
+  imports: [ButtonComponent], // Standalone components are imported
+  declarations: [],
+  exports: [ButtonComponent],
+})
+export class SharedModule {}
+```
+
+### With Angular Material
+
+Galaxy UI works alongside Angular Material. Just import both:
+
+```typescript
+import { MatButtonModule } from '@angular/material/button';
+import { ButtonComponent as GalaxyButton } from '@/components/ui/button';
+
+@Component({
+  imports: [MatButtonModule, GalaxyButton],
+  template: `
+    <!-- Material button -->
+    <button mat-button>Material</button>
+
+    <!-- Galaxy UI button -->
+    <button galaxyButton>Galaxy</button>
+  `
+})
+```
+
+## Next Steps
+
+Now that you've installed Galaxy UI:
+
+1. [Learn how to use the CLI →](/cli-usage/)
+2. [Explore available components →](/components/button/)
+3. [Customize the theme →](/customization/theming/)
+
+## Troubleshooting
+
+### Path aliases not working
+
+Make sure:
+- `baseUrl` is set in `tsconfig.json`
+- Paths are defined correctly
+- Your IDE has restarted (VS Code sometimes needs this)
+
+### Tailwind classes not applying
+
+Check:
+- Tailwind directives are in your `styles.css`
+- Content paths in `tailwind.config.js` include your component files
+- Build process is restarting after Tailwind changes
+
+### Components not found
+
+Verify:
+- Component files exist in the specified location
+- Imports match the file structure
+- TypeScript path aliases are configured
+
+Still having issues? [Open an issue on GitHub](https://github.com/buikevin/galaxy-ui-cli/issues).

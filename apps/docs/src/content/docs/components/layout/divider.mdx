@@ -1,0 +1,152 @@
+---
+title: Divider
+description: Visual separator for content sections
+---
+
+The **Divider** component provides a clean visual separator between sections of content.
+
+## Features
+
+- Horizontal and vertical orientations
+- Optional label text
+- Label alignment (start, center, end)
+- Dashed style option
+- Dark mode support
+
+## Installation
+
+```bash
+npx galaxy-ui-cli@latest add divider
+```
+
+## Usage
+
+### Basic Divider
+
+```typescript
+import { Component } from '@angular/core';
+import { DividerComponent } from '@/components/ui/divider';
+
+@Component({
+  standalone: true,
+  imports: [DividerComponent],
+  template: `
+    <div>
+      <p>Content above</p>
+      <galaxy-divider></galaxy-divider>
+      <p>Content below</p>
+    </div>
+  `
+})
+```
+
+### With Label
+
+```html
+<div>
+  <p>Sign in with email</p>
+  <galaxy-divider [dividerLabel]="'OR'"></galaxy-divider>
+  <button>Sign in with Google</button>
+</div>
+```
+
+### Label Alignment
+
+```html
+<!-- Start aligned -->
+<galaxy-divider [dividerLabel]="'Section 1'" [dividerAlign]="'start'"></galaxy-divider>
+
+<!-- Center aligned (default) -->
+<galaxy-divider [dividerLabel]="'OR'"></galaxy-divider>
+
+<!-- End aligned -->
+<galaxy-divider [dividerLabel]="'End'" [dividerAlign]="'end'"></galaxy-divider>
+```
+
+### Dashed Style
+
+```html
+<galaxy-divider [dividerDashed]="true"></galaxy-divider>
+<galaxy-divider [dividerLabel]="'OR'" [dividerDashed]="true"></galaxy-divider>
+```
+
+### Vertical Divider
+
+```html
+<div class="flex items-center gap-4">
+  <button>Button 1</button>
+  <galaxy-divider [dividerOrientation]="'vertical'"></galaxy-divider>
+  <button>Button 2</button>
+  <galaxy-divider [dividerOrientation]="'vertical'"></galaxy-divider>
+  <button>Button 3</button>
+</div>
+```
+
+## Props
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `dividerOrientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Divider direction |
+| `dividerLabel` | `string` | `''` | Optional label text |
+| `dividerAlign` | `'start' \| 'center' \| 'end'` | `'center'` | Label alignment |
+| `dividerDashed` | `boolean` | `false` | Dashed line style |
+
+## Examples
+
+### Form Sections
+
+```html
+<form>
+  <h3>Personal Information</h3>
+  <galaxy-input [inputLabel]="'Name'"></galaxy-input>
+  <galaxy-input [inputLabel]="'Email'"></galaxy-input>
+
+  <galaxy-divider [dividerLabel]="'Address'"></galaxy-divider>
+
+  <galaxy-input [inputLabel]="'Street'"></galaxy-input>
+  <galaxy-input [inputLabel]="'City'"></galaxy-input>
+
+  <galaxy-divider></galaxy-divider>
+
+  <button type="submit">Submit</button>
+</form>
+```
+
+### Authentication Options
+
+```html
+<div class="max-w-md mx-auto">
+  <galaxy-input [inputLabel]="'Email'"></galaxy-input>
+  <galaxy-input [inputLabel]="'Password'" [inputType]="'password'"></galaxy-input>
+  <button galaxyButton [buttonFullWidth]="true">Sign In</button>
+
+  <galaxy-divider [dividerLabel]="'OR'"></galaxy-divider>
+
+  <button galaxyButton [buttonAppearance]="'outline'" [buttonFullWidth]="true">
+    Continue with Google
+  </button>
+  <button galaxyButton [buttonAppearance]="'outline'" [buttonFullWidth]="true">
+    Continue with GitHub
+  </button>
+</div>
+```
+
+### Toolbar Separator
+
+```html
+<div class="flex items-center gap-2">
+  <button>Cut</button>
+  <button>Copy</button>
+  <button>Paste</button>
+
+  <galaxy-divider [dividerOrientation]="'vertical'"></galaxy-divider>
+
+  <button>Undo</button>
+  <button>Redo</button>
+
+  <galaxy-divider [dividerOrientation]="'vertical'"></galaxy-divider>
+
+  <button>Bold</button>
+  <button>Italic</button>
+</div>
+```

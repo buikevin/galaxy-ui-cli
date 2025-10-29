@@ -1,0 +1,560 @@
+---
+title: Table Paginated | Bảng Có Phân Trang
+description: Combined table with built-in pagination | Bảng kết hợp với phân trang tích hợp
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Table Paginated** component combines the power of the Table component with built-in pagination, providing a complete solution for displaying large datasets. All features from both components work seamlessly together.
+
+**Table Paginated** là component kết hợp sức mạnh của component Table với phân trang tích hợp sẵn, cung cấp giải pháp hoàn chỉnh để hiển thị các tập dữ liệu lớn. Tất cả tính năng từ cả hai component hoạt động liền mạch cùng nhau.
+
+## Features | Tính Năng
+
+- **All table features** | **Tất cả tính năng bảng**: Sorting, selection, expandable rows, custom rendering
+- **Built-in pagination** | **Phân trang tích hợp**: Seamless page navigation controls
+- **Server-side ready** | **Sẵn sàng server-side**: Supports both client and server pagination
+- **Page size control** | **Điều khiển kích thước trang**: Dynamic items per page
+- **Quick jumper** | **Nhảy nhanh**: Direct page navigation
+- **Loading states** | **Trạng thái tải**: Integrated loading indicators
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+- **Responsive** | **Responsive**: Adapts to all screen sizes
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add table-paginated
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/table-paginated).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { TablePaginatedComponent } from '@/components/ui/table-paginated';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [TablePaginatedComponent],
+  template: `
+    <g-table-paginated
+      [columns]="columns"
+      [data]="data()"
+      [total]="total"
+      [pageSize]="pageSize()"
+      [currentPage]="currentPage()"
+      (pageChange)="onPageChange($event)">
+    </g-table-paginated>
+  `
+})
+export class ExampleComponent {
+  total = 100;
+  pageSize = signal(10);
+  currentPage = signal(1);
+
+  columns = [
+    { key: 'id', label: 'ID', sortable: true },
+    { key: 'name', label: 'Name | Tên', sortable: true },
+    { key: 'email', label: 'Email', sortable: true },
+    { key: 'role', label: 'Role | Vai trò' }
+  ];
+
+  data = signal([
+    { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Admin' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'User' },
+    // ... more items
+  ]);
+
+  onPageChange(page: number) {
+    this.currentPage.set(page);
+    // Load data for the new page
+  }
+}
+```
+
+### Client-Side Pagination | Phân Trang Phía Client
+
+```typescript
+@Component({
+  template: `
+    <g-table-paginated
+      [columns]="columns"
+      [data]="currentPageData()"
+      [total]="allData.length"
+      [pageSize]="pageSize()"
+      [currentPage]="currentPage()"
+      [showSizeChanger]="true"
+      [pageSizeOptions]="[10, 20, 50]"
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)">
+    </g-table-paginated>
+  `
+})
+export class ClientSidePaginationComponent {
+  pageSize = signal(10);
+  currentPage = signal(1);
+
+  columns = [
+    { key: 'name', label: 'Product | Sản phẩm', sortable: true },
+    { key: 'category', label: 'Category | Danh mục', sortable: true },
+    { key: 'price', label: 'Price | Giá', sortable: true },
+    { key: 'stock', label: 'Stock | Kho', sortable: true }
+  ];
+
+  // All data loaded at once
+  allData = Array.from({ length: 500 }, (_, i) => ({
+    id: i + 1,
+    name: `Product ${i + 1}`,
+    category: ['Electronics', 'Clothing', 'Food', 'Books'][i % 4],
+    price: Math.random() * 1000,
+    stock: Math.floor(Math.random() * 100)
+  }));
+
+  currentPageData = signal(this.allData.slice(0, 10));
+
+  onPageChange(page: number) {
+    this.currentPage.set(page);
+    this.updateCurrentPageData();
+  }
+
+  onPageSizeChange(size: number) {
+    this.pageSize.set(size);
+    this.currentPage.set(1);
+    this.updateCurrentPageData();
+  }
+
+  updateCurrentPageData() {
+    const start = (this.currentPage() - 1) * this.pageSize();
+    const end = start + this.pageSize();
+    this.currentPageData.set(this.allData.slice(start, end));
+  }
+}
+```
+
+### Server-Side Pagination | Phân Trang Phía Server
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  template: `
+    <g-table-paginated
+      [columns]="columns"
+      [data]="data()"
+      [total]="total()"
+      [pageSize]="pageSize()"
+      [currentPage]="currentPage()"
+      [loading]="loading()"
+      [sortable]="true"
+      [showSizeChanger]="true"
+      [showQuickJumper]="true"
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
+      (sortChange)="onSortChange($event)">
+    </g-table-paginated>
+  `
+})
+export class ServerSidePaginationComponent {
+  private http = inject(HttpClient);
+
+  loading = signal(false);
+  data = signal<any[]>([]);
+  total = signal(0);
+  pageSize = signal(20);
+  currentPage = signal(1);
+  sortColumn = signal('');
+  sortDirection = signal<'asc' | 'desc'>('asc');
+
+  columns = [
+    { key: 'name', label: 'User | Người dùng', sortable: true },
+    { key: 'email', label: 'Email', sortable: true },
+    { key: 'role', label: 'Role | Vai trò', sortable: true },
+    { key: 'status', label: 'Status | Trạng thái', sortable: true },
+    { key: 'createdAt', label: 'Created | Tạo lúc', sortable: true }
+  ];
+
+  ngOnInit() {
+    this.loadData();
+  }
+
+  async loadData() {
+    this.loading.set(true);
+
+    try {
+      const params = {
+        page: this.currentPage(),
+        pageSize: this.pageSize(),
+        sortBy: this.sortColumn(),
+        sortDirection: this.sortDirection()
+      };
+
+      const response = await this.http.get<any>('/api/users', { params }).toPromise();
+
+      this.data.set(response.data);
+      this.total.set(response.total);
+    } catch (error) {
+      console.error('Failed to load data:', error);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  onPageChange(page: number) {
+    this.currentPage.set(page);
+    this.loadData();
+  }
+
+  onPageSizeChange(size: number) {
+    this.pageSize.set(size);
+    this.currentPage.set(1);
+    this.loadData();
+  }
+
+  onSortChange(event: { column: string; direction: 'asc' | 'desc' }) {
+    this.sortColumn.set(event.column);
+    this.sortDirection.set(event.direction);
+    this.currentPage.set(1);
+    this.loadData();
+  }
+}
+```
+
+### With Selection and Actions | Với Chọn và Thao Tác
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <!-- Actions bar -->
+      @if (selectedRows().length > 0) {
+        <div class="flex gap-2 p-4 bg-blue-50 dark:bg-blue-900/20 rounded">
+          <span class="flex-1">
+            Selected {{ selectedRows().length }} item(s)
+            <br/>
+            Đã chọn {{ selectedRows().length }} mục
+          </span>
+          <button (click)="bulkDelete()" class="btn btn-danger btn-sm">
+            Delete | Xóa
+          </button>
+          <button (click)="bulkExport()" class="btn btn-primary btn-sm">
+            Export | Xuất
+          </button>
+        </div>
+      }
+
+      <!-- Table with pagination -->
+      <g-table-paginated
+        [columns]="columns"
+        [data]="data()"
+        [total]="total"
+        [pageSize]="pageSize()"
+        [currentPage]="currentPage()"
+        [selectable]="true"
+        [selectedRows]="selectedRows()"
+        [sortable]="true"
+        [showSizeChanger]="true"
+        (pageChange)="onPageChange($event)"
+        (selectionChange)="onSelectionChange($event)">
+        <ng-template #cellTemplate let-column="column" let-row="row">
+          @if (column.key === 'actions') {
+            <div class="flex gap-2">
+              <button (click)="edit(row)" class="text-blue-600 hover:underline">
+                Edit | Sửa
+              </button>
+              <button (click)="delete(row)" class="text-red-600 hover:underline">
+                Delete | Xóa
+              </button>
+            </div>
+          } @else {
+            {{ row[column.key] }}
+          }
+        </ng-template>
+      </g-table-paginated>
+    </div>
+  `
+})
+export class SelectionActionsComponent {
+  total = 250;
+  pageSize = signal(25);
+  currentPage = signal(1);
+  selectedRows = signal<any[]>([]);
+
+  columns = [
+    { key: 'name', label: 'Name | Tên', sortable: true },
+    { key: 'email', label: 'Email', sortable: true },
+    { key: 'department', label: 'Department | Phòng ban', sortable: true },
+    { key: 'actions', label: 'Actions | Thao tác', width: '150px' }
+  ];
+
+  data = signal([
+    { id: 1, name: 'John Doe', email: 'john@example.com', department: 'Engineering' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', department: 'Marketing' },
+    // ... more data
+  ]);
+
+  onPageChange(page: number) {
+    this.currentPage.set(page);
+    this.selectedRows.set([]); // Clear selection on page change
+    // Load new page data
+  }
+
+  onSelectionChange(selected: any[]) {
+    this.selectedRows.set(selected);
+  }
+
+  bulkDelete() {
+    console.log('Bulk delete:', this.selectedRows());
+    // Perform bulk delete
+    this.selectedRows.set([]);
+  }
+
+  bulkExport() {
+    console.log('Bulk export:', this.selectedRows());
+    // Perform bulk export
+  }
+
+  edit(row: any) {
+    console.log('Edit:', row);
+  }
+
+  delete(row: any) {
+    console.log('Delete:', row);
+  }
+}
+```
+
+### With Expandable Rows | Với Hàng Mở Rộng
+
+```typescript
+@Component({
+  template: `
+    <g-table-paginated
+      [columns]="columns"
+      [data]="orders()"
+      [total]="totalOrders"
+      [pageSize]="pageSize()"
+      [currentPage]="currentPage()"
+      [expandable]="true"
+      [sortable]="true"
+      [showQuickJumper]="true"
+      (pageChange)="onPageChange($event)">
+      <ng-template #cellTemplate let-column="column" let-row="row">
+        @if (column.key === 'status') {
+          <span [class]="getStatusClass(row.status)">
+            {{ row.status }}
+          </span>
+        } @else if (column.key === 'total') {
+          <span class="font-semibold">${{ row.total.toFixed(2) }}</span>
+        } @else {
+          {{ row[column.key] }}
+        }
+      </ng-template>
+
+      <ng-template #expandTemplate let-row>
+        <div class="p-6 bg-gray-50 dark:bg-gray-800">
+          <h4 class="font-semibold mb-4">Order Items | Các Mục Đơn Hàng</h4>
+          <table class="w-full">
+            <thead>
+              <tr class="border-b">
+                <th class="text-left py-2">Product | Sản phẩm</th>
+                <th class="text-right py-2">Quantity | Số lượng</th>
+                <th class="text-right py-2">Price | Giá</th>
+                <th class="text-right py-2">Subtotal | Tạm tính</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of row.items; track item.id) {
+                <tr class="border-b">
+                  <td class="py-2">{{ item.name }}</td>
+                  <td class="text-right">{{ item.quantity }}</td>
+                  <td class="text-right">${{ item.price.toFixed(2) }}</td>
+                  <td class="text-right">${{ (item.quantity * item.price).toFixed(2) }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+          <div class="mt-4 text-right">
+            <p><strong>Shipping | Vận chuyển:</strong> ${{ row.shipping.toFixed(2) }}</p>
+            <p><strong>Tax | Thuế:</strong> ${{ row.tax.toFixed(2) }}</p>
+            <p class="text-lg font-bold mt-2">
+              <strong>Total | Tổng:</strong> ${{ row.total.toFixed(2) }}
+            </p>
+          </div>
+        </div>
+      </ng-template>
+    </g-table-paginated>
+  `
+})
+export class ExpandableRowsComponent {
+  totalOrders = 500;
+  pageSize = signal(15);
+  currentPage = signal(1);
+
+  columns = [
+    { key: 'orderId', label: 'Order ID', sortable: true },
+    { key: 'customer', label: 'Customer | Khách hàng', sortable: true },
+    { key: 'date', label: 'Date | Ngày', sortable: true },
+    { key: 'status', label: 'Status | Trạng thái', sortable: true },
+    { key: 'total', label: 'Total | Tổng', sortable: true, align: 'right' }
+  ];
+
+  orders = signal([
+    {
+      orderId: '#ORD-1001',
+      customer: 'John Doe',
+      date: '2024-10-29',
+      status: 'Delivered',
+      total: 459.99,
+      shipping: 10.00,
+      tax: 41.99,
+      items: [
+        { id: 1, name: 'Wireless Mouse', quantity: 2, price: 29.99 },
+        { id: 2, name: 'USB-C Cable', quantity: 3, price: 12.99 },
+        { id: 3, name: 'Laptop Stand', quantity: 1, price: 89.99 }
+      ]
+    },
+    // ... more orders
+  ]);
+
+  getStatusClass(status: string): string {
+    const classes = {
+      'Delivered': 'px-2 py-1 rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      'Processing': 'px-2 py-1 rounded bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      'Pending': 'px-2 py-1 rounded bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
+      'Cancelled': 'px-2 py-1 rounded bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+    };
+    return classes[status] || '';
+  }
+
+  onPageChange(page: number) {
+    this.currentPage.set(page);
+    // Load orders for the new page
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+Combines all props from both Table and Pagination components:
+
+### Table Props | Thuộc Tính Bảng
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `columns` | `TableColumn[]` | `[]` | Column definitions <br/> Định nghĩa cột |
+| `data` | `any[]` | `[]` | Current page data <br/> Dữ liệu trang hiện tại |
+| `selectable` | `boolean` | `false` | Enable row selection <br/> Bật chọn hàng |
+| `selectedRows` | `any[]` | `[]` | Selected rows <br/> Các hàng đã chọn |
+| `expandable` | `boolean` | `false` | Enable expandable rows <br/> Bật hàng mở rộng |
+| `sortable` | `boolean` | `false` | Enable sorting <br/> Bật sắp xếp |
+| `loading` | `boolean` | `false` | Show loading state <br/> Hiển thị trạng thái tải |
+| `rowKey` | `string` | `'id'` | Unique row identifier <br/> Định danh duy nhất |
+
+### Pagination Props | Thuộc Tính Phân Trang
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `total` | `number` | `0` | Total items across all pages <br/> Tổng số mục trên tất cả trang |
+| `pageSize` | `number` | `10` | Items per page <br/> Số mục mỗi trang |
+| `currentPage` | `number` | `1` | Current page number <br/> Số trang hiện tại |
+| `showSizeChanger` | `boolean` | `false` | Show page size selector <br/> Hiển thị bộ chọn kích thước |
+| `pageSizeOptions` | `number[]` | `[10, 20, 50, 100]` | Page size options <br/> Tùy chọn kích thước trang |
+| `showQuickJumper` | `boolean` | `false` | Show quick jumper <br/> Hiển thị bộ nhảy nhanh |
+| `showTotal` | `boolean` | `false` | Show total count <br/> Hiển thị tổng số |
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `pageChange` | `number` | Page changed <br/> Trang đã thay đổi |
+| `pageSizeChange` | `number` | Page size changed <br/> Kích thước trang đã thay đổi |
+| `selectionChange` | `any[]` | Selection changed <br/> Lựa chọn đã thay đổi |
+| `sortChange` | `{ column: string; direction: 'asc' \| 'desc' }` | Sort changed <br/> Sắp xếp đã thay đổi |
+| `rowClick` | `any` | Row clicked <br/> Hàng được nhấp |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Combines accessibility features from both Table and Pagination
+- Semantic HTML structure
+- Keyboard navigation support
+- ARIA labels and attributes
+- Screen reader friendly
+- Focus management
+
+## Examples | Ví Dụ
+
+### Admin Dashboard Table | Bảng Quản Trị
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold">Users Management | Quản Lý Người Dùng</h2>
+        <div class="flex gap-2">
+          <input
+            type="search"
+            placeholder="Search... | Tìm kiếm..."
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="onSearch()"
+            class="border rounded px-3 py-2">
+          <button (click)="addUser()" class="btn btn-primary">
+            Add User | Thêm Người Dùng
+          </button>
+        </div>
+      </div>
+
+      <g-table-paginated
+        [columns]="columns"
+        [data]="users()"
+        [total]="total()"
+        [pageSize]="pageSize()"
+        [currentPage]="currentPage()"
+        [loading]="loading()"
+        [selectable]="true"
+        [selectedRows]="selectedRows()"
+        [sortable]="true"
+        [showSizeChanger]="true"
+        [showQuickJumper]="true"
+        [showTotal]="true"
+        (pageChange)="onPageChange($event)"
+        (pageSizeChange)="onPageSizeChange($event)"
+        (sortChange)="onSortChange($event)"
+        (selectionChange)="onSelectionChange($event)">
+      </g-table-paginated>
+    </div>
+  `
+})
+export class AdminDashboardComponent {
+  // Component implementation
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Server-side for large data** | **Server-side cho dữ liệu lớn**: Use server pagination for 1000+ items
+
+2. **Clear selection on page change** | **Xóa lựa chọn khi đổi trang**: Reset selection when navigating
+
+3. **Loading indicators** | **Chỉ báo tải**: Show loading state during data fetch
+
+4. **Preserve filters** | **Giữ bộ lọc**: Maintain filters across page changes
+
+5. **Responsive page sizes** | **Kích thước trang responsive**: Adjust default page size for mobile
+
+6. **URL synchronization** | **Đồng bộ URL**: Keep page state in URL for bookmarking
+
+## Related Components | Components Liên Quan
+
+- [Table](./table) - Base table component | Component bảng cơ bản
+- [Pagination](./pagination) - Standalone pagination | Phân trang độc lập
+- [List](./list) - Alternative list view | Chế độ xem danh sách

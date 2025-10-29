@@ -1,0 +1,541 @@
+---
+title: Button Group | Nhóm Nút
+description: Button group with single or multiple selection modes | Nhóm nút với chế độ chọn đơn hoặc nhiều
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Button Group** component provides a flexible way to create grouped buttons with single or multiple selection capabilities.
+
+**Button Group** là component cung cấp cách linh hoạt để tạo nhóm nút với khả năng chọn đơn hoặc nhiều.
+
+## Features | Tính Năng
+
+- **Selection modes** | **Chế độ chọn**: Single or multiple selection
+- **6 status colors** | **6 màu trạng thái**: Basic, primary, success, info, warning, danger
+- **3 sizes** | **3 kích thước**: Small, medium, large
+- **Angular Forms integration** | **Tích hợp Angular Forms**: Works with ngModel and Reactive Forms
+- **Disabled options** | **Tùy chọn vô hiệu hóa**: Individual or group disable
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add button-group
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/button-group).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage (Single Selection) | Sử Dụng Cơ Bản (Chọn Đơn)
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { ButtonGroupComponent } from '@/components/ui/button-group';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [ButtonGroupComponent],
+  template: `
+    <g-button-group
+      [options]="options"
+      [(value)]="selectedValue">
+    </g-button-group>
+
+    <p>Selected: {{ selectedValue() }}</p>
+  `
+})
+export class ExampleComponent {
+  selectedValue = signal('option1');
+
+  options = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' }
+  ];
+}
+```
+
+### Multiple Selection | Chọn Nhiều
+
+```typescript
+@Component({
+  template: `
+    <g-button-group
+      mode="multiple"
+      [options]="options"
+      [(values)]="selectedValues">
+    </g-button-group>
+
+    <p>Selected: {{ selectedValues().join(', ') }}</p>
+  `
+})
+export class MultipleSelectionComponent {
+  selectedValues = signal<string[]>(['option1']);
+
+  options = [
+    { label: 'Option 1', value: 'option1' },
+    { label: 'Option 2', value: 'option2' },
+    { label: 'Option 3', value: 'option3' }
+  ];
+}
+```
+
+### With Status Colors | Với Màu Trạng Thái
+
+```typescript
+@Component({
+  template: `
+    <!-- Primary color | Màu chính -->
+    <g-button-group
+      status="primary"
+      [options]="options"
+      [(value)]="value1">
+    </g-button-group>
+
+    <!-- Success color | Màu thành công -->
+    <g-button-group
+      status="success"
+      [options]="options"
+      [(value)]="value2">
+    </g-button-group>
+
+    <!-- Warning color | Màu cảnh báo -->
+    <g-button-group
+      status="warning"
+      [options]="options"
+      [(value)]="value3">
+    </g-button-group>
+
+    <!-- Danger color | Màu nguy hiểm -->
+    <g-button-group
+      status="danger"
+      [options]="options"
+      [(value)]="value4">
+    </g-button-group>
+  `
+})
+```
+
+### With Sizes | Với Kích Thước
+
+```html
+<!-- Small size | Kích thước nhỏ -->
+<g-button-group
+  size="sm"
+  [options]="options"
+  [(value)]="value">
+</g-button-group>
+
+<!-- Medium size (default) | Kích thước vừa (mặc định) -->
+<g-button-group
+  size="md"
+  [options]="options"
+  [(value)]="value">
+</g-button-group>
+
+<!-- Large size | Kích thước lớn -->
+<g-button-group
+  size="lg"
+  [options]="options"
+  [(value)]="value">
+</g-button-group>
+```
+
+### With Disabled Options | Với Tùy Chọn Vô Hiệu Hóa
+
+```typescript
+options = [
+  { label: 'Available', value: 'available' },
+  { label: 'Disabled Option', value: 'disabled', disabled: true },
+  { label: 'Another Available', value: 'available2' }
+];
+```
+
+### Disabled Group | Nhóm Vô Hiệu Hóa
+
+```html
+<g-button-group
+  [options]="options"
+  [(value)]="value"
+  [disabled]="true">
+</g-button-group>
+```
+
+### Reactive Forms | Forms Phản Ứng
+
+```typescript
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  imports: [ButtonGroupComponent, ReactiveFormsModule],
+  template: `
+    <form [formGroup]="form">
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            View Mode | Chế Độ Xem
+          </label>
+          <g-button-group
+            formControlName="viewMode"
+            [options]="viewOptions">
+          </g-button-group>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Filters | Bộ Lọc
+          </label>
+          <g-button-group
+            mode="multiple"
+            formControlName="filters"
+            [options]="filterOptions">
+          </g-button-group>
+        </div>
+      </div>
+    </form>
+
+    <pre>{{ form.value | json }}</pre>
+  `
+})
+export class FilterFormComponent {
+  form: FormGroup;
+
+  viewOptions = [
+    { label: 'Grid', value: 'grid' },
+    { label: 'List', value: 'list' },
+    { label: 'Table', value: 'table' }
+  ];
+
+  filterOptions = [
+    { label: 'Active', value: 'active' },
+    { label: 'Pending', value: 'pending' },
+    { label: 'Archived', value: 'archived' }
+  ];
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      viewMode: ['grid'],
+      filters: [['active']]
+    });
+  }
+}
+```
+
+### With Icons | Với Icon
+
+```typescript
+@Component({
+  template: `
+    <g-button-group
+      [options]="options"
+      [(value)]="alignment">
+    </g-button-group>
+  `
+})
+export class IconButtonGroupComponent {
+  alignment = signal('left');
+
+  options = [
+    { label: '⬅️', value: 'left' },
+    { label: '⬆️', value: 'center' },
+    { label: '➡️', value: 'right' },
+    { label: '↕️', value: 'justify' }
+  ];
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `options` | `ButtonGroupOption[]` | `[]` | Array of button options <br/> Mảng các tùy chọn nút |
+| `value` | `any` | - | Selected value (single mode) <br/> Giá trị được chọn (chế độ đơn) |
+| `values` | `any[]` | `[]` | Selected values (multiple mode) <br/> Các giá trị được chọn (chế độ nhiều) |
+| `mode` | `'single' \| 'multiple'` | `'single'` | Selection mode <br/> Chế độ chọn |
+| `status` | `'basic' \| 'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'primary'` | Color theme <br/> Màu chủ đề |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Button size <br/> Kích thước nút |
+| `disabled` | `boolean` | `false` | Disable entire group <br/> Vô hiệu hóa cả nhóm |
+
+### ButtonGroupOption Interface
+
+```typescript
+interface ButtonGroupOption {
+  label: string;      // Display label | Nhãn hiển thị
+  value: any;         // Option value | Giá trị tùy chọn
+  disabled?: boolean; // Disable this option | Vô hiệu hóa tùy chọn này
+  icon?: string;      // Optional icon | Icon tùy chọn
+}
+```
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `valueChange` | `any` | Emitted when single selection changes <br/> Phát ra khi lựa chọn đơn thay đổi |
+| `valuesChange` | `any[]` | Emitted when multiple selection changes <br/> Phát ra khi lựa chọn nhiều thay đổi |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses semantic button elements
+- Proper ARIA attributes (aria-pressed, role="group")
+- Keyboard navigation with Tab and Arrow keys
+- Focus visible indicators
+- Screen reader announcements for selection changes
+
+## Examples | Ví Dụ
+
+### View Switcher | Chuyển Đổi Chế Độ Xem
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-semibold">
+          Products | Sản Phẩm
+        </h3>
+        <g-button-group
+          status="primary"
+          size="sm"
+          [options]="viewOptions"
+          [(value)]="viewMode">
+        </g-button-group>
+      </div>
+
+      <div [ngSwitch]="viewMode()">
+        <div *ngSwitchCase="'grid'" class="grid grid-cols-3 gap-4">
+          <!-- Grid view | Chế độ lưới -->
+        </div>
+        <div *ngSwitchCase="'list'" class="space-y-2">
+          <!-- List view | Chế độ danh sách -->
+        </div>
+        <div *ngSwitchCase="'table'">
+          <!-- Table view | Chế độ bảng -->
+        </div>
+      </div>
+    </div>
+  `
+})
+export class ViewSwitcherComponent {
+  viewMode = signal('grid');
+
+  viewOptions = [
+    { label: '🔲 Grid', value: 'grid' },
+    { label: '📋 List', value: 'list' },
+    { label: '📊 Table', value: 'table' }
+  ];
+}
+```
+
+### Text Editor Toolbar | Thanh Công Cụ Soạn Thảo
+
+```typescript
+@Component({
+  template: `
+    <div class="bg-white dark:bg-gray-800 rounded-lg p-4 space-y-3">
+      <div class="flex flex-wrap gap-3">
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            Text Style | Kiểu Chữ
+          </label>
+          <g-button-group
+            mode="multiple"
+            size="sm"
+            status="basic"
+            [options]="textStyleOptions"
+            [(values)]="textStyles">
+          </g-button-group>
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            Alignment | Căn Chỉnh
+          </label>
+          <g-button-group
+            size="sm"
+            status="basic"
+            [options]="alignmentOptions"
+            [(value)]="alignment">
+          </g-button-group>
+        </div>
+
+        <div>
+          <label class="block text-xs text-gray-500 mb-1">
+            List Type | Loại Danh Sách
+          </label>
+          <g-button-group
+            size="sm"
+            status="basic"
+            [options]="listOptions"
+            [(value)]="listType">
+          </g-button-group>
+        </div>
+      </div>
+
+      <div class="border rounded p-4 min-h-[200px] dark:border-gray-700"
+           contenteditable="true">
+        Type here... | Nhập ở đây...
+      </div>
+    </div>
+  `
+})
+export class TextEditorComponent {
+  textStyles = signal<string[]>([]);
+  alignment = signal('left');
+  listType = signal('');
+
+  textStyleOptions = [
+    { label: '𝐁', value: 'bold' },
+    { label: '𝐼', value: 'italic' },
+    { label: 'U̲', value: 'underline' },
+    { label: 'S̶', value: 'strikethrough' }
+  ];
+
+  alignmentOptions = [
+    { label: '⬅️', value: 'left' },
+    { label: '⬆️', value: 'center' },
+    { label: '➡️', value: 'right' },
+    { label: '↕️', value: 'justify' }
+  ];
+
+  listOptions = [
+    { label: '• List', value: 'bullet' },
+    { label: '1. List', value: 'numbered' }
+  ];
+}
+```
+
+### Filter Toolbar | Thanh Bộ Lọc
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <div class="bg-white dark:bg-gray-800 rounded-lg p-4 space-y-3">
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Status Filter | Bộ Lọc Trạng Thái
+          </label>
+          <g-button-group
+            mode="multiple"
+            status="primary"
+            [options]="statusOptions"
+            [(values)]="selectedStatuses">
+          </g-button-group>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Priority Filter | Bộ Lọc Ưu Tiên
+          </label>
+          <g-button-group
+            mode="multiple"
+            status="warning"
+            [options]="priorityOptions"
+            [(values)]="selectedPriorities">
+          </g-button-group>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-2">
+            Time Range | Khoảng Thời Gian
+          </label>
+          <g-button-group
+            status="info"
+            [options]="timeRangeOptions"
+            [(value)]="timeRange">
+          </g-button-group>
+        </div>
+
+        <div class="flex gap-2 pt-2">
+          <button
+            class="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600"
+            (click)="resetFilters()">
+            Reset | Đặt Lại
+          </button>
+          <button
+            class="flex-1 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+            (click)="applyFilters()">
+            Apply Filters | Áp Dụng
+          </button>
+        </div>
+      </div>
+
+      <div class="text-sm text-gray-600 dark:text-gray-400">
+        <p>Statuses: {{ selectedStatuses().join(', ') || 'None' }}</p>
+        <p>Priorities: {{ selectedPriorities().join(', ') || 'None' }}</p>
+        <p>Time Range: {{ timeRange() }}</p>
+      </div>
+    </div>
+  `
+})
+export class FilterToolbarComponent {
+  selectedStatuses = signal<string[]>(['active']);
+  selectedPriorities = signal<string[]>([]);
+  timeRange = signal('week');
+
+  statusOptions = [
+    { label: 'Active | Hoạt động', value: 'active' },
+    { label: 'Pending | Chờ xử lý', value: 'pending' },
+    { label: 'Completed | Hoàn thành', value: 'completed' },
+    { label: 'Archived | Lưu trữ', value: 'archived' }
+  ];
+
+  priorityOptions = [
+    { label: 'Low | Thấp', value: 'low' },
+    { label: 'Medium | Trung bình', value: 'medium' },
+    { label: 'High | Cao', value: 'high' },
+    { label: 'Urgent | Khẩn cấp', value: 'urgent' }
+  ];
+
+  timeRangeOptions = [
+    { label: 'Today | Hôm nay', value: 'today' },
+    { label: 'Week | Tuần', value: 'week' },
+    { label: 'Month | Tháng', value: 'month' },
+    { label: 'Year | Năm', value: 'year' }
+  ];
+
+  resetFilters() {
+    this.selectedStatuses.set([]);
+    this.selectedPriorities.set([]);
+    this.timeRange.set('week');
+  }
+
+  applyFilters() {
+    console.log('Apply filters:', {
+      statuses: this.selectedStatuses(),
+      priorities: this.selectedPriorities(),
+      timeRange: this.timeRange()
+    });
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Use for related actions** | **Dùng cho hành động liên quan**: Group related buttons together
+
+2. **Clear visual states** | **Trạng thái trực quan rõ ràng**: Selected state should be obvious
+
+3. **Appropriate mode** | **Chế độ phù hợp**: Use single mode for exclusive options, multiple for filters
+
+4. **Consistent sizing** | **Kích thước nhất quán**: Keep button sizes consistent within a group
+
+5. **Meaningful labels** | **Nhãn có ý nghĩa**: Use clear, concise labels or icons
+
+6. **Limit options** | **Giới hạn tùy chọn**: Keep to 3-6 options per group for usability
+
+## Related Components | Components Liên Quan
+
+- [Button](../../button) - Single action button | Nút hành động đơn
+- [Radio](../radio) - Single selection | Chọn đơn
+- [Checkbox](../../checkbox) - Multiple selection | Chọn nhiều
+- [Tabs](../../tabs) - Content switcher | Chuyển đổi nội dung

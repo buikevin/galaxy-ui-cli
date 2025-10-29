@@ -1,0 +1,225 @@
+---
+title: Button
+description: A versatile button component with multiple statuses, sizes, and appearances
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Button** component provides a flexible and accessible way to create interactive buttons with various visual styles inspired by Nebular's design system.
+
+## Features
+
+- Multiple status colors (basic, primary, success, info, warning, danger)
+- Five size variants (tiny, small, medium, large, giant)
+- Three appearances (filled, outline, ghost)
+- Three shape options (rectangle, semi-round, round)
+- Full width support
+- Disabled state
+- Dark mode support
+
+## Installation
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add button
+    ```
+  </TabItem>
+  <TabItem label="Manual">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/button).
+  </TabItem>
+</Tabs>
+
+## Usage
+
+### Basic Usage
+
+```typescript
+import { Component } from '@angular/core';
+import { ButtonComponent } from '@/components/ui/button';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [ButtonComponent],
+  template: `
+    <button galaxyButton>Click me</button>
+  `
+})
+export class ExampleComponent {}
+```
+
+### Statuses
+
+The button supports multiple status colors to convey different meanings:
+
+```html
+<button galaxyButton [buttonStatus]="'basic'">Basic</button>
+<button galaxyButton [buttonStatus]="'primary'">Primary</button>
+<button galaxyButton [buttonStatus]="'success'">Success</button>
+<button galaxyButton [buttonStatus]="'info'">Info</button>
+<button galaxyButton [buttonStatus]="'warning'">Warning</button>
+<button galaxyButton [buttonStatus]="'danger'">Danger</button>
+```
+
+### Sizes
+
+Choose from five different sizes:
+
+```html
+<button galaxyButton [buttonSize]="'tiny'">Tiny</button>
+<button galaxyButton [buttonSize]="'small'">Small</button>
+<button galaxyButton [buttonSize]="'medium'">Medium</button>
+<button galaxyButton [buttonSize]="'large'">Large</button>
+<button galaxyButton [buttonSize]="'giant'">Giant</button>
+```
+
+### Appearances
+
+The button comes in three appearance styles:
+
+```html
+<!-- Filled (default) -->
+<button galaxyButton [buttonAppearance]="'filled'">Filled</button>
+
+<!-- Outline -->
+<button galaxyButton [buttonAppearance]="'outline'">Outline</button>
+
+<!-- Ghost -->
+<button galaxyButton [buttonAppearance]="'ghost'">Ghost</button>
+```
+
+### Shapes
+
+Customize the button's border radius:
+
+```html
+<button galaxyButton [buttonShape]="'rectangle'">Rectangle</button>
+<button galaxyButton [buttonShape]="'semi-round'">Semi-round</button>
+<button galaxyButton [buttonShape]="'round'">Round</button>
+```
+
+### Full Width
+
+Make the button span the full width of its container:
+
+```html
+<button galaxyButton [buttonFullWidth]="true">Full Width Button</button>
+```
+
+### Disabled State
+
+```html
+<button galaxyButton [buttonDisabled]="true">Disabled</button>
+```
+
+### Combined Examples
+
+```html
+<!-- Primary large button -->
+<button
+  galaxyButton
+  [buttonStatus]="'primary'"
+  [buttonSize]="'large'"
+  [buttonShape]="'semi-round'">
+  Large Primary
+</button>
+
+<!-- Danger outline button -->
+<button
+  galaxyButton
+  [buttonStatus]="'danger'"
+  [buttonAppearance]="'outline'">
+  Delete
+</button>
+
+<!-- Success ghost button -->
+<button
+  galaxyButton
+  [buttonStatus]="'success'"
+  [buttonAppearance]="'ghost'"
+  [buttonShape]="'round'">
+  ✓ Approved
+</button>
+```
+
+## Props
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `buttonStatus` | `'basic' \| 'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'basic'` | The color scheme of the button |
+| `buttonSize` | `'tiny' \| 'small' \| 'medium' \| 'large' \| 'giant'` | `'medium'` | The size of the button |
+| `buttonAppearance` | `'filled' \| 'outline' \| 'ghost'` | `'filled'` | The visual style of the button |
+| `buttonShape` | `'rectangle' \| 'semi-round' \| 'round'` | `'rectangle'` | The border radius style |
+| `buttonDisabled` | `boolean` | `false` | Whether the button is disabled |
+| `buttonFullWidth` | `boolean` | `false` | Whether the button should span full width |
+
+## Accessibility
+
+- Uses semantic `<button>` element
+- Supports keyboard navigation
+- Properly handles disabled state with `disabled` attribute
+- Focus visible with ring indicator
+- High contrast ratios for text readability
+
+## Examples
+
+### Icon Button
+
+```html
+<button galaxyButton [buttonShape]="'round'" [buttonSize]="'small'">
+  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"/>
+  </svg>
+</button>
+```
+
+### Button with Icon and Text
+
+```html
+<button galaxyButton [buttonStatus]="'primary'">
+  <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/>
+  </svg>
+  Add to Cart
+</button>
+```
+
+### Loading Button
+
+```typescript
+@Component({
+  template: `
+    <button
+      galaxyButton
+      [buttonStatus]="'primary'"
+      [buttonDisabled]="isLoading">
+      @if (isLoading) {
+        <svg class="animate-spin h-5 w-5 mr-2" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+        </svg>
+        Loading...
+      } @else {
+        Submit
+      }
+    </button>
+  `
+})
+```
+
+## Best Practices
+
+1. **Use appropriate statuses**:
+   - `primary` for main actions
+   - `danger` for destructive actions
+   - `success` for confirmations
+   - `basic` for secondary actions
+
+2. **Size consistency**: Use consistent button sizes within the same context
+
+3. **Clear labels**: Use descriptive button text that clearly indicates the action
+
+4. **Loading states**: Disable and show loading indicator during async operations
+
+5. **Accessibility**: Always provide meaningful text, even for icon-only buttons (use `aria-label`)

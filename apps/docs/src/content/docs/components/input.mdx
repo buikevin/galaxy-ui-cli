@@ -1,0 +1,161 @@
+---
+title: Input
+description: A flexible input component with labels, hints, error messages, and icon support
+---
+
+The **Input** component provides a fully-featured text input with support for various statuses, sizes, icons, and validation states.
+
+## Features
+
+- Multiple status colors for validation states
+- Five size variants
+- Label and hint text support
+- Prefix and suffix icons
+- Error message display
+- Dark mode support
+- Full accessibility
+
+## Installation
+
+```bash
+npx galaxy-ui-cli@latest add input
+```
+
+## Usage
+
+### Basic Usage
+
+```typescript
+import { Component } from '@angular/core';
+import { InputComponent } from '@/components/ui/input';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [InputComponent, FormsModule],
+  template: `
+    <galaxy-input
+      [inputLabel]="'Email'"
+      [inputPlaceholder]="'Enter your email'"
+      [(ngModel)]="email">
+    </galaxy-input>
+  `
+})
+export class ExampleComponent {
+  email = '';
+}
+```
+
+### With Label and Hint
+
+```html
+<galaxy-input
+  [inputLabel]="'Username'"
+  [inputPlaceholder]="'Choose a username'"
+  [inputHint]="'Must be 3-20 characters'">
+</galaxy-input>
+```
+
+### With Error State
+
+```html
+<galaxy-input
+  [inputLabel]="'Email'"
+  [inputStatus]="'danger'"
+  [inputError]="'Please enter a valid email address'">
+</galaxy-input>
+```
+
+### With Icons
+
+```html
+<galaxy-input
+  [inputLabel]="'Search'"
+  [inputPrefixIcon]="'🔍'"
+  [inputPlaceholder]="'Search...'">
+</galaxy-input>
+
+<galaxy-input
+  [inputLabel]="'Password'"
+  [inputType]="'password'"
+  [inputSuffixIcon]="'👁'">
+</galaxy-input>
+```
+
+### Sizes
+
+```html
+<galaxy-input [inputSize]="'tiny'" [inputPlaceholder]="'Tiny'"></galaxy-input>
+<galaxy-input [inputSize]="'small'" [inputPlaceholder]="'Small'"></galaxy-input>
+<galaxy-input [inputSize]="'medium'" [inputPlaceholder]="'Medium'"></galaxy-input>
+<galaxy-input [inputSize]="'large'" [inputPlaceholder]="'Large'"></galaxy-input>
+<galaxy-input [inputSize]="'giant'" [inputPlaceholder]="'Giant'"></galaxy-input>
+```
+
+### Disabled and Readonly
+
+```html
+<galaxy-input [inputDisabled]="true" [inputLabel]="'Disabled'"></galaxy-input>
+<galaxy-input [inputReadonly]="true" [inputLabel]="'Readonly'" [inputValue]="'Cannot edit'"></galaxy-input>
+```
+
+## Props
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `inputLabel` | `string` | `''` | Label text |
+| `inputPlaceholder` | `string` | `''` | Placeholder text |
+| `inputHint` | `string` | `''` | Hint text below input |
+| `inputError` | `string` | `''` | Error message |
+| `inputType` | `string` | `'text'` | Input type (text, password, email, etc.) |
+| `inputStatus` | `InputStatus` | `'basic'` | Status color |
+| `inputSize` | `InputSize` | `'medium'` | Size variant |
+| `inputShape` | `InputShape` | `'rectangle'` | Border radius |
+| `inputPrefixIcon` | `string` | `''` | Icon before input |
+| `inputSuffixIcon` | `string` | `''` | Icon after input |
+| `inputDisabled` | `boolean` | `false` | Disabled state |
+| `inputReadonly` | `boolean` | `false` | Readonly state |
+| `inputRequired` | `boolean` | `false` | Required field |
+
+## Form Integration
+
+```typescript
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { InputComponent } from '@/components/ui/input';
+
+@Component({
+  standalone: true,
+  imports: [InputComponent, ReactiveFormsModule],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <galaxy-input
+        [inputLabel]="'Email'"
+        [inputType]="'email'"
+        [inputRequired]="true"
+        [inputError]="emailError()"
+        formControlName="email">
+      </galaxy-input>
+
+      <button type="submit">Submit</button>
+    </form>
+  `
+})
+export class FormExampleComponent {
+  form = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email])
+  });
+
+  emailError() {
+    const control = this.form.get('email');
+    if (control?.hasError('required')) return 'Email is required';
+    if (control?.hasError('email')) return 'Invalid email format';
+    return '';
+  }
+
+  onSubmit() {
+    console.log(this.form.value);
+  }
+}
+```

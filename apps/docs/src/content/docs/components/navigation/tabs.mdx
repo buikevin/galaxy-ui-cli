@@ -1,0 +1,338 @@
+---
+title: Tabs
+description: Tabbed navigation for organizing content into sections
+---
+
+The **Tabs** component allows you to organize content into separate views that users can switch between.
+
+## Features
+
+- Horizontal and vertical orientations
+- Lucide icons support
+- Badge notifications
+- Active state management
+- Lazy loading support
+- Full width option
+- Disabled tabs
+- Keyboard navigation
+
+## Installation
+
+```bash
+npx galaxy-ui-cli@latest add tabs
+```
+
+## Usage
+
+### Basic Tabs
+
+```typescript
+import { Component } from '@angular/core';
+import { TabsComponent, TabComponent } from '@/components/ui/tabs';
+
+@Component({
+  standalone: true,
+  imports: [TabsComponent, TabComponent],
+  template: `
+    <g-tabs>
+      <g-tab [tabLabel]="'Profile'" [tabActive]="true">
+        <p>Profile content here</p>
+      </g-tab>
+      <g-tab [tabLabel]="'Settings'">
+        <p>Settings content here</p>
+      </g-tab>
+      <g-tab [tabLabel]="'Messages'">
+        <p>Messages content here</p>
+      </g-tab>
+    </g-tabs>
+  `
+})
+```
+
+### With Icons
+
+```html
+<g-tabs>
+  <g-tab [tabLabel]="'Profile'" [tabIcon]="'user'" [tabActive]="true">
+    <div class="p-4">
+      <h3 class="text-lg font-bold mb-2">Profile Information</h3>
+      <p>Edit your profile details here.</p>
+    </div>
+  </g-tab>
+
+  <g-tab [tabLabel]="'Settings'" [tabIcon]="'settings'">
+    <div class="p-4">
+      <h3 class="text-lg font-bold mb-2">Settings</h3>
+      <p>Manage your preferences.</p>
+    </div>
+  </g-tab>
+
+  <g-tab [tabLabel]="'Notifications'" [tabIcon]="'bell'">
+    <div class="p-4">
+      <h3 class="text-lg font-bold mb-2">Notifications</h3>
+      <p>View your notifications.</p>
+    </div>
+  </g-tab>
+</g-tabs>
+```
+
+### With Badges
+
+```html
+<g-tabs>
+  <g-tab [tabLabel]="'All'" [tabActive]="true">
+    All items content
+  </g-tab>
+  <g-tab [tabLabel]="'Inbox'" [tabIcon]="'inbox'" [tabBadge]="5">
+    Inbox content with 5 unread
+  </g-tab>
+  <g-tab [tabLabel]="'Archive'" [tabIcon]="'archive'" [tabBadge]="12">
+    Archive content
+  </g-tab>
+</g-tabs>
+```
+
+### Vertical Orientation
+
+```html
+<g-tabs [tabsOrientation]="'vertical'">
+  <g-tab [tabLabel]="'General'" [tabIcon]="'settings'">
+    General settings content
+  </g-tab>
+  <g-tab [tabLabel]="'Security'" [tabIcon]="'lock'">
+    Security settings content
+  </g-tab>
+  <g-tab [tabLabel]="'Notifications'" [tabIcon]="'bell'">
+    Notification settings content
+  </g-tab>
+  <g-tab [tabLabel]="'Privacy'" [tabIcon]="'shield'">
+    Privacy settings content
+  </g-tab>
+</g-tabs>
+```
+
+### Full Width Tabs
+
+```html
+<g-tabs [tabsFullWidth]="true">
+  <g-tab [tabLabel]="'Tab 1'">Content 1</g-tab>
+  <g-tab [tabLabel]="'Tab 2'">Content 2</g-tab>
+  <g-tab [tabLabel]="'Tab 3'">Content 3</g-tab>
+</g-tabs>
+```
+
+### Status Colors
+
+```html
+<g-tabs [tabsStatus]="'primary'">
+  <g-tab [tabLabel]="'Home'" [tabActive]="true">Home content</g-tab>
+  <g-tab [tabLabel]="'About'">About content</g-tab>
+</g-tabs>
+
+<g-tabs [tabsStatus]="'success'">
+  <g-tab [tabLabel]="'Completed'" [tabActive]="true">Done items</g-tab>
+  <g-tab [tabLabel]="'Pending'">Pending items</g-tab>
+</g-tabs>
+```
+
+### Disabled Tabs
+
+```html
+<g-tabs>
+  <g-tab [tabLabel]="'Available'" [tabActive]="true">
+    Available content
+  </g-tab>
+  <g-tab [tabLabel]="'Coming Soon'" [tabDisabled]="true">
+    This content is not yet available
+  </g-tab>
+  <g-tab [tabLabel]="'Premium'" [tabDisabled]="true" [tabIcon]="'lock'">
+    Premium content (locked)
+  </g-tab>
+</g-tabs>
+```
+
+## Props
+
+### Tabs
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `tabsOrientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Tab layout direction |
+| `tabsStatus` | `'basic' \| 'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'primary'` | Color theme |
+| `tabsFullWidth` | `boolean` | `false` | Stretch tabs to fill width |
+
+### Tab
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `tabLabel` | `string` | `''` | Tab button text |
+| `tabIcon` | `string \| null` | `null` | Lucide icon name |
+| `tabBadge` | `string \| number \| null` | `null` | Badge content |
+| `tabActive` | `boolean` | `false` | Initial active state |
+| `tabDisabled` | `boolean` | `false` | Disabled state |
+| `tabLazy` | `boolean` | `false` | Load content only when activated |
+
+## Examples
+
+### Dashboard Tabs
+
+```typescript
+@Component({
+  template: `
+    <g-tabs [tabsStatus]="'primary'">
+      <g-tab [tabLabel]="'Overview'" [tabIcon]="'layout-dashboard'" [tabActive]="true">
+        <div class="p-6">
+          <h2 class="text-2xl font-bold mb-4">Dashboard Overview</h2>
+          <div class="grid grid-cols-3 gap-4">
+            <!-- Stats cards -->
+          </div>
+        </div>
+      </g-tab>
+
+      <g-tab [tabLabel]="'Analytics'" [tabIcon]="'bar-chart'">
+        <div class="p-6">
+          <h2 class="text-2xl font-bold mb-4">Analytics</h2>
+          <!-- Charts and graphs -->
+        </div>
+      </g-tab>
+
+      <g-tab [tabLabel]="'Reports'" [tabIcon]="'file-text'" [tabBadge]="3">
+        <div class="p-6">
+          <h2 class="text-2xl font-bold mb-4">Reports</h2>
+          <!-- Report list -->
+        </div>
+      </g-tab>
+    </g-tabs>
+  `
+})
+```
+
+### Settings Page
+
+```html
+<g-tabs [tabsOrientation]="'vertical'">
+  <g-tab [tabLabel]="'Profile'" [tabIcon]="'user'">
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-4">Profile Settings</h3>
+      <galaxy-input [inputLabel]="'Full Name'"></galaxy-input>
+      <galaxy-input [inputLabel]="'Email'"></galaxy-input>
+    </div>
+  </g-tab>
+
+  <g-tab [tabLabel]="'Account'" [tabIcon]="'settings'">
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-4">Account Settings</h3>
+      <galaxy-checkbox [checkboxLabel]="'Email notifications'"></galaxy-checkbox>
+      <galaxy-checkbox [checkboxLabel]="'SMS alerts'"></galaxy-checkbox>
+    </div>
+  </g-tab>
+
+  <g-tab [tabLabel]="'Security'" [tabIcon]="'lock'">
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-4">Security</h3>
+      <galaxy-input [inputLabel]="'Current Password'" [inputType]="'password'"></galaxy-input>
+      <galaxy-input [inputLabel]="'New Password'" [inputType]="'password'"></galaxy-input>
+    </div>
+  </g-tab>
+
+  <g-tab [tabLabel]="'Billing'" [tabIcon]="'credit-card'">
+    <div class="p-6">
+      <h3 class="text-xl font-bold mb-4">Billing</h3>
+      <!-- Billing information -->
+    </div>
+  </g-tab>
+</g-tabs>
+```
+
+### Product Details
+
+```typescript
+@Component({
+  template: `
+    <g-tabs>
+      <g-tab [tabLabel]="'Description'" [tabActive]="true">
+        <div class="p-4">
+          <p>{{ productDescription() }}</p>
+        </div>
+      </g-tab>
+
+      <g-tab [tabLabel]="'Specifications'" [tabIcon]="'list'">
+        <div class="p-4">
+          <table class="w-full">
+            <tr><td>Brand</td><td>{{ product().brand }}</td></tr>
+            <tr><td>Model</td><td>{{ product().model }}</td></tr>
+          </table>
+        </div>
+      </g-tab>
+
+      <g-tab [tabLabel]="'Reviews'" [tabIcon]="'star'" [tabBadge]="reviewCount()">
+        <div class="p-4">
+          <!-- Review list -->
+        </div>
+      </g-tab>
+
+      <g-tab [tabLabel]="'Q&A'" [tabIcon]="'message-circle'" [tabBadge]="qaCount()">
+        <div class="p-4">
+          <!-- Questions and answers -->
+        </div>
+      </g-tab>
+    </g-tabs>
+  `
+})
+export class ProductDetails {
+  product = signal({ brand: 'Apple', model: 'MacBook Pro' });
+  reviewCount = signal(127);
+  qaCount = signal(45);
+  productDescription = signal('High-performance laptop...');
+}
+```
+
+### Code Editor
+
+```html
+<g-tabs [tabsStatus]="'basic'" [tabsFullWidth]="false">
+  <g-tab [tabLabel]="'index.ts'" [tabIcon]="'file-code'">
+    <pre class="p-4 bg-slate-900 text-slate-100 rounded">
+      <code>console.log('Hello World');</code>
+    </pre>
+  </g-tab>
+
+  <g-tab [tabLabel]="'styles.css'" [tabIcon]="'palette'">
+    <pre class="p-4 bg-slate-900 text-slate-100 rounded">
+      <code>body {{ margin: 0; }}</code>
+    </pre>
+  </g-tab>
+
+  <g-tab [tabLabel]="'README.md'" [tabIcon]="'file-text'">
+    <div class="p-4">
+      <h1>Project README</h1>
+      <p>Documentation here...</p>
+    </div>
+  </g-tab>
+</g-tabs>
+```
+
+## Best Practices
+
+1. **Limit tab count** - 3-7 tabs is ideal
+2. **Use clear labels** - Short, descriptive names
+3. **Default selection** - Set one tab as active initially
+4. **Icon consistency** - Use icons for all tabs or none
+5. **Lazy loading** - For heavy content, enable lazy loading
+6. **Keyboard support** - Arrow keys to navigate tabs
+
+## Accessibility
+
+- Use proper ARIA roles (`role="tablist"`, `role="tab"`, `role="tabpanel"`)
+- Support keyboard navigation (Arrow keys, Home, End)
+- Provide `aria-selected` for active tab
+- Use `aria-controls` to link tabs with panels
+- Maintain focus management when switching tabs
+
+## Keyboard Shortcuts
+
+- **Arrow Left/Up** - Previous tab
+- **Arrow Right/Down** - Next tab
+- **Home** - First tab
+- **End** - Last tab
+- **Enter/Space** - Activate focused tab

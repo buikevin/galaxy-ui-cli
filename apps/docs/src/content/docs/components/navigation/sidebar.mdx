@@ -1,0 +1,412 @@
+---
+title: Sidebar
+description: Collapsible sidebar navigation for layouts
+---
+
+The **Sidebar** component provides a flexible sidebar layout with header, content, and footer sections.
+
+## Features
+
+- Left or right positioning
+- Fixed or overlay modes
+- Collapsible with toggle button
+- Custom width (expanded and collapsed)
+- Optional backdrop for overlay mode
+- Status color themes
+- Responsive (auto-collapse on mobile)
+- Keyboard support (Escape to close)
+
+## Installation
+
+```bash
+npx galaxy-ui-cli@latest add sidebar
+```
+
+## Usage
+
+### Basic Sidebar
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  SidebarComponent,
+  SidebarHeaderComponent,
+  SidebarContentComponent,
+  SidebarFooterComponent
+} from '@/components/ui/sidebar';
+
+@Component({
+  standalone: true,
+  imports: [
+    SidebarComponent,
+    SidebarHeaderComponent,
+    SidebarContentComponent,
+    SidebarFooterComponent
+  ],
+  template: `
+    <g-sidebar>
+      <g-sidebar-header>
+        <h2 class="text-lg font-bold">My App</h2>
+      </g-sidebar-header>
+
+      <g-sidebar-content>
+        <g-menu>
+          <g-menu-item [itemIcon]="'home'" [itemLabel]="'Home'"></g-menu-item>
+          <g-menu-item [itemIcon]="'inbox'" [itemLabel]="'Messages'"></g-menu-item>
+        </g-menu>
+      </g-sidebar-content>
+
+      <g-sidebar-footer>
+        <p class="text-xs">© 2024 My App</p>
+      </g-sidebar-footer>
+    </g-sidebar>
+  `
+})
+```
+
+### Collapsible Sidebar
+
+```typescript
+@Component({
+  template: `
+    <div class="flex h-screen">
+      <g-sidebar
+        [sidebarCollapsed]="isCollapsed()"
+        (sidebarCollapsedChange)="onCollapseChange($event)">
+        <g-sidebar-header>
+          <div class="flex items-center gap-2">
+            <lucide-angular [img]="'zap'" class="w-6 h-6 text-violet-600"></lucide-angular>
+            @if (!isCollapsed()) {
+              <span class="font-bold">Galaxy UI</span>
+            }
+          </div>
+        </g-sidebar-header>
+
+        <g-sidebar-content>
+          <g-menu [menuCompact]="isCollapsed()">
+            <g-menu-item
+              [itemIcon]="'home'"
+              [itemLabel]="'Dashboard'"
+              [itemActive]="true">
+            </g-menu-item>
+            <g-menu-item
+              [itemIcon]="'users'"
+              [itemLabel]="'Team'">
+            </g-menu-item>
+            <g-menu-item
+              [itemIcon]="'settings'"
+              [itemLabel]="'Settings'">
+            </g-menu-item>
+          </g-menu>
+        </g-sidebar-content>
+      </g-sidebar>
+
+      <main class="flex-1 overflow-auto p-8">
+        <h1>Main Content</h1>
+      </main>
+    </div>
+  `
+})
+export class CollapsibleSidebarExample {
+  isCollapsed = signal(false);
+
+  onCollapseChange(collapsed: boolean) {
+    this.isCollapsed.set(collapsed);
+  }
+}
+```
+
+### Overlay Mode
+
+```html
+<g-sidebar
+  [sidebarMode]="'overlay'"
+  [sidebarCollapsed]="!isOpen()"
+  (sidebarCollapsedChange)="onToggle($event)">
+  <g-sidebar-header>
+    <h2>Navigation</h2>
+  </g-sidebar-header>
+
+  <g-sidebar-content>
+    <g-menu>
+      <g-menu-item [itemIcon]="'home'" [itemLabel]="'Home'"></g-menu-item>
+      <g-menu-item [itemIcon]="'inbox'" [itemLabel]="'Messages'"></g-menu-item>
+      <g-menu-item [itemIcon]="'settings'" [itemLabel]="'Settings'"></g-menu-item>
+    </g-menu>
+  </g-sidebar-content>
+</g-sidebar>
+
+<!-- Trigger button (outside sidebar) -->
+<button gButton (click)="toggleSidebar()">
+  <lucide-angular [img]="'menu'"></lucide-angular>
+  Menu
+</button>
+```
+
+### Right Sidebar
+
+```html
+<div class="flex h-screen">
+  <main class="flex-1 overflow-auto p-8">
+    <h1>Main Content</h1>
+  </main>
+
+  <g-sidebar [sidebarPosition]="'right'">
+    <g-sidebar-header>
+      <h3 class="font-bold">Details</h3>
+    </g-sidebar-header>
+
+    <g-sidebar-content>
+      <p>Sidebar content on the right side</p>
+    </g-sidebar-content>
+  </g-sidebar>
+</div>
+```
+
+### Status Colors
+
+```html
+<g-sidebar [sidebarStatus]="'primary'">
+  <g-sidebar-header>Primary Sidebar</g-sidebar-header>
+  <g-sidebar-content>Content here</g-sidebar-content>
+</g-sidebar>
+
+<g-sidebar [sidebarStatus]="'success'">
+  <g-sidebar-header>Success Sidebar</g-sidebar-header>
+  <g-sidebar-content>Content here</g-sidebar-content>
+</g-sidebar>
+```
+
+### Custom Width
+
+```html
+<g-sidebar
+  [sidebarWidth]="'20rem'"
+  [sidebarCollapsedWidth]="'5rem'">
+  <g-sidebar-content>
+    Custom width sidebar
+  </g-sidebar-content>
+</g-sidebar>
+```
+
+### Without Backdrop
+
+```html
+<g-sidebar
+  [sidebarMode]="'overlay'"
+  [sidebarBackdrop]="false"
+  [sidebarCollapsed]="!isOpen()">
+  <g-sidebar-content>
+    No backdrop overlay
+  </g-sidebar-content>
+</g-sidebar>
+```
+
+## Props
+
+### Sidebar
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `sidebarPosition` | `'left' \| 'right'` | `'left'` | Sidebar position |
+| `sidebarMode` | `'fixed' \| 'overlay'` | `'fixed'` | Layout mode |
+| `sidebarStatus` | `'basic' \| 'primary' \| 'success' \| 'info' \| 'warning' \| 'danger'` | `'basic'` | Color theme |
+| `sidebarCollapsed` | `boolean` | `false` | Collapsed state |
+| `sidebarCollapsible` | `boolean` | `true` | Show collapse button |
+| `sidebarWidth` | `string` | `'16rem'` | Expanded width |
+| `sidebarCollapsedWidth` | `string` | `'4rem'` | Collapsed width |
+| `sidebarBackdrop` | `boolean` | `true` | Show backdrop (overlay mode) |
+| `sidebarResponsive` | `boolean` | `true` | Auto-collapse on mobile |
+
+### Events
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `sidebarCollapsedChange` | `EventEmitter<boolean>` | Emits when collapse state changes |
+
+## Examples
+
+### Dashboard Layout
+
+```typescript
+@Component({
+  template: `
+    <div class="flex h-screen bg-slate-50 dark:bg-slate-950">
+      <g-sidebar
+        [sidebarStatus]="'primary'"
+        [sidebarCollapsed]="sidebarCollapsed()"
+        (sidebarCollapsedChange)="onSidebarToggle($event)">
+
+        <g-sidebar-header>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 bg-violet-600 rounded flex items-center justify-center">
+              <lucide-angular [img]="'zap'" class="w-5 h-5 text-white"></lucide-angular>
+            </div>
+            @if (!sidebarCollapsed()) {
+              <div>
+                <div class="font-bold">Galaxy UI</div>
+                <div class="text-xs opacity-60">Dashboard</div>
+              </div>
+            }
+          </div>
+        </g-sidebar-header>
+
+        <g-sidebar-content>
+          <g-menu [menuCompact]="sidebarCollapsed()">
+            <g-menu-group [groupTitle]="'Main'">
+              <g-menu-item
+                [itemIcon]="'layout-dashboard'"
+                [itemLabel]="'Dashboard'"
+                [itemActive]="true">
+              </g-menu-item>
+              <g-menu-item
+                [itemIcon]="'inbox'"
+                [itemLabel]="'Messages'"
+                [itemBadge]="5">
+              </g-menu-item>
+              <g-menu-item
+                [itemIcon]="'calendar'"
+                [itemLabel]="'Calendar'">
+              </g-menu-item>
+            </g-menu-group>
+
+            <g-menu-group [groupTitle]="'Projects'">
+              <g-menu-item
+                [itemIcon]="'folder'"
+                [itemLabel]="'All Projects'">
+              </g-menu-item>
+              <g-menu-item
+                [itemIcon]="'star'"
+                [itemLabel]="'Favorites'">
+              </g-menu-item>
+            </g-menu-group>
+
+            <g-menu-group [groupTitle]="'Settings'">
+              <g-menu-item
+                [itemIcon]="'settings'"
+                [itemLabel]="'Preferences'">
+              </g-menu-item>
+              <g-menu-item
+                [itemIcon]="'user'"
+                [itemLabel]="'Profile'">
+              </g-menu-item>
+            </g-menu-group>
+          </g-menu>
+        </g-sidebar-content>
+
+        <g-sidebar-footer>
+          <div class="flex items-center gap-2">
+            <img src="/avatar.jpg" class="w-8 h-8 rounded-full" alt="User" />
+            @if (!sidebarCollapsed()) {
+              <div class="flex-1">
+                <div class="text-sm font-medium">John Doe</div>
+                <div class="text-xs opacity-60">john@example.com</div>
+              </div>
+            }
+          </div>
+        </g-sidebar-footer>
+      </g-sidebar>
+
+      <main class="flex-1 overflow-auto">
+        <div class="p-8">
+          <h1 class="text-3xl font-bold mb-6">Dashboard</h1>
+          <!-- Main content -->
+        </div>
+      </main>
+    </div>
+  `
+})
+export class DashboardLayout {
+  sidebarCollapsed = signal(false);
+
+  onSidebarToggle(collapsed: boolean) {
+    this.sidebarCollapsed.set(collapsed);
+  }
+}
+```
+
+### Mobile Responsive
+
+```typescript
+@Component({
+  template: `
+    <div class="flex h-screen">
+      <!-- Mobile: Overlay mode -->
+      <g-sidebar
+        [sidebarMode]="'overlay'"
+        [sidebarCollapsed]="!mobileMenuOpen()"
+        (sidebarCollapsedChange)="onMobileMenuToggle($event)"
+        class="md:hidden">
+        <g-sidebar-content>
+          <g-menu>
+            <g-menu-item [itemIcon]="'home'" [itemLabel]="'Home'"></g-menu-item>
+            <g-menu-item [itemIcon]="'inbox'" [itemLabel]="'Messages'"></g-menu-item>
+            <g-menu-item [itemIcon]="'settings'" [itemLabel]="'Settings'"></g-menu-item>
+          </g-menu>
+        </g-sidebar-content>
+      </g-sidebar>
+
+      <!-- Desktop: Fixed mode -->
+      <g-sidebar
+        [sidebarMode]="'fixed'"
+        class="hidden md:block">
+        <g-sidebar-content>
+          <g-menu>
+            <g-menu-item [itemIcon]="'home'" [itemLabel]="'Home'"></g-menu-item>
+            <g-menu-item [itemIcon]="'inbox'" [itemLabel]="'Messages'"></g-menu-item>
+            <g-menu-item [itemIcon]="'settings'" [itemLabel]="'Settings'"></g-menu-item>
+          </g-menu>
+        </g-sidebar-content>
+      </g-sidebar>
+
+      <!-- Main content -->
+      <div class="flex-1 flex flex-col">
+        <!-- Mobile header with menu button -->
+        <header class="md:hidden p-4 border-b">
+          <button gButton (click)="toggleMobileMenu()">
+            <lucide-angular [img]="'menu'"></lucide-angular>
+          </button>
+        </header>
+
+        <main class="flex-1 overflow-auto p-8">
+          <h1>Main Content</h1>
+        </main>
+      </div>
+    </div>
+  `
+})
+export class ResponsiveSidebar {
+  mobileMenuOpen = signal(false);
+
+  toggleMobileMenu() {
+    this.mobileMenuOpen.update(v => !v);
+  }
+
+  onMobileMenuToggle(open: boolean) {
+    this.mobileMenuOpen.set(!open);
+  }
+}
+```
+
+## Best Practices
+
+1. **Fixed vs Overlay** - Use fixed for desktop, overlay for mobile
+2. **Collapse state** - Persist collapsed state in localStorage
+3. **Icon-only mode** - Show tooltips when collapsed
+4. **Responsive** - Auto-collapse on mobile screens
+5. **Z-index** - Ensure sidebar appears above content in overlay mode
+6. **Transitions** - Use smooth animations for collapse/expand
+
+## Accessibility
+
+- Support keyboard navigation (Tab, Escape)
+- Close overlay on Escape key
+- Focus trap when overlay is open
+- Provide skip navigation link
+- Use semantic HTML (`<nav>`, `<aside>`)
+- Label collapse button with `aria-label`
+
+## Keyboard Shortcuts
+
+- **Escape** - Close sidebar (overlay mode)
+- **Tab** - Navigate through menu items

@@ -1,0 +1,503 @@
+---
+title: Toast | Thông Báo Toast
+description: Toast notification service with auto-dismiss and positioning | Dịch vụ thông báo toast với tự động đóng và định vị
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Toast** component provides non-intrusive notifications that appear temporarily to provide feedback. Inspired by Ant Design's Message and Notification components with service pattern.
+
+**Toast** là component cung cấp thông báo không xâm phạm xuất hiện tạm thời để cung cấp phản hồi. Lấy cảm hứng từ Message và Notification của Ant Design với mẫu dịch vụ.
+
+## Features | Tính Năng
+
+- **4 status types** | **4 loại trạng thái**: Success, error, warning, info
+- **Service pattern** | **Mẫu dịch vụ**: Simple API with toast.success(), toast.error(), etc.
+- **Auto-dismiss** | **Tự động đóng**: Configurable duration with auto-close
+- **Closable** | **Có thể đóng**: Manual close button option
+- **Position control** | **Kiểm soát vị trí**: Top-right, top-left, bottom-right, bottom-left, top-center, bottom-center
+- **Queue system** | **Hệ thống hàng đợi**: Stack multiple toasts with animation
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add toast
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/toast).
+  </TabItem>
+</Tabs>
+
+## Setup | Thiết Lập
+
+Add the ToastContainer to your root component:
+
+```typescript
+// app.component.ts
+import { Component } from '@angular/core';
+import { ToastContainerComponent } from '@/components/ui/toast';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [ToastContainerComponent],
+  template: `
+    <router-outlet />
+    <g-toast-container />
+  `
+})
+export class AppComponent {}
+```
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component } from '@angular/core';
+import { ToastService } from '@/components/ui/toast';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  template: `
+    <button (click)="showToast()">Show Toast</button>
+  `
+})
+export class ExampleComponent {
+  constructor(private toast: ToastService) {}
+
+  showToast() {
+    this.toast.success('Operation completed successfully!');
+  }
+}
+```
+
+### Status Types | Các Loại Trạng Thái
+
+```typescript
+@Component({
+  template: `
+    <div class="space-x-2">
+      <button (click)="showSuccess()">Success</button>
+      <button (click)="showError()">Error</button>
+      <button (click)="showWarning()">Warning</button>
+      <button (click)="showInfo()">Info</button>
+    </div>
+  `
+})
+export class StatusExample {
+  constructor(private toast: ToastService) {}
+
+  showSuccess() {
+    this.toast.success('Success! Your changes have been saved.');
+  }
+
+  showError() {
+    this.toast.error('Error! Something went wrong.');
+  }
+
+  showWarning() {
+    this.toast.warning('Warning! Please check your input.');
+  }
+
+  showInfo() {
+    this.toast.info('Info: New updates available.');
+  }
+}
+```
+
+### With Custom Duration | Với Thời Lượng Tùy Chỉnh
+
+```typescript
+// Default duration is 3000ms (3 seconds)
+this.toast.success('Quick message'); // 3s
+
+// Custom duration | Thời lượng tùy chỉnh
+this.toast.success('This stays longer', { duration: 5000 }); // 5s
+
+// Never auto-dismiss | Không tự động đóng
+this.toast.error('Critical error', { duration: 0 });
+```
+
+### With Title and Description | Với Tiêu Đề và Mô Tả
+
+```typescript
+this.toast.success('Profile Updated', {
+  description: 'Your profile information has been successfully updated.',
+  duration: 4000
+});
+
+this.toast.error('Login Failed', {
+  description: 'Invalid username or password. Please try again.',
+  duration: 5000
+});
+```
+
+### Position Control | Kiểm Soát Vị Trí
+
+```typescript
+// Top-right (default) | Trên-phải (mặc định)
+this.toast.success('Message', { position: 'top-right' });
+
+// Top-left | Trên-trái
+this.toast.success('Message', { position: 'top-left' });
+
+// Top-center | Trên-giữa
+this.toast.success('Message', { position: 'top-center' });
+
+// Bottom-right | Dưới-phải
+this.toast.success('Message', { position: 'bottom-right' });
+
+// Bottom-left | Dưới-trái
+this.toast.success('Message', { position: 'bottom-left' });
+
+// Bottom-center | Dưới-giữa
+this.toast.success('Message', { position: 'bottom-center' });
+```
+
+### Action Buttons | Nút Hành Động
+
+```typescript
+this.toast.info('File uploaded', {
+  description: 'document.pdf has been uploaded successfully.',
+  action: {
+    label: 'View',
+    onClick: () => {
+      console.log('View clicked');
+      // Navigate to file or open preview
+    }
+  }
+});
+
+this.toast.warning('Unsaved changes', {
+  description: 'You have unsaved changes. Do you want to save them?',
+  duration: 0, // Don't auto-dismiss
+  action: {
+    label: 'Save',
+    onClick: () => {
+      this.saveChanges();
+    }
+  }
+});
+```
+
+### Loading State | Trạng Thái Loading
+
+```typescript
+async uploadFile() {
+  // Show loading toast
+  const toastId = this.toast.loading('Uploading file...');
+
+  try {
+    await this.fileService.upload(file);
+
+    // Update to success
+    this.toast.update(toastId, {
+      type: 'success',
+      message: 'File uploaded successfully!',
+      duration: 3000
+    });
+  } catch (error) {
+    // Update to error
+    this.toast.update(toastId, {
+      type: 'error',
+      message: 'Upload failed',
+      description: error.message,
+      duration: 4000
+    });
+  }
+}
+```
+
+### Promise-based Toast | Toast Dựa Trên Promise
+
+```typescript
+this.toast.promise(
+  this.api.saveData(data),
+  {
+    loading: 'Saving data...',
+    success: 'Data saved successfully!',
+    error: 'Failed to save data'
+  }
+);
+
+// With custom messages | Với thông báo tùy chỉnh
+this.toast.promise(
+  this.api.deleteUser(userId),
+  {
+    loading: 'Deleting user...',
+    success: (result) => `User ${result.name} deleted successfully`,
+    error: (err) => `Error: ${err.message}`
+  }
+);
+```
+
+## Toast Service API | API Dịch Vụ Toast
+
+```typescript
+interface ToastService {
+  // Show toast methods | Phương thức hiển thị toast
+  success(message: string, options?: ToastOptions): string;
+  error(message: string, options?: ToastOptions): string;
+  warning(message: string, options?: ToastOptions): string;
+  info(message: string, options?: ToastOptions): string;
+  loading(message: string, options?: ToastOptions): string;
+
+  // Promise wrapper | Bọc promise
+  promise<T>(
+    promise: Promise<T>,
+    messages: {
+      loading: string;
+      success: string | ((data: T) => string);
+      error: string | ((error: any) => string);
+    }
+  ): Promise<T>;
+
+  // Update existing toast | Cập nhật toast hiện có
+  update(id: string, options: Partial<ToastOptions>): void;
+
+  // Dismiss toast | Đóng toast
+  dismiss(id: string): void;
+  dismissAll(): void;
+}
+
+interface ToastOptions {
+  description?: string;
+  duration?: number; // 0 = never auto-dismiss
+  position?: 'top-right' | 'top-left' | 'top-center' | 'bottom-right' | 'bottom-left' | 'bottom-center';
+  closable?: boolean;
+  action?: {
+    label: string;
+    onClick: () => void;
+  };
+}
+```
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses ARIA `role="alert"` for important notifications
+- Uses ARIA `role="status"` for non-critical messages
+- Screen reader announcements for new toasts
+- Keyboard navigation support (Tab to focus, Enter to activate)
+- High contrast colors for visibility
+- Respects `prefers-reduced-motion` for animations
+
+## Examples | Ví Dụ
+
+### Form Submission Feedback | Phản Hồi Gửi Form
+
+```typescript
+import { Component, signal } from '@angular/core';
+
+@Component({
+  template: `
+    <form (ngSubmit)="handleSubmit()" class="space-y-4">
+      <div>
+        <label>Name | Tên</label>
+        <input
+          type="text"
+          [(ngModel)]="formData().name"
+          class="w-full border rounded px-3 py-2" />
+      </div>
+      <div>
+        <label>Email</label>
+        <input
+          type="email"
+          [(ngModel)]="formData().email"
+          class="w-full border rounded px-3 py-2" />
+      </div>
+      <button
+        type="submit"
+        [disabled]="isSubmitting()"
+        class="px-4 py-2 bg-blue-600 text-white rounded">
+        {{ isSubmitting() ? 'Submitting...' : 'Submit' }}
+      </button>
+    </form>
+  `
+})
+export class FormExample {
+  formData = signal({ name: '', email: '' });
+  isSubmitting = signal(false);
+
+  constructor(private toast: ToastService) {}
+
+  async handleSubmit() {
+    // Validation | Xác thực
+    if (!this.formData().name || !this.formData().email) {
+      this.toast.error('Validation Error', {
+        description: 'Please fill in all required fields.',
+        duration: 4000
+      });
+      return;
+    }
+
+    this.isSubmitting.set(true);
+
+    try {
+      await this.api.submitForm(this.formData());
+
+      this.toast.success('Form Submitted!', {
+        description: 'Your information has been received.',
+        duration: 3000
+      });
+
+      // Reset form
+      this.formData.set({ name: '', email: '' });
+    } catch (error) {
+      this.toast.error('Submission Failed', {
+        description: 'Please try again later.',
+        duration: 4000
+      });
+    } finally {
+      this.isSubmitting.set(false);
+    }
+  }
+}
+```
+
+### API Response Notifications | Thông Báo Phản Hồi API
+
+```typescript
+@Component({
+  template: `
+    <div class="space-x-2">
+      <button (click)="fetchData()">Fetch Data</button>
+      <button (click)="saveData()">Save Data</button>
+      <button (click)="deleteData()">Delete Data</button>
+    </div>
+  `
+})
+export class ApiExample {
+  constructor(private toast: ToastService, private api: ApiService) {}
+
+  async fetchData() {
+    const toastId = this.toast.loading('Fetching data...');
+
+    try {
+      const data = await this.api.getData();
+
+      this.toast.update(toastId, {
+        type: 'success',
+        message: 'Data loaded',
+        description: `Retrieved ${data.length} items`,
+        duration: 3000
+      });
+    } catch (error) {
+      this.toast.update(toastId, {
+        type: 'error',
+        message: 'Failed to fetch data',
+        duration: 4000
+      });
+    }
+  }
+
+  async saveData() {
+    await this.toast.promise(
+      this.api.saveData(this.data),
+      {
+        loading: 'Saving...',
+        success: 'Data saved successfully!',
+        error: 'Failed to save data'
+      }
+    );
+  }
+
+  async deleteData() {
+    this.toast.warning('Confirm Delete', {
+      description: 'Are you sure you want to delete this item?',
+      duration: 0,
+      action: {
+        label: 'Delete',
+        onClick: async () => {
+          const toastId = this.toast.loading('Deleting...');
+
+          try {
+            await this.api.deleteData();
+            this.toast.update(toastId, {
+              type: 'success',
+              message: 'Deleted successfully',
+              duration: 3000
+            });
+          } catch (error) {
+            this.toast.update(toastId, {
+              type: 'error',
+              message: 'Delete failed',
+              duration: 4000
+            });
+          }
+        }
+      }
+    });
+  }
+}
+```
+
+### Action Confirmations | Xác Nhận Hành Động
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <button (click)="addToCart()">Add to Cart</button>
+      <button (click)="likeItem()">Like Item</button>
+      <button (click)="shareItem()">Share Item</button>
+    </div>
+  `
+})
+export class ActionExample {
+  constructor(private toast: ToastService) {}
+
+  addToCart() {
+    this.toast.success('Added to Cart!', {
+      description: 'Product has been added to your cart.',
+      action: {
+        label: 'View Cart',
+        onClick: () => {
+          // Navigate to cart
+          console.log('Navigate to cart');
+        }
+      }
+    });
+  }
+
+  likeItem() {
+    this.toast.info('Item Liked', {
+      description: 'This item has been added to your favorites.',
+      duration: 2500
+    });
+  }
+
+  shareItem() {
+    // Copy to clipboard
+    navigator.clipboard.writeText(window.location.href);
+
+    this.toast.success('Link Copied!', {
+      description: 'Share link has been copied to clipboard.',
+      duration: 2000
+    });
+  }
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Keep messages concise** | **Giữ thông báo ngắn gọn**: Toast should be scannable at a glance
+
+2. **Appropriate duration** | **Thời lượng phù hợp**: 3-5s for success, 5-7s for errors, longer for important warnings
+
+3. **Clear call-to-action** | **Lời kêu gọi hành động rõ ràng**: Use action buttons for important follow-up actions
+
+4. **Don't overuse** | **Đừng lạm dụng**: Too many toasts can overwhelm users
+
+5. **Status-appropriate messages** | **Thông báo phù hợp trạng thái**: Use correct status type for the situation
+
+## Related Components | Components Liên Quan
+
+- [Alert](../other/alert) - Static notification | Thông báo tĩnh
+- [Notification](../other/notification) - Complex notification | Thông báo phức tạp
+- [Snackbar](../other/snackbar) - Bottom notification | Thông báo dưới cùng

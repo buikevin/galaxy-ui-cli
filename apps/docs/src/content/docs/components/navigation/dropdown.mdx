@@ -1,0 +1,381 @@
+---
+title: Dropdown
+description: Dropdown menu for actions and navigation
+---
+
+The **Dropdown** component displays a menu of options when triggered by a button or other element.
+
+## Features
+
+- Click or hover trigger
+- Position control (top, bottom, left, right)
+- Alignment options (start, center, end)
+- Lucide icons support
+- Keyboard shortcuts display
+- Danger items styling
+- Auto-close on selection
+- Keyboard navigation (Escape to close)
+- Inspired by shadcn/AntD
+
+## Installation
+
+```bash
+npx galaxy-ui-cli@latest add dropdown
+```
+
+## Usage
+
+### Basic Dropdown
+
+```typescript
+import { Component } from '@angular/core';
+import {
+  DropdownComponent,
+  DropdownMenuComponent,
+  DropdownItemComponent,
+  DropdownTriggerDirective
+} from '@/components/ui/dropdown';
+
+@Component({
+  standalone: true,
+  imports: [
+    DropdownComponent,
+    DropdownMenuComponent,
+    DropdownItemComponent,
+    DropdownTriggerDirective
+  ],
+  template: `
+    <g-dropdown>
+      <button gButton gDropdownTrigger>
+        Actions
+      </button>
+      <g-dropdown-menu>
+        <g-dropdown-item>Edit</g-dropdown-item>
+        <g-dropdown-item>Duplicate</g-dropdown-item>
+        <g-dropdown-item>Delete</g-dropdown-item>
+      </g-dropdown-menu>
+    </g-dropdown>
+  `
+})
+```
+
+### With Icons
+
+```html
+<g-dropdown>
+  <button gButton gDropdownTrigger>
+    Options
+  </button>
+  <g-dropdown-menu>
+    <g-dropdown-item [itemIcon]="'edit'">Edit</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'copy'">Duplicate</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'share-2'">Share</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'trash-2'" [itemDanger]="true">
+      Delete
+    </g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+### With Shortcuts
+
+```html
+<g-dropdown>
+  <button gButton gDropdownTrigger>
+    File
+  </button>
+  <g-dropdown-menu>
+    <g-dropdown-item [itemIcon]="'file'" [itemShortcut]="'⌘N'">
+      New File
+    </g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'save'" [itemShortcut]="'⌘S'">
+      Save
+    </g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'printer'" [itemShortcut]="'⌘P'">
+      Print
+    </g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+### With Dividers
+
+```html
+<g-dropdown>
+  <button gButton gDropdownTrigger>
+    More
+  </button>
+  <g-dropdown-menu>
+    <g-dropdown-item [itemIcon]="'settings'">Settings</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'user'">Profile</g-dropdown-item>
+
+    <g-dropdown-divider></g-dropdown-divider>
+
+    <g-dropdown-item [itemIcon]="'bell'">Notifications</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'help-circle'">Help</g-dropdown-item>
+
+    <g-dropdown-divider></g-dropdown-divider>
+
+    <g-dropdown-item [itemIcon]="'log-out'">Logout</g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+### Positioning
+
+```html
+<!-- Bottom (default) -->
+<g-dropdown [dropdownPosition]="'bottom'" [dropdownAlign]="'start'">
+  <button gButton gDropdownTrigger>Bottom Start</button>
+  <g-dropdown-menu>
+    <g-dropdown-item>Item 1</g-dropdown-item>
+    <g-dropdown-item>Item 2</g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+
+<!-- Top -->
+<g-dropdown [dropdownPosition]="'top'" [dropdownAlign]="'center'">
+  <button gButton gDropdownTrigger>Top Center</button>
+  <g-dropdown-menu>
+    <g-dropdown-item>Item 1</g-dropdown-item>
+    <g-dropdown-item>Item 2</g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+
+<!-- Right -->
+<g-dropdown [dropdownPosition]="'right'">
+  <button gButton gDropdownTrigger>Right</button>
+  <g-dropdown-menu>
+    <g-dropdown-item>Item 1</g-dropdown-item>
+    <g-dropdown-item>Item 2</g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+### Hover Trigger
+
+```html
+<g-dropdown [dropdownTrigger]="'hover'">
+  <button gButton gDropdownTrigger>
+    Hover Me
+  </button>
+  <g-dropdown-menu>
+    <g-dropdown-item [itemIcon]="'user'">Profile</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'settings'">Settings</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'log-out'">Logout</g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+### Disabled Items
+
+```html
+<g-dropdown>
+  <button gButton gDropdownTrigger>
+    Actions
+  </button>
+  <g-dropdown-menu>
+    <g-dropdown-item [itemIcon]="'edit'">Edit</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'copy'" [itemDisabled]="true">
+      Copy (Pro only)
+    </g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'trash-2'" [itemDanger]="true">
+      Delete
+    </g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+## Props
+
+### Dropdown
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `dropdownPosition` | `'top' \| 'bottom' \| 'left' \| 'right'` | `'bottom'` | Menu position |
+| `dropdownAlign` | `'start' \| 'center' \| 'end'` | `'start'` | Menu alignment |
+| `dropdownTrigger` | `'click' \| 'hover'` | `'click'` | Trigger method |
+| `dropdownOffset` | `number` | `8` | Distance from trigger (px) |
+
+### Dropdown Item
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `itemIcon` | `string \| null` | `null` | Lucide icon name |
+| `itemShortcut` | `string \| null` | `null` | Keyboard shortcut text |
+| `itemDisabled` | `boolean` | `false` | Disabled state |
+| `itemDanger` | `boolean` | `false` | Danger styling (red) |
+
+## Examples
+
+### User Menu
+
+```typescript
+@Component({
+  template: `
+    <g-dropdown [dropdownAlign]="'end'">
+      <button gButton [buttonAppearance]="'ghost'" gDropdownTrigger>
+        <lucide-angular [img]="'user'" class="w-5 h-5"></lucide-angular>
+      </button>
+      <g-dropdown-menu>
+        <g-dropdown-item [itemIcon]="'user'">
+          Profile
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'settings'">
+          Settings
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'credit-card'">
+          Billing
+        </g-dropdown-item>
+
+        <g-dropdown-divider></g-dropdown-divider>
+
+        <g-dropdown-item [itemIcon]="'users'">
+          Team
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'plus'">
+          Invite users
+        </g-dropdown-item>
+
+        <g-dropdown-divider></g-dropdown-divider>
+
+        <g-dropdown-item [itemIcon]="'log-out'">
+          Logout
+        </g-dropdown-item>
+      </g-dropdown-menu>
+    </g-dropdown>
+  `
+})
+```
+
+### Table Actions
+
+```html
+<g-dropdown>
+  <button gButton [buttonSize]="'small'" [buttonAppearance]="'ghost'" gDropdownTrigger>
+    <lucide-angular [img]="'more-vertical'" class="w-4 h-4"></lucide-angular>
+  </button>
+  <g-dropdown-menu>
+    <g-dropdown-item [itemIcon]="'eye'">View</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'edit'">Edit</g-dropdown-item>
+    <g-dropdown-item [itemIcon]="'copy'">Duplicate</g-dropdown-item>
+
+    <g-dropdown-divider></g-dropdown-divider>
+
+    <g-dropdown-item [itemIcon]="'trash-2'" [itemDanger]="true">
+      Delete
+    </g-dropdown-item>
+  </g-dropdown-menu>
+</g-dropdown>
+```
+
+### Context Menu
+
+```typescript
+@Component({
+  template: `
+    <div
+      class="p-8 border-2 border-dashed border-slate-300 dark:border-slate-700 rounded"
+      (contextmenu)="openContextMenu($event)">
+      Right-click me
+    </div>
+
+    <g-dropdown #contextMenu [dropdownTrigger]="'click'">
+      <span gDropdownTrigger></span>
+      <g-dropdown-menu>
+        <g-dropdown-item [itemIcon]="'copy'" [itemShortcut]="'⌘C'">
+          Copy
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'clipboard'" [itemShortcut]="'⌘V'">
+          Paste
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'scissors'" [itemShortcut]="'⌘X'">
+          Cut
+        </g-dropdown-item>
+
+        <g-dropdown-divider></g-dropdown-divider>
+
+        <g-dropdown-item [itemIcon]="'trash-2'" [itemDanger]="true">
+          Delete
+        </g-dropdown-item>
+      </g-dropdown-menu>
+    </g-dropdown>
+  `
+})
+export class ContextMenuExample {
+  @ViewChild('contextMenu') contextMenu!: DropdownComponent;
+
+  openContextMenu(event: MouseEvent) {
+    event.preventDefault();
+    this.contextMenu.open();
+  }
+}
+```
+
+### Notification Dropdown
+
+```typescript
+@Component({
+  template: `
+    <g-dropdown [dropdownAlign]="'end'">
+      <button gButton [buttonAppearance]="'ghost'" gDropdownTrigger>
+        <lucide-angular [img]="'bell'" class="w-5 h-5"></lucide-angular>
+        @if (unreadCount() > 0) {
+          <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            {{ unreadCount() }}
+          </span>
+        }
+      </button>
+      <g-dropdown-menu>
+        <div class="px-3 py-2 text-sm font-semibold">Notifications</div>
+        <g-dropdown-divider></g-dropdown-divider>
+
+        <g-dropdown-item [itemIcon]="'mail'">
+          New message from John
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'calendar'">
+          Meeting in 30 minutes
+        </g-dropdown-item>
+        <g-dropdown-item [itemIcon]="'user-plus'">
+          New team member joined
+        </g-dropdown-item>
+
+        <g-dropdown-divider></g-dropdown-divider>
+
+        <g-dropdown-item>
+          <span class="text-center w-full text-sm">View all</span>
+        </g-dropdown-item>
+      </g-dropdown-menu>
+    </g-dropdown>
+  `
+})
+export class NotificationDropdown {
+  unreadCount = signal(3);
+}
+```
+
+## Best Practices
+
+1. **Clear labels** - Use descriptive menu item text
+2. **Icons consistently** - Use icons for all items or none
+3. **Group related** - Use dividers to separate groups
+4. **Destructive actions** - Use `itemDanger` for delete/remove
+5. **Keyboard shortcuts** - Show shortcuts when available
+6. **Auto-close** - Close menu after item selection
+7. **Max items** - Keep menus under 10 items
+
+## Accessibility
+
+- Use semantic button for trigger
+- Support keyboard navigation (Tab, Enter, Space, Escape)
+- Provide `aria-label` for icon-only triggers
+- Close on Escape key
+- Focus management when opening/closing
+- Use `role="menu"` and `role="menuitem"`
+
+## Keyboard Shortcuts
+
+- **Escape** - Close dropdown
+- **Enter/Space** - Select item
+- **Tab** - Navigate items
+- **Arrow Up/Down** - Navigate items (if implemented)

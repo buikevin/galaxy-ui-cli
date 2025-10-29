@@ -1,0 +1,599 @@
+---
+title: Tree | Cây Phân Cấp
+description: Hierarchical tree structure component | Component cấu trúc cây phân cấp
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Tree** component displays hierarchical data in a tree structure with support for checkable nodes, expand/collapse, custom icons, and node selection. Inspired by Ant Design's Tree component.
+
+**Tree** là component hiển thị dữ liệu phân cấp dưới dạng cấu trúc cây với hỗ trợ cho các node có thể đánh dấu, mở rộng/thu gọn, icon tùy chỉnh và chọn node. Lấy cảm hứng từ component Tree của Ant Design.
+
+## Features | Tính Năng
+
+- **Hierarchical structure** | **Cấu trúc phân cấp**: Display nested data
+- **Checkable nodes** | **Node có thể đánh dấu**: Multi-select with checkboxes
+- **Expand/Collapse** | **Mở rộng/Thu gọn**: Toggle node visibility
+- **Node selection** | **Chọn node**: Single node selection
+- **Custom icons** | **Icon tùy chỉnh**: Custom icons for nodes
+- **Search/Filter** | **Tìm kiếm/Lọc**: Filter tree nodes
+- **Drag and drop** | **Kéo và thả**: Reorder nodes (optional)
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add tree
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/tree).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component, signal } from '@angular/core';
+import { TreeComponent } from '@/components/ui/tree';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [TreeComponent],
+  template: `
+    <g-tree
+      [data]="treeData"
+      (nodeClick)="onNodeClick($event)">
+    </g-tree>
+  `
+})
+export class ExampleComponent {
+  treeData = [
+    {
+      key: '1',
+      title: 'Documents',
+      children: [
+        {
+          key: '1-1',
+          title: 'Work',
+          children: [
+            { key: '1-1-1', title: 'Report.pdf' },
+            { key: '1-1-2', title: 'Presentation.pptx' }
+          ]
+        },
+        {
+          key: '1-2',
+          title: 'Personal',
+          children: [
+            { key: '1-2-1', title: 'Resume.pdf' }
+          ]
+        }
+      ]
+    },
+    {
+      key: '2',
+      title: 'Images',
+      children: [
+        { key: '2-1', title: 'photo1.jpg' },
+        { key: '2-2', title: 'photo2.jpg' }
+      ]
+    }
+  ];
+
+  onNodeClick(node: any) {
+    console.log('Clicked node:', node);
+  }
+}
+```
+
+### With Checkboxes | Với Checkbox
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <g-tree
+        [data]="treeData"
+        [checkable]="true"
+        [checkedKeys]="checkedKeys()"
+        (checkedChange)="onCheckedChange($event)">
+      </g-tree>
+
+      <div class="p-4 bg-gray-100 dark:bg-gray-800 rounded">
+        <p class="font-semibold mb-2">Selected items | Mục đã chọn:</p>
+        <ul class="list-disc list-inside">
+          @for (key of checkedKeys(); track key) {
+            <li>{{ key }}</li>
+          }
+        </ul>
+      </div>
+    </div>
+  `
+})
+export class CheckableTreeComponent {
+  checkedKeys = signal<string[]>([]);
+
+  treeData = [
+    {
+      key: 'features',
+      title: 'Features | Tính năng',
+      children: [
+        { key: 'auth', title: 'Authentication | Xác thực' },
+        {
+          key: 'ui',
+          title: 'UI Components | Component giao diện',
+          children: [
+            { key: 'ui-forms', title: 'Forms' },
+            { key: 'ui-tables', title: 'Tables' },
+            { key: 'ui-charts', title: 'Charts' }
+          ]
+        },
+        { key: 'api', title: 'API Integration | Tích hợp API' }
+      ]
+    },
+    {
+      key: 'settings',
+      title: 'Settings | Cài đặt',
+      children: [
+        { key: 'general', title: 'General | Chung' },
+        { key: 'security', title: 'Security | Bảo mật' },
+        { key: 'notifications', title: 'Notifications | Thông báo' }
+      ]
+    }
+  ];
+
+  onCheckedChange(checkedKeys: string[]) {
+    this.checkedKeys.set(checkedKeys);
+  }
+}
+```
+
+### With Custom Icons | Với Icon Tùy Chỉnh
+
+```typescript
+@Component({
+  template: `
+    <g-tree
+      [data]="treeData"
+      [expandedKeys]="expandedKeys()">
+      <ng-template #nodeTemplate let-node>
+        <div class="flex items-center gap-2">
+          <span class="text-lg">{{ getIcon(node) }}</span>
+          <span>{{ node.title }}</span>
+          @if (node.badge) {
+            <span class="ml-2 px-2 py-0.5 text-xs rounded bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
+              {{ node.badge }}
+            </span>
+          }
+        </div>
+      </ng-template>
+    </g-tree>
+  `
+})
+export class CustomIconTreeComponent {
+  expandedKeys = signal(['1', '2']);
+
+  treeData = [
+    {
+      key: '1',
+      title: 'src',
+      type: 'folder',
+      children: [
+        {
+          key: '1-1',
+          title: 'components',
+          type: 'folder',
+          children: [
+            { key: '1-1-1', title: 'button.ts', type: 'typescript', badge: 'Modified' },
+            { key: '1-1-2', title: 'input.ts', type: 'typescript' }
+          ]
+        },
+        {
+          key: '1-2',
+          title: 'styles',
+          type: 'folder',
+          children: [
+            { key: '1-2-1', title: 'main.css', type: 'css' }
+          ]
+        }
+      ]
+    },
+    {
+      key: '2',
+      title: 'public',
+      type: 'folder',
+      children: [
+        { key: '2-1', title: 'index.html', type: 'html' },
+        { key: '2-2', title: 'logo.png', type: 'image' }
+      ]
+    },
+    { key: '3', title: 'package.json', type: 'json' },
+    { key: '4', title: 'README.md', type: 'markdown' }
+  ];
+
+  getIcon(node: any): string {
+    const icons = {
+      folder: '📁',
+      typescript: '📘',
+      javascript: '📜',
+      css: '🎨',
+      html: '📄',
+      json: '⚙️',
+      markdown: '📝',
+      image: '🖼️'
+    };
+    return icons[node.type] || '📎';
+  }
+}
+```
+
+### With Search | Với Tìm Kiếm
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <input
+        type="search"
+        [(ngModel)]="searchQuery"
+        (ngModelChange)="onSearch()"
+        placeholder="Search... | Tìm kiếm..."
+        class="w-full border rounded px-3 py-2">
+
+      <g-tree
+        [data]="filteredData()"
+        [expandedKeys]="expandedKeys()"
+        [autoExpandParent]="true">
+        <ng-template #nodeTemplate let-node>
+          <span [innerHTML]="highlightText(node.title)"></span>
+        </ng-template>
+      </g-tree>
+
+      @if (filteredData().length === 0) {
+        <p class="text-center text-gray-500 py-8">
+          No results found | Không tìm thấy kết quả
+        </p>
+      }
+    </div>
+  `
+})
+export class SearchableTreeComponent {
+  searchQuery = '';
+  expandedKeys = signal<string[]>([]);
+
+  originalData = [
+    {
+      key: '1',
+      title: 'Team Alpha',
+      children: [
+        { key: '1-1', title: 'John Doe - Developer' },
+        { key: '1-2', title: 'Jane Smith - Designer' }
+      ]
+    },
+    {
+      key: '2',
+      title: 'Team Beta',
+      children: [
+        { key: '2-1', title: 'Bob Johnson - Manager' },
+        { key: '2-2', title: 'Alice Brown - Developer' }
+      ]
+    }
+  ];
+
+  filteredData = signal(this.originalData);
+
+  onSearch() {
+    const query = this.searchQuery.toLowerCase();
+
+    if (!query) {
+      this.filteredData.set(this.originalData);
+      this.expandedKeys.set([]);
+      return;
+    }
+
+    const filterTree = (nodes: any[]): any[] => {
+      return nodes.map(node => {
+        const children = node.children ? filterTree(node.children) : [];
+        const matches = node.title.toLowerCase().includes(query);
+
+        if (matches || children.length > 0) {
+          return { ...node, children };
+        }
+        return null;
+      }).filter(Boolean);
+    };
+
+    const filtered = filterTree(this.originalData);
+    this.filteredData.set(filtered);
+
+    // Auto-expand all matching nodes
+    const getAllKeys = (nodes: any[]): string[] => {
+      return nodes.flatMap(node => [
+        node.key,
+        ...(node.children ? getAllKeys(node.children) : [])
+      ]);
+    };
+    this.expandedKeys.set(getAllKeys(filtered));
+  }
+
+  highlightText(text: string): string {
+    if (!this.searchQuery) return text;
+
+    const regex = new RegExp(`(${this.searchQuery})`, 'gi');
+    return text.replace(regex, '<mark class="bg-yellow-200 dark:bg-yellow-800">$1</mark>');
+  }
+}
+```
+
+### Organization Chart | Sơ Đồ Tổ Chức
+
+```typescript
+@Component({
+  template: `
+    <div class="space-y-4">
+      <h2 class="text-2xl font-bold">Company Structure | Cơ Cấu Công Ty</h2>
+
+      <g-tree
+        [data]="orgData"
+        [defaultExpandAll]="true">
+        <ng-template #nodeTemplate let-node>
+          <div class="flex items-center gap-3 py-2">
+            <img
+              [src]="node.avatar"
+              [alt]="node.name"
+              class="w-10 h-10 rounded-full">
+            <div>
+              <p class="font-semibold">{{ node.name }}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ node.position }}</p>
+            </div>
+          </div>
+        </ng-template>
+      </g-tree>
+    </div>
+  `
+})
+export class OrganizationChartComponent {
+  orgData = [
+    {
+      key: 'ceo',
+      name: 'John Doe',
+      position: 'CEO',
+      avatar: '/avatars/john.jpg',
+      children: [
+        {
+          key: 'cto',
+          name: 'Jane Smith',
+          position: 'CTO | Giám đốc Công nghệ',
+          avatar: '/avatars/jane.jpg',
+          children: [
+            {
+              key: 'dev-lead',
+              name: 'Bob Johnson',
+              position: 'Development Lead | Trưởng nhóm Phát triển',
+              avatar: '/avatars/bob.jpg',
+              children: [
+                { key: 'dev-1', name: 'Alice Brown', position: 'Senior Developer', avatar: '/avatars/alice.jpg' },
+                { key: 'dev-2', name: 'Charlie Wilson', position: 'Developer', avatar: '/avatars/charlie.jpg' }
+              ]
+            }
+          ]
+        },
+        {
+          key: 'cmo',
+          name: 'Sarah Davis',
+          position: 'CMO | Giám đốc Marketing',
+          avatar: '/avatars/sarah.jpg',
+          children: [
+            { key: 'marketing-1', name: 'Tom Anderson', position: 'Marketing Manager', avatar: '/avatars/tom.jpg' },
+            { key: 'marketing-2', name: 'Lisa Garcia', position: 'Content Creator', avatar: '/avatars/lisa.jpg' }
+          ]
+        }
+      ]
+    }
+  ];
+}
+```
+
+### File Explorer | Trình Duyệt File
+
+```typescript
+@Component({
+  template: `
+    <div class="border rounded-lg overflow-hidden">
+      <div class="bg-gray-100 dark:bg-gray-800 px-4 py-3 border-b">
+        <h3 class="font-semibold">File Explorer | Trình Duyệt File</h3>
+      </div>
+
+      <div class="p-4">
+        <g-tree
+          [data]="fileTree"
+          [checkable]="true"
+          [checkedKeys]="selectedFiles()"
+          (checkedChange)="onFileSelect($event)"
+          (nodeClick)="onFileClick($event)">
+          <ng-template #nodeTemplate let-node>
+            <div class="flex items-center justify-between flex-1">
+              <div class="flex items-center gap-2">
+                <span class="text-lg">{{ getFileIcon(node.type) }}</span>
+                <span>{{ node.title }}</span>
+                @if (node.size) {
+                  <span class="text-sm text-gray-500">{{ node.size }}</span>
+                }
+              </div>
+              @if (!node.children) {
+                <div class="flex gap-1">
+                  <button
+                    (click)="downloadFile(node); $event.stopPropagation()"
+                    class="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                    title="Download">
+                    ⬇️
+                  </button>
+                  <button
+                    (click)="shareFile(node); $event.stopPropagation()"
+                    class="p-1 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                    title="Share">
+                    🔗
+                  </button>
+                </div>
+              }
+            </div>
+          </ng-template>
+        </g-tree>
+      </div>
+
+      @if (selectedFiles().length > 0) {
+        <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 border-t">
+          <div class="flex justify-between items-center">
+            <span>Selected {{ selectedFiles().length }} file(s)</span>
+            <div class="flex gap-2">
+              <button class="btn btn-sm btn-secondary">Download All</button>
+              <button class="btn btn-sm btn-danger">Delete</button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  `
+})
+export class FileExplorerComponent {
+  selectedFiles = signal<string[]>([]);
+
+  fileTree = [
+    {
+      key: 'projects',
+      title: 'Projects',
+      type: 'folder',
+      children: [
+        {
+          key: 'website',
+          title: 'Website',
+          type: 'folder',
+          children: [
+            { key: 'index', title: 'index.html', type: 'html', size: '2.5 KB' },
+            { key: 'style', title: 'style.css', type: 'css', size: '1.8 KB' },
+            { key: 'script', title: 'script.js', type: 'javascript', size: '3.2 KB' }
+          ]
+        },
+        {
+          key: 'app',
+          title: 'Mobile App',
+          type: 'folder',
+          children: [
+            { key: 'main', title: 'main.ts', type: 'typescript', size: '5.1 KB' },
+            { key: 'config', title: 'config.json', type: 'json', size: '0.8 KB' }
+          ]
+        }
+      ]
+    },
+    {
+      key: 'documents',
+      title: 'Documents',
+      type: 'folder',
+      children: [
+        { key: 'report', title: 'Report.pdf', type: 'pdf', size: '1.2 MB' },
+        { key: 'proposal', title: 'Proposal.docx', type: 'word', size: '856 KB' }
+      ]
+    }
+  ];
+
+  getFileIcon(type: string): string {
+    const icons = {
+      folder: '📁',
+      html: '📄',
+      css: '🎨',
+      javascript: '📜',
+      typescript: '📘',
+      json: '⚙️',
+      pdf: '📕',
+      word: '📝'
+    };
+    return icons[type] || '📎';
+  }
+
+  onFileSelect(selectedKeys: string[]) {
+    this.selectedFiles.set(selectedKeys);
+  }
+
+  onFileClick(node: any) {
+    console.log('Clicked:', node);
+  }
+
+  downloadFile(file: any) {
+    console.log('Download:', file);
+  }
+
+  shareFile(file: any) {
+    console.log('Share:', file);
+  }
+}
+```
+
+## Props | Thuộc Tính
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `data` | `TreeNode[]` | `[]` | Tree data <br/> Dữ liệu cây |
+| `checkable` | `boolean` | `false` | Show checkboxes <br/> Hiển thị checkbox |
+| `checkedKeys` | `string[]` | `[]` | Checked node keys <br/> Khóa node đã đánh dấu |
+| `expandedKeys` | `string[]` | `[]` | Expanded node keys <br/> Khóa node đã mở rộng |
+| `selectedKeys` | `string[]` | `[]` | Selected node keys <br/> Khóa node đã chọn |
+| `defaultExpandAll` | `boolean` | `false` | Expand all nodes by default <br/> Mở rộng tất cả node mặc định |
+| `autoExpandParent` | `boolean` | `false` | Auto expand parent nodes <br/> Tự động mở rộng node cha |
+| `selectable` | `boolean` | `true` | Allow node selection <br/> Cho phép chọn node |
+| `nodeTemplate` | `TemplateRef` | - | Custom node template <br/> Template node tùy chỉnh |
+
+### TreeNode Interface
+
+```typescript
+interface TreeNode {
+  key: string;            // Unique key | Khóa duy nhất
+  title: string;          // Node title | Tiêu đề node
+  children?: TreeNode[];  // Child nodes | Node con
+  disabled?: boolean;     // Disable node | Vô hiệu hóa node
+  selectable?: boolean;   // Can be selected | Có thể chọn
+  checkable?: boolean;    // Can be checked | Có thể đánh dấu
+  [key: string]: any;     // Custom properties | Thuộc tính tùy chỉnh
+}
+```
+
+### Outputs | Sự Kiện
+
+| Event | Type | Description |
+|-------|------|-------------|
+| `nodeClick` | `TreeNode` | Node clicked <br/> Node được nhấp |
+| `checkedChange` | `string[]` | Checked keys changed <br/> Khóa đã đánh dấu thay đổi |
+| `expandedChange` | `string[]` | Expanded keys changed <br/> Khóa đã mở rộng thay đổi |
+| `selectedChange` | `string[]` | Selected keys changed <br/> Khóa đã chọn thay đổi |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses semantic HTML with proper ARIA roles
+- Keyboard navigation (Arrow keys, Enter, Space)
+- Focus management and visible indicators
+- Screen reader friendly labels
+- Accessible expand/collapse controls
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Lazy loading** | **Tải lười**: Load children on expand for large trees
+
+2. **Virtual scrolling** | **Cuộn ảo**: For trees with many nodes
+
+3. **Search and filter** | **Tìm kiếm và lọc**: Help users find nodes quickly
+
+4. **Clear hierarchy** | **Phân cấp rõ ràng**: Use indentation and visual cues
+
+5. **Action buttons** | **Nút thao tác**: Provide context actions for nodes
+
+6. **Preserve state** | **Giữ trạng thái**: Remember expanded/selected nodes
+
+## Related Components | Components Liên Quan
+
+- [List](./list) - Flat list view | Chế độ xem danh sách phẳng
+- [Table](./table) - Tabular data | Dữ liệu dạng bảng
+- [Tag](./tag) - Labels for tree nodes | Nhãn cho node cây

@@ -1,0 +1,293 @@
+---
+title: Avatar | Ảnh Đại Diện
+description: Avatar component for user profile pictures | Component hiển thị ảnh đại diện người dùng
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+The **Avatar** component provides a flexible way to display user profile pictures, initials, or icons with support for avatar groups.
+
+**Avatar** là component linh hoạt để hiển thị ảnh đại diện người dùng, chữ cái viết tắt hoặc biểu tượng với hỗ trợ nhóm avatar.
+
+## Features | Tính Năng
+
+- **Multiple modes** | **Nhiều chế độ**: Image, text initials, or icon display
+- **Sizes** | **Kích thước**: 4 size variants (small, medium, large, extra-large)
+- **Shapes** | **Hình dạng**: Circle and square shapes
+- **Avatar Group** | **Nhóm Avatar**: Display multiple avatars with overlap and max count
+- **Auto initials** | **Tự động viết tắt**: Automatically generate initials from text
+- **Dark mode** | **Chế độ tối**: Full dark mode support
+
+## Installation | Cài Đặt
+
+<Tabs>
+  <TabItem label="CLI">
+    ```bash
+    npx galaxy-ui-cli@latest add avatar
+    ```
+  </TabItem>
+  <TabItem label="Manual | Thủ Công">
+    Copy the component code from the [source](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/avatar).
+
+    Sao chép code component từ [nguồn](https://github.com/buikevin/galaxy-ui-cli/tree/main/packages/angular/src/lib/avatar).
+  </TabItem>
+</Tabs>
+
+## Usage | Sử Dụng
+
+### Basic Usage | Sử Dụng Cơ Bản
+
+```typescript
+import { Component } from '@angular/core';
+import { AvatarComponent } from '@/components/ui/avatar';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [AvatarComponent],
+  template: `
+    <!-- Image avatar | Avatar ảnh -->
+    <g-avatar src="/user.jpg" alt="User"></g-avatar>
+
+    <!-- Text avatar | Avatar chữ -->
+    <g-avatar text="John Doe"></g-avatar>
+
+    <!-- Icon avatar | Avatar icon -->
+    <g-avatar [icon]="UserIcon"></g-avatar>
+  `
+})
+export class ExampleComponent {
+  UserIcon = User; // From lucide-angular
+}
+```
+
+### Image Avatar | Avatar Ảnh
+
+Display user profile pictures | Hiển thị ảnh đại diện người dùng:
+
+```html
+<!-- Basic image | Ảnh cơ bản -->
+<g-avatar src="/avatars/user1.jpg" alt="John Doe"></g-avatar>
+
+<!-- With custom size | Với kích thước tùy chỉnh -->
+<g-avatar
+  src="/avatars/user2.jpg"
+  alt="Jane Smith"
+  size="large">
+</g-avatar>
+
+<!-- Square shape | Hình vuông -->
+<g-avatar
+  src="/avatars/user3.jpg"
+  alt="Bob Wilson"
+  shape="square">
+</g-avatar>
+```
+
+### Text Avatar | Avatar Chữ
+
+Automatically generate initials from names | Tự động tạo chữ cái đầu từ tên:
+
+```html
+<!-- Single name (2 chars) | Tên đơn (2 ký tự) -->
+<g-avatar text="John"></g-avatar> <!-- JO -->
+
+<!-- Full name (first + last) | Tên đầy đủ (đầu + cuối) -->
+<g-avatar text="John Doe"></g-avatar> <!-- JD -->
+
+<!-- Multiple words | Nhiều từ -->
+<g-avatar text="John Michael Doe"></g-avatar> <!-- JD -->
+
+<!-- Vietnamese name | Tên tiếng Việt -->
+<g-avatar text="Nguyễn Văn An"></g-avatar> <!-- NA -->
+```
+
+### Icon Avatar | Avatar Icon
+
+Use icons from lucide-angular | Sử dụng icon từ lucide-angular:
+
+```typescript
+import { User, Settings, Star, Heart } from 'lucide-angular';
+
+@Component({
+  template: `
+    <g-avatar [icon]="UserIcon"></g-avatar>
+    <g-avatar [icon]="SettingsIcon" size="large"></g-avatar>
+    <g-avatar [icon]="StarIcon" shape="square"></g-avatar>
+  `
+})
+export class ExampleComponent {
+  UserIcon = User;
+  SettingsIcon = Settings;
+  StarIcon = Star;
+}
+```
+
+### Sizes | Kích Thước
+
+Four size options available | Bốn tùy chọn kích thước:
+
+```html
+<g-avatar text="SM" size="small"></g-avatar>    <!-- 32px -->
+<g-avatar text="MD" size="medium"></g-avatar>   <!-- 40px -->
+<g-avatar text="LG" size="large"></g-avatar>    <!-- 48px -->
+<g-avatar text="XL" size="x-large"></g-avatar>  <!-- 56px -->
+```
+
+### Shapes | Hình Dạng
+
+Circle or square shapes | Hình tròn hoặc vuông:
+
+```html
+<!-- Circle (default) | Tròn (mặc định) -->
+<g-avatar text="JD" shape="circle"></g-avatar>
+
+<!-- Square | Vuông -->
+<g-avatar text="JD" shape="square"></g-avatar>
+```
+
+### Avatar Group | Nhóm Avatar
+
+Display multiple avatars with overlap | Hiển thị nhiều avatar với chồng lấn:
+
+```html
+<g-avatar-group [maxCount]="3" [totalCount]="10">
+  <g-avatar src="/avatars/user1.jpg" alt="User 1"></g-avatar>
+  <g-avatar src="/avatars/user2.jpg" alt="User 2"></g-avatar>
+  <g-avatar src="/avatars/user3.jpg" alt="User 3"></g-avatar>
+  <g-avatar src="/avatars/user4.jpg" alt="User 4"></g-avatar>
+  <g-avatar src="/avatars/user5.jpg" alt="User 5"></g-avatar>
+</g-avatar-group>
+<!-- Shows first 3 + "+7 more" | Hiển thị 3 đầu + "+7 more" -->
+```
+
+### Status Indicator | Chỉ Thị Trạng Thái
+
+Add online/offline status badges | Thêm huy hiệu trạng thái online/offline:
+
+```html
+<div class="relative inline-block">
+  <g-avatar src="/user.jpg" alt="User"></g-avatar>
+  <!-- Online status | Trạng thái online -->
+  <span class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-gray-800 rounded-full"></span>
+</div>
+```
+
+## Props | Thuộc Tính
+
+### AvatarComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `src` | `string` | - | Image URL for avatar <br/> URL ảnh cho avatar |
+| `alt` | `string` | `'Avatar'` | Alt text for image <br/> Văn bản thay thế cho ảnh |
+| `text` | `string` | - | Text to generate initials <br/> Văn bản để tạo chữ viết tắt |
+| `icon` | `LucideIcon` | - | Icon to display <br/> Icon để hiển thị |
+| `size` | `'small' \| 'medium' \| 'large' \| 'x-large'` | `'medium'` | Avatar size <br/> Kích thước avatar |
+| `shape` | `'circle' \| 'square'` | `'circle'` | Avatar shape <br/> Hình dạng avatar |
+
+### AvatarGroupComponent
+
+| Property | Type | Default | Description |
+|----------|------|---------|-------------|
+| `maxCount` | `number` | `3` | Maximum avatars to display <br/> Số avatar tối đa hiển thị |
+| `totalCount` | `number` | - | Total number of avatars (for "+N more") <br/> Tổng số avatar (cho "+N more") |
+| `size` | `'small' \| 'medium' \| 'large' \| 'x-large'` | `'medium'` | Size for all avatars <br/> Kích thước cho tất cả avatar |
+| `shape` | `'circle' \| 'square'` | `'circle'` | Shape for all avatars <br/> Hình dạng cho tất cả avatar |
+
+## Accessibility | Khả Năng Tiếp Cận
+
+- Uses semantic `<img>` with proper `alt` text | Sử dụng `<img>` với `alt` text phù hợp
+- Provides meaningful text alternatives for icons | Cung cấp văn bản thay thế cho icon
+- Proper ARIA attributes for screen readers | Thuộc tính ARIA phù hợp cho trình đọc màn hình
+- High contrast in both light and dark modes | Độ tương phản cao ở cả chế độ sáng và tối
+
+## Examples | Ví Dụ
+
+### User Profile | Hồ Sơ Người Dùng
+
+```html
+<div class="flex items-center gap-3">
+  <g-avatar
+    src="/users/john-doe.jpg"
+    alt="John Doe"
+    size="large">
+  </g-avatar>
+  <div>
+    <div class="font-medium text-gray-900 dark:text-white">John Doe</div>
+    <div class="text-sm text-gray-500 dark:text-gray-400">john@example.com</div>
+  </div>
+</div>
+```
+
+### Comment Section | Phần Bình Luận
+
+```html
+<div class="flex gap-3">
+  <g-avatar text="Jane Smith" size="small"></g-avatar>
+  <div class="flex-1">
+    <div class="text-sm font-medium">Jane Smith</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400">
+      Great article! Thanks for sharing.
+    </div>
+  </div>
+</div>
+```
+
+### Team Members | Thành Viên Nhóm
+
+```html
+<div>
+  <h3 class="text-lg font-semibold mb-3">Project Team | Nhóm Dự Án</h3>
+  <g-avatar-group [maxCount]="5" [totalCount]="12">
+    <g-avatar src="/team/member1.jpg" alt="Alice"></g-avatar>
+    <g-avatar src="/team/member2.jpg" alt="Bob"></g-avatar>
+    <g-avatar src="/team/member3.jpg" alt="Carol"></g-avatar>
+    <g-avatar src="/team/member4.jpg" alt="Dave"></g-avatar>
+    <g-avatar src="/team/member5.jpg" alt="Eve"></g-avatar>
+    <g-avatar src="/team/member6.jpg" alt="Frank"></g-avatar>
+  </g-avatar-group>
+</div>
+```
+
+### Fallback Handling | Xử Lý Dự Phòng
+
+```typescript
+@Component({
+  template: `
+    <g-avatar
+      [src]="userAvatar"
+      [text]="userName"
+      [alt]="userName">
+    </g-avatar>
+  `
+})
+export class UserAvatarComponent {
+  @Input() userAvatar?: string;  // May be null/undefined
+  @Input() userName!: string;    // Always available
+
+  // If src fails to load, component automatically shows text initials
+  // Nếu src không tải được, component tự động hiển thị chữ viết tắt
+}
+```
+
+## Best Practices | Thực Hành Tốt Nhất
+
+1. **Always provide alt text** | **Luôn cung cấp alt text**: Use descriptive alt text for accessibility
+
+2. **Use appropriate sizes** | **Sử dụng kích thước phù hợp**:
+   - `small` for lists and tables | cho danh sách và bảng
+   - `medium` for general use | cho sử dụng chung
+   - `large`/`x-large` for profile pages | cho trang hồ sơ
+
+3. **Fallback strategy** | **Chiến lược dự phòng**: Provide both `src` and `text` for automatic fallback
+
+4. **Group limits** | **Giới hạn nhóm**: Use `maxCount` in avatar groups to avoid clutter
+
+5. **Status indicators** | **Chỉ thị trạng thái**: Add badges for online/offline status when needed
+
+## Related Components | Components Liên Quan
+
+- [Badge](../badge) - For status indicators | Cho chỉ thị trạng thái
+- [Card](../../layout/card) - For user profile cards | Cho thẻ hồ sơ người dùng
+- [List](../../data-display/list) - For user lists | Cho danh sách người dùng
