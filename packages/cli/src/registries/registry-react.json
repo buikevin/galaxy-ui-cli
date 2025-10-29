@@ -1,0 +1,274 @@
+{
+  "$schema": "../schemas/registry-schema.json",
+  "name": "react",
+  "components": {
+    "button": {
+      "name": "Button",
+      "type": "form",
+      "description": "Displays a button or a component that looks like a button",
+      "dependencies": ["@radix-ui/react-slot"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["button.tsx"],
+      "category": "form"
+    },
+    "input": {
+      "name": "Input",
+      "type": "form",
+      "description": "Displays a form input field or a component that looks like an input field",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["input.tsx"],
+      "category": "form"
+    },
+    "label": {
+      "name": "Label",
+      "type": "form",
+      "description": "Renders an accessible label associated with controls",
+      "dependencies": ["@radix-ui/react-label"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["label.tsx"],
+      "category": "form"
+    },
+    "select": {
+      "name": "Select",
+      "type": "form",
+      "description": "Displays a list of options for the user to pick from triggered by a button",
+      "dependencies": ["@radix-ui/react-select"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["select.tsx"],
+      "category": "form"
+    },
+    "checkbox": {
+      "name": "Checkbox",
+      "type": "form",
+      "description": "A control that allows the user to toggle between checked and not checked",
+      "dependencies": ["@radix-ui/react-checkbox"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["checkbox.tsx"],
+      "category": "form"
+    },
+    "radio-group": {
+      "name": "Radio Group",
+      "type": "form",
+      "description": "A set of checkable buttons where no more than one of the buttons can be checked at a time",
+      "dependencies": ["@radix-ui/react-radio-group"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["radio-group.tsx"],
+      "category": "form"
+    },
+    "switch": {
+      "name": "Switch",
+      "type": "form",
+      "description": "A control that allows the user to toggle between checked and not checked",
+      "dependencies": ["@radix-ui/react-switch"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["switch.tsx"],
+      "category": "form"
+    },
+    "slider": {
+      "name": "Slider",
+      "type": "form",
+      "description": "An input where the user selects a value from within a given range",
+      "dependencies": ["@radix-ui/react-slider"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["slider.tsx"],
+      "category": "form"
+    },
+    "textarea": {
+      "name": "Textarea",
+      "type": "form",
+      "description": "Displays a form textarea or a component that looks like a textarea",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["textarea.tsx"],
+      "category": "form"
+    },
+    "form": {
+      "name": "Form",
+      "type": "form",
+      "description": "Building forms with React Hook Form and Zod",
+      "dependencies": ["@hookform/resolvers", "react-hook-form"],
+      "devDependencies": [],
+      "registryDependencies": ["button", "input", "label"],
+      "files": ["form.tsx"],
+      "category": "form"
+    },
+    "card": {
+      "name": "Card",
+      "type": "layout",
+      "description": "Displays a card with header, content, and footer",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["card.tsx"],
+      "category": "layout"
+    },
+    "separator": {
+      "name": "Separator",
+      "type": "layout",
+      "description": "Visually or semantically separates content",
+      "dependencies": ["@radix-ui/react-separator"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["separator.tsx"],
+      "category": "layout"
+    },
+    "accordion": {
+      "name": "Accordion",
+      "type": "layout",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content",
+      "dependencies": ["@radix-ui/react-accordion"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["accordion.tsx"],
+      "category": "layout"
+    },
+    "tabs": {
+      "name": "Tabs",
+      "type": "layout",
+      "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time",
+      "dependencies": ["@radix-ui/react-tabs"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["tabs.tsx"],
+      "category": "layout"
+    },
+    "dialog": {
+      "name": "Dialog",
+      "type": "layout",
+      "description": "A window overlaid on either the primary window or another dialog window",
+      "dependencies": ["@radix-ui/react-dialog"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["dialog.tsx"],
+      "category": "layout"
+    },
+    "alert": {
+      "name": "Alert",
+      "type": "feedback",
+      "description": "Displays a callout for user attention",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["alert.tsx"],
+      "category": "feedback"
+    },
+    "toast": {
+      "name": "Toast",
+      "type": "feedback",
+      "description": "A succinct message that is displayed temporarily",
+      "dependencies": ["@radix-ui/react-toast"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["toast.tsx", "toaster.tsx"],
+      "category": "feedback"
+    },
+    "progress": {
+      "name": "Progress",
+      "type": "feedback",
+      "description": "Displays an indicator showing the completion progress of a task",
+      "dependencies": ["@radix-ui/react-progress"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["progress.tsx"],
+      "category": "feedback"
+    },
+    "skeleton": {
+      "name": "Skeleton",
+      "type": "feedback",
+      "description": "Use to show a placeholder while content is loading",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["skeleton.tsx"],
+      "category": "feedback"
+    },
+    "badge": {
+      "name": "Badge",
+      "type": "feedback",
+      "description": "Displays a badge or a component that looks like a badge",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["badge.tsx"],
+      "category": "feedback"
+    },
+    "dropdown-menu": {
+      "name": "Dropdown Menu",
+      "type": "navigation",
+      "description": "Displays a menu to the user triggered by a button",
+      "dependencies": ["@radix-ui/react-dropdown-menu"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["dropdown-menu.tsx"],
+      "category": "navigation"
+    },
+    "navigation-menu": {
+      "name": "Navigation Menu",
+      "type": "navigation",
+      "description": "A collection of links for navigating websites",
+      "dependencies": ["@radix-ui/react-navigation-menu"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["navigation-menu.tsx"],
+      "category": "navigation"
+    },
+    "breadcrumb": {
+      "name": "Breadcrumb",
+      "type": "navigation",
+      "description": "Displays the path to the current resource using a hierarchy of links",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["breadcrumb.tsx"],
+      "category": "navigation"
+    },
+    "popover": {
+      "name": "Popover",
+      "type": "navigation",
+      "description": "Displays rich content in a portal, triggered by a button",
+      "dependencies": ["@radix-ui/react-popover"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["popover.tsx"],
+      "category": "navigation"
+    },
+    "tooltip": {
+      "name": "Tooltip",
+      "type": "navigation",
+      "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it",
+      "dependencies": ["@radix-ui/react-tooltip"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["tooltip.tsx"],
+      "category": "navigation"
+    }
+  },
+  "groups": {
+    "form": {
+      "name": "Form Components",
+      "components": ["button", "input", "label", "select", "checkbox", "radio-group", "switch", "slider", "textarea", "form"]
+    },
+    "layout": {
+      "name": "Layout Components",
+      "components": ["card", "separator", "accordion", "tabs", "dialog"]
+    },
+    "feedback": {
+      "name": "Feedback Components",
+      "components": ["alert", "toast", "progress", "skeleton", "badge"]
+    },
+    "navigation": {
+      "name": "Navigation Components",
+      "components": ["dropdown-menu", "navigation-menu", "breadcrumb", "popover", "tooltip"]
+    }
+  }
+}
