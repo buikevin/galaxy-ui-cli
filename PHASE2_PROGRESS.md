@@ -1,7 +1,8 @@
 # Phase 2 Progress: CLI Enhancement
 
-**Status**: 🚧 In Progress (40% Complete)
+**Status**: 🚧 In Progress (70% Complete)
 **Started**: 2025-10-30
+**Last Updated**: 2025-10-30
 
 ## ✅ Completed Tasks
 
@@ -28,35 +29,32 @@
 - [x] Auto-generates components.json
 - [x] Creates utility functions (cn helper)
 
-## 🚧 In Progress
-
 ### 4. Framework-Specific Registries
-Next task: Create separate registries for each framework
+- [x] Created `registry-vue.json` with 25 components
+- [x] Created `registry-react.json` with 25 components
+- [x] Copied existing registry to `registry-angular.json` (43 components)
+- [x] Created `framework-registry.ts` loader utility
+- [x] Implemented registry caching
+- [x] Added helper functions for component resolution
 
-**Files to create**:
+**Files created**:
 ```
 packages/cli/src/registries/
-├── registry-vue.json
-├── registry-react.json
-└── registry-angular.json
+├── registry-vue.json (876 lines)
+├── registry-react.json (876 lines)
+└── registry-angular.json (460 lines)
+
+packages/cli/src/utils/
+└── framework-registry.ts (192 lines)
 ```
 
-**Structure for each registry**:
-```json
-{
-  "components": {
-    "button": {
-      "name": "Button",
-      "description": "...",
-      "dependencies": ["@radix-ui/react-slot"], // or radix-vue, radix-ng
-      "files": ["button.tsx"], // or .vue, .component.ts
-      "registryDependencies": []
-    }
-  }
-}
-```
+**Components Structure** (25 priority per framework):
+- Form (10): button, input, label, select, checkbox, radio-group, switch, slider, textarea, form
+- Layout (5): card, separator, accordion, tabs, dialog
+- Feedback (5): alert, toast, progress, skeleton, badge
+- Navigation (5): dropdown-menu, navigation-menu, breadcrumb, popover, tooltip
 
-## ⏸️ Pending Tasks
+## 🚧 In Progress
 
 ### 5. Update Add Command
 - [ ] Load framework from components.json
@@ -82,11 +80,11 @@ packages/cli/src/registries/
 - **Schema & Types**: ✅ 100%
 - **Config Utilities**: ✅ 100%
 - **Init Command**: ✅ 100%
-- **Registries**: 🚧 0%
-- **Add Command**: ⏸️ 0%
+- **Registries**: ✅ 100%
+- **Add Command**: 🚧 20%
 - **Testing**: ⏸️ 0%
 
-**Overall Phase 2**: 40% Complete
+**Overall Phase 2**: 70% Complete
 
 ## 📁 Files Created/Modified
 
