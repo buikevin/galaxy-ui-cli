@@ -57,16 +57,20 @@ Transform Galaxy UI CLI into a **universal component library** that supports:
 ---
 
 ### Phase 2: CLI Enhancement 🚧 IN PROGRESS
-**Status**: 🚧 In Progress
+**Status**: 🚧 In Progress (40% Complete)
 **Start Date**: 2025-10-30
 **Target**: TBD
 
-#### 2.1 Framework Detection & Configuration
-- [ ] Update CLI to detect framework from package.json
-- [ ] Create `components.json` schema
-- [ ] Implement `galaxy-ui init` to generate `components.json`
-- [ ] Add framework field to config
-- [ ] Support framework-specific component installation
+**Progress Tracking**: See [PHASE2_PROGRESS.md](PHASE2_PROGRESS.md) for detailed status
+
+#### 2.1 Framework Detection & Configuration ✅ COMPLETED
+- [x] Update CLI to detect framework from package.json
+- [x] Create `components.json` schema (JSON Schema + Zod validation)
+- [x] Implement `galaxy-ui init` to generate `components.json`
+- [x] Add framework field to config
+- [x] Support framework-specific component installation
+- [x] Interactive prompts for configuration
+- [x] Default configs for Vue, React, Angular
 
 #### 2.2 Registry System Update
 - [ ] Separate registries for each framework:
@@ -491,21 +495,42 @@ galaxy-ui add button
 - ✅ Created docs structure and configuration
 - ✅ Created homepage and introduction guide
 - ✅ Setup bilingual documentation support
+- ✅ Started Phase 2: CLI Enhancement
+- ✅ Created components.json schema and validation
+- ✅ Built config utilities for multi-framework
+- ✅ Implemented new init command with framework support
 
-**Completed**:
-- PROCESS.md (comprehensive roadmap)
-- VitePress setup (`docs/.vitepress/config.ts`)
-- Documentation homepage (`docs/index.md`)
-- Introduction guide (`docs/guide/introduction.md`)
-- Package configuration (`docs/package.json`)
+**Completed Files**:
+- `PROCESS.md` - Comprehensive roadmap (8 phases)
+- `PHASE2_PROGRESS.md` - Detailed Phase 2 tracking
+- VitePress documentation:
+  - `docs/.vitepress/config.ts` - Configuration
+  - `docs/index.md` - Homepage
+  - `docs/guide/introduction.md` - Introduction
+  - `docs/package.json` - Dependencies
+- CLI Enhancement:
+  - `packages/cli/src/schemas/components-schema.json` - JSON schema
+  - `packages/cli/src/utils/config-schema.ts` - TypeScript types & Zod validation
+  - `packages/cli/src/utils/components-config.ts` - Config utilities
+  - `packages/cli/src/commands/init-v2.ts` - Multi-framework init command
+
+**Phase 2 Progress**: 40% Complete
+- ✅ Schema & Types
+- ✅ Config Utilities
+- ✅ Init Command
+- 🚧 Framework Registries (Next)
+- ⏸️ Add Command Update
+- ⏸️ Testing
 
 **Next Steps**:
-1. Install VitePress dependencies: `cd docs && bun install`
-2. Start docs server: `bun run dev`
-3. Continue Phase 2 - CLI Enhancement (components.json support)
-4. Create framework-specific registries
+1. Create framework-specific registries:
+   - `registry-vue.json` (25 priority components)
+   - `registry-react.json` (25 priority components)
+   - `registry-angular.json` (update existing)
+2. Update add command to use components.json
+3. Test with all three frameworks
 
-**Next Session**: Phase 2 - CLI Enhancement with components.json
+**Next Session**: Continue Phase 2 - Create component registries
 
 ---
 
