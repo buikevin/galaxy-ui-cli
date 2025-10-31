@@ -1,6 +1,29 @@
 {
   "name": "galaxy-ui",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "CLI tool for adding Galaxy UI components to your Vue, React, or Angular project",
+  "author": "Bùi Trọng Hiếu (kevinbui) <kevinbui210191@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/buikevin/galaxy-ui-cli.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://galaxy-ui-docs.vercel.app",
+  "bugs": {
+    "url": "https://github.com/buikevin/galaxy-ui-cli/issues"
+  },
+  "keywords": [
+    "galaxy-ui",
+    "ui-components",
+    "vue",
+    "react",
+    "angular",
+    "tailwind",
+    "radix-ui",
+    "cli",
+    "component-library"
+  ],
   "private": false,
   "type": "module",
   "main": "./dist/index.js",
