@@ -47,15 +47,15 @@ export class DemoComponent {}
 
 ::: code-group
 ```bash [React]
-npx galaxy-ui add command
+npx galaxy-ui-cli add command
 ```
 
 ```bash [Vue]
-npx galaxy-ui add command
+npx galaxy-ui-cli add command
 ```
 
 ```bash [Angular]
-npx galaxy-ui add command
+npx galaxy-ui-cli add command
 ```
 :::
 

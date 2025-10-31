@@ -16,19 +16,19 @@ Initialize Galaxy UI in your Vue project:
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest init
+npx galaxy-ui-cli@latest init
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest init
+pnpm dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest init
+yarn dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest init
+bunx galaxy-ui-cli@latest init
 ```
 
 :::
@@ -57,7 +57,7 @@ cd my-app
 npm install
 
 # Initialize Galaxy UI
-npx galaxy-ui@latest init
+npx galaxy-ui-cli@latest init
 ```
 
 ### Vite Configuration
@@ -120,7 +120,7 @@ Update `tsconfig.json`:
 Add components to your project:
 
 ```bash
-npx galaxy-ui@latest add button
+npx galaxy-ui-cli@latest add button
 ```
 
 This will:

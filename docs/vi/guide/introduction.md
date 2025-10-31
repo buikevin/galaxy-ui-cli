@@ -34,7 +34,7 @@ npm install some-ui-library
 ### Cách Tiếp Cận của Galaxy UI
 
 ```bash
-galaxy-ui add button
+galaxy-ui-cli add button
 ```
 
 **Lợi Ích:**
@@ -88,17 +88,17 @@ export class AppComponent {}
 
 ## Cách Hoạt Động
 
-1. **Khởi tạo** dự án với `galaxy-ui init`
-2. **Thêm** components bạn cần với `galaxy-ui add [component]`
+1. **Khởi tạo** dự án với `galaxy-ui-cli init`
+2. **Thêm** components bạn cần với `galaxy-ui-cli add [component]`
 3. **Tùy chỉnh** code đã sao chép theo nhu cầu
 4. **Deploy** ứng dụng của bạn
 
 ```bash
 # Bước 1: Khởi tạo
-galaxy-ui init
+galaxy-ui-cli init
 
 # Bước 2: Thêm components
-galaxy-ui add button input card
+galaxy-ui-cli add button input card
 
 # Bước 3: Sử dụng trong ứng dụng
 # Components hiện ở trong thư mục src/components/ui

@@ -32,15 +32,15 @@ export class DemoComponent {}
 
 ::: code-group
 ```bash [React]
-npx galaxy-ui add typography
+npx galaxy-ui-cli add typography
 ```
 
 ```bash [Vue]
-npx galaxy-ui add typography
+npx galaxy-ui-cli add typography
 ```
 
 ```bash [Angular]
-npx galaxy-ui add typography
+npx galaxy-ui-cli add typography
 ```
 :::
 

@@ -83,19 +83,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add navigation-menu
+npx galaxy-ui-cli@latest add navigation-menu
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add navigation-menu
+pnpm dlx galaxy-ui-cli@latest add navigation-menu
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add navigation-menu
+yarn dlx galaxy-ui-cli@latest add navigation-menu
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add navigation-menu
+bunx galaxy-ui-cli@latest add navigation-menu
 ```
 
 :::
@@ -113,7 +113,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
   NavigationMenuLink
-} from '@galaxy-ui/vue'
+} from '@/components/ui'
 </script>
 
 <template>
@@ -142,7 +142,7 @@ import {
   NavigationMenuTrigger,
   NavigationMenuContent,
   NavigationMenuLink
-} from '@galaxy-ui/react'
+} from '@/components/ui'
 
 export default function NavigationMenuDemo() {
   return (
@@ -166,7 +166,7 @@ export default function NavigationMenuDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { NavigationMenuComponent } from '@galaxy-ui/angular';
+import { NavigationMenuComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-navigation-menu-demo',

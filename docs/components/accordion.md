@@ -78,19 +78,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add accordion
+npx galaxy-ui-cli@latest add accordion
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add accordion
+pnpm dlx galaxy-ui-cli@latest add accordion
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add accordion
+yarn dlx galaxy-ui-cli@latest add accordion
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add accordion
+bunx galaxy-ui-cli@latest add accordion
 ```
 
 :::
@@ -101,7 +101,7 @@ bunx galaxy-ui@latest add accordion
 
 ```vue
 <script setup lang="ts">
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@galaxy-ui/vue'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
 </script>
 
 <template>
@@ -125,7 +125,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@g
 ### React
 
 ```tsx
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@galaxy-ui/react'
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui'
 
 export default function AccordionDemo() {
   return (
@@ -156,7 +156,7 @@ import {
   AccordionItemComponent,
   AccordionTriggerComponent,
   AccordionContentComponent
-} from '@galaxy-ui/angular';
+} from '@/components/ui';
 
 @Component({
   selector: 'app-accordion-demo',

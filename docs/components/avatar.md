@@ -65,19 +65,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add avatar
+npx galaxy-ui-cli@latest add avatar
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add avatar
+pnpm dlx galaxy-ui-cli@latest add avatar
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add avatar
+yarn dlx galaxy-ui-cli@latest add avatar
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add avatar
+bunx galaxy-ui-cli@latest add avatar
 ```
 
 :::
@@ -88,7 +88,7 @@ bunx galaxy-ui@latest add avatar
 
 ```vue
 <script setup lang="ts">
-import { Avatar, AvatarImage, AvatarFallback } from '@galaxy-ui/vue'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui'
 </script>
 
 <template>
@@ -102,7 +102,7 @@ import { Avatar, AvatarImage, AvatarFallback } from '@galaxy-ui/vue'
 ### React
 
 ```tsx
-import { Avatar, AvatarImage, AvatarFallback } from '@galaxy-ui/react'
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui'
 
 export default function AvatarDemo() {
   return (
@@ -118,7 +118,7 @@ export default function AvatarDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { AvatarComponent } from '@galaxy-ui/angular';
+import { AvatarComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-avatar-demo',

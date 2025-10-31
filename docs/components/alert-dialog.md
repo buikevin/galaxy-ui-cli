@@ -88,19 +88,19 @@ export class AppComponent {
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add alert-dialog
+npx galaxy-ui-cli@latest add alert-dialog
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add alert-dialog
+pnpm dlx galaxy-ui-cli@latest add alert-dialog
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add alert-dialog
+yarn dlx galaxy-ui-cli@latest add alert-dialog
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add alert-dialog
+bunx galaxy-ui-cli@latest add alert-dialog
 ```
 
 :::
@@ -119,7 +119,7 @@ import {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel
-} from '@galaxy-ui/vue'
+} from '@/components/ui'
 </script>
 
 <template>
@@ -148,7 +148,7 @@ import {
   AlertDialogDescription,
   AlertDialogAction,
   AlertDialogCancel
-} from '@galaxy-ui/react'
+} from '@/components/ui'
 
 export default function AlertDialogDemo() {
   return (
@@ -171,7 +171,7 @@ export default function AlertDialogDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { AlertDialogComponent } from '@galaxy-ui/angular';
+import { AlertDialogComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-alert-dialog-demo',

@@ -109,19 +109,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add resizable
+npx galaxy-ui-cli@latest add resizable
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add resizable
+pnpm dlx galaxy-ui-cli@latest add resizable
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add resizable
+yarn dlx galaxy-ui-cli@latest add resizable
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add resizable
+bunx galaxy-ui-cli@latest add resizable
 ```
 
 :::

@@ -92,19 +92,19 @@ export class AppComponent {
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add scroll-area
+npx galaxy-ui-cli@latest add scroll-area
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add scroll-area
+pnpm dlx galaxy-ui-cli@latest add scroll-area
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add scroll-area
+yarn dlx galaxy-ui-cli@latest add scroll-area
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add scroll-area
+bunx galaxy-ui-cli@latest add scroll-area
 ```
 
 :::

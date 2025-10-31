@@ -85,19 +85,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add dropdown-menu
+npx galaxy-ui-cli@latest add dropdown-menu
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add dropdown-menu
+pnpm dlx galaxy-ui-cli@latest add dropdown-menu
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add dropdown-menu
+yarn dlx galaxy-ui-cli@latest add dropdown-menu
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add dropdown-menu
+bunx galaxy-ui-cli@latest add dropdown-menu
 ```
 
 :::
@@ -113,8 +113,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem
-} from '@galaxy-ui/vue'
-import { Button } from '@galaxy-ui/vue'
+} from '@/components/ui'
+import { Button } from '@/components/ui'
 </script>
 
 <template>
@@ -139,8 +139,8 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem
-} from '@galaxy-ui/react'
-import { Button } from '@galaxy-ui/react'
+} from '@/components/ui'
+import { Button } from '@/components/ui'
 
 export default function DropdownMenuDemo() {
   return (

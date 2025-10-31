@@ -1,5 +1,5 @@
 {
-  "name": "galaxy-ui",
+  "name": "galaxy-ui-cli",
   "version": "0.1.0",
   "description": "CLI tool for adding Galaxy UI components to your Vue, React, or Angular project",
   "author": "Bùi Trọng Hiếu (kevinbui) <kevinbui210191@gmail.com>",
@@ -30,7 +30,7 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "galaxy-ui": "./dist/bin.js"
+    "galaxy-ui-cli": "./dist/bin.js"
   },
   "exports": {
     "./package.json": "./package.json",

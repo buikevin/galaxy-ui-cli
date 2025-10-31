@@ -66,19 +66,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add checkbox
+npx galaxy-ui-cli@latest add checkbox
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add checkbox
+pnpm dlx galaxy-ui-cli@latest add checkbox
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add checkbox
+yarn dlx galaxy-ui-cli@latest add checkbox
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add checkbox
+bunx galaxy-ui-cli@latest add checkbox
 ```
 
 :::
@@ -89,7 +89,7 @@ bunx galaxy-ui@latest add checkbox
 
 ```vue
 <script setup lang="ts">
-import { Checkbox } from '@galaxy-ui/vue'
+import { Checkbox } from '@/components/ui'
 import { ref } from 'vue'
 
 const checked = ref(false)
@@ -106,7 +106,7 @@ const checked = ref(false)
 ### React
 
 ```tsx
-import { Checkbox } from '@galaxy-ui/react'
+import { Checkbox } from '@/components/ui'
 
 export default function CheckboxDemo() {
   return (
@@ -122,7 +122,7 @@ export default function CheckboxDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { CheckboxComponent } from '@galaxy-ui/angular';
+import { CheckboxComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-checkbox-demo',

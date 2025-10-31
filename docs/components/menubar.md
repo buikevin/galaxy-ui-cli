@@ -81,19 +81,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add menubar
+npx galaxy-ui-cli@latest add menubar
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add menubar
+pnpm dlx galaxy-ui-cli@latest add menubar
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add menubar
+yarn dlx galaxy-ui-cli@latest add menubar
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add menubar
+bunx galaxy-ui-cli@latest add menubar
 ```
 
 :::
@@ -104,7 +104,7 @@ bunx galaxy-ui@latest add menubar
 
 ```vue
 <script setup lang="ts">
-import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from '@galaxy-ui/vue'
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from '@/components/ui'
 </script>
 
 <template>
@@ -123,7 +123,7 @@ import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } fro
 ### React
 
 ```tsx
-import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from '@galaxy-ui/react'
+import { Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem } from '@/components/ui'
 
 export default function MenubarDemo() {
   return (

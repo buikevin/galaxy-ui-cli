@@ -53,19 +53,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add switch
+npx galaxy-ui-cli@latest add switch
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add switch
+pnpm dlx galaxy-ui-cli@latest add switch
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add switch
+yarn dlx galaxy-ui-cli@latest add switch
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add switch
+bunx galaxy-ui-cli@latest add switch
 ```
 
 :::

@@ -79,19 +79,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add select
+npx galaxy-ui-cli@latest add select
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add select
+pnpm dlx galaxy-ui-cli@latest add select
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add select
+yarn dlx galaxy-ui-cli@latest add select
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add select
+bunx galaxy-ui-cli@latest add select
 ```
 
 :::
@@ -102,7 +102,7 @@ bunx galaxy-ui@latest add select
 
 ```vue
 <script setup lang="ts">
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@galaxy-ui/vue'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui'
 </script>
 
 <template>
@@ -122,7 +122,7 @@ import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@
 ### React
 
 ```tsx
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@galaxy-ui/react'
+import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui'
 
 export default function SelectDemo() {
   return (
@@ -144,7 +144,7 @@ export default function SelectDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { SelectComponent, SelectItemComponent } from '@galaxy-ui/angular';
+import { SelectComponent, SelectItemComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-select-demo',

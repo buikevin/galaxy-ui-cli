@@ -79,19 +79,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add hover-card
+npx galaxy-ui-cli@latest add hover-card
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add hover-card
+pnpm dlx galaxy-ui-cli@latest add hover-card
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add hover-card
+yarn dlx galaxy-ui-cli@latest add hover-card
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add hover-card
+bunx galaxy-ui-cli@latest add hover-card
 ```
 
 :::
@@ -102,7 +102,7 @@ bunx galaxy-ui@latest add hover-card
 
 ```vue
 <script setup lang="ts">
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@galaxy-ui/vue'
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui'
 </script>
 
 <template>
@@ -121,7 +121,7 @@ import { HoverCard, HoverCardTrigger, HoverCardContent } from '@galaxy-ui/vue'
 ### React
 
 ```tsx
-import { HoverCard, HoverCardTrigger, HoverCardContent } from '@galaxy-ui/react'
+import { HoverCard, HoverCardTrigger, HoverCardContent } from '@/components/ui'
 
 export default function HoverCardDemo() {
   return (

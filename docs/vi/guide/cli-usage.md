@@ -11,23 +11,23 @@ Khởi tạo dự án của bạn để sử dụng Galaxy UI components.
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest init
+npx galaxy-ui-cli@latest init
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest init
+pnpm dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest init
+yarn dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest init
+bunx galaxy-ui-cli@latest init
 ```
 
 ```bash [global]
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 :::
@@ -50,7 +50,7 @@ Lệnh này sẽ:
 Ví dụ:
 
 ```bash
-npx galaxy-ui@latest init --yes
+npx galaxy-ui-cli@latest init --yes
 ```
 
 ### `add`
@@ -60,23 +60,23 @@ Thêm components vào dự án của bạn.
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add [components...]
+npx galaxy-ui-cli@latest add [components...]
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add [components...]
+pnpm dlx galaxy-ui-cli@latest add [components...]
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add [components...]
+yarn dlx galaxy-ui-cli@latest add [components...]
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add [components...]
+bunx galaxy-ui-cli@latest add [components...]
 ```
 
 ```bash [global]
-galaxy-ui add [components...]
+galaxy-ui-cli add [components...]
 ```
 
 :::
@@ -86,19 +86,19 @@ galaxy-ui add [components...]
 Thêm một component:
 
 ```bash
-npx galaxy-ui@latest add button
+npx galaxy-ui-cli@latest add button
 ```
 
 Thêm nhiều components:
 
 ```bash
-npx galaxy-ui@latest add button input dialog
+npx galaxy-ui-cli@latest add button input dialog
 ```
 
 Thêm tất cả form components:
 
 ```bash
-npx galaxy-ui@latest add button input checkbox radio-group select slider switch textarea label
+npx galaxy-ui-cli@latest add button input checkbox radio-group select slider switch textarea label
 ```
 
 #### Tùy chọn
@@ -113,7 +113,7 @@ npx galaxy-ui@latest add button input checkbox radio-group select slider switch 
 Ví dụ:
 
 ```bash
-npx galaxy-ui@latest add button --overwrite --yes
+npx galaxy-ui-cli@latest add button --overwrite --yes
 ```
 
 ### `list`
@@ -123,23 +123,23 @@ Liệt kê tất cả components có sẵn.
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest list
+npx galaxy-ui-cli@latest list
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest list
+pnpm dlx galaxy-ui-cli@latest list
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest list
+yarn dlx galaxy-ui-cli@latest list
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest list
+bunx galaxy-ui-cli@latest list
 ```
 
 ```bash [global]
-galaxy-ui list
+galaxy-ui-cli list
 ```
 
 :::
@@ -153,23 +153,23 @@ Kiểm tra sự khác biệt giữa phiên bản local và registry.
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest diff [component]
+npx galaxy-ui-cli@latest diff [component]
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest diff [component]
+pnpm dlx galaxy-ui-cli@latest diff [component]
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest diff [component]
+yarn dlx galaxy-ui-cli@latest diff [component]
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest diff [component]
+bunx galaxy-ui-cli@latest diff [component]
 ```
 
 ```bash [global]
-galaxy-ui diff [component]
+galaxy-ui-cli diff [component]
 ```
 
 :::
@@ -177,7 +177,7 @@ galaxy-ui diff [component]
 Ví dụ:
 
 ```bash
-npx galaxy-ui@latest diff button
+npx galaxy-ui-cli@latest diff button
 ```
 
 ## File Cấu Hình
@@ -233,7 +233,7 @@ CLI sẽ sử dụng package manager đã phát hiện để cài đặt depende
 Sử dụng `@latest` đảm bảo bạn nhận được phiên bản mới nhất:
 
 ```bash
-npx galaxy-ui@latest add button
+npx galaxy-ui-cli@latest add button
 ```
 
 ### Tạo aliases để tiện lợi
@@ -241,7 +241,7 @@ npx galaxy-ui@latest add button
 Thêm vào shell profile (`.bashrc`, `.zshrc`, etc.):
 
 ```bash
-alias gui="npx galaxy-ui@latest"
+alias gui="npx galaxy-ui-cli@latest"
 ```
 
 Sau đó sử dụng:
@@ -256,15 +256,15 @@ gui init
 Trong môi trường CI/CD, sử dụng flag `--yes` để bỏ qua prompts:
 
 ```bash
-npx galaxy-ui@latest init --yes
-npx galaxy-ui@latest add button input --yes
+npx galaxy-ui-cli@latest init --yes
+npx galaxy-ui-cli@latest add button input --yes
 ```
 
 ## Xử Lý Sự Cố
 
 ### "Component not found"
 
-Đảm bảo bạn đang sử dụng đúng tên component. Sử dụng `galaxy-ui list` để xem tất cả components có sẵn.
+Đảm bảo bạn đang sử dụng đúng tên component. Sử dụng `galaxy-ui-cli list` để xem tất cả components có sẵn.
 
 ### "Framework not detected"
 

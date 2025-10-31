@@ -53,19 +53,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add slider
+npx galaxy-ui-cli@latest add slider
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add slider
+pnpm dlx galaxy-ui-cli@latest add slider
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add slider
+yarn dlx galaxy-ui-cli@latest add slider
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add slider
+bunx galaxy-ui-cli@latest add slider
 ```
 
 :::
@@ -76,7 +76,7 @@ bunx galaxy-ui@latest add slider
 
 ```vue
 <script setup lang="ts">
-import { Slider } from '@galaxy-ui/vue'
+import { Slider } from '@/components/ui'
 import { ref } from 'vue'
 
 const value = ref([50])
@@ -90,7 +90,7 @@ const value = ref([50])
 ### React
 
 ```tsx
-import { Slider } from '@galaxy-ui/react'
+import { Slider } from '@/components/ui'
 
 export default function SliderDemo() {
   return <Slider defaultValue={[50]} max={100} step={1} className="w-[60%]" />
@@ -101,7 +101,7 @@ export default function SliderDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { SliderComponent } from '@galaxy-ui/angular';
+import { SliderComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-slider-demo',

@@ -18,19 +18,19 @@ Bạn không cần cài đặt CLI globally. Sử dụng trực tiếp với pac
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest init
+npx galaxy-ui-cli@latest init
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest init
+pnpm dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest init
+yarn dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest init
+bunx galaxy-ui-cli@latest init
 ```
 
 :::
@@ -41,22 +41,22 @@ bunx galaxy-ui@latest init
 
 ```bash [npm]
 npm install -g @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 ```bash [pnpm]
 pnpm add -g @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 ```bash [yarn]
 yarn global add @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 ```bash [bun]
 bun add -g @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 :::
@@ -91,23 +91,23 @@ Thêm components bạn cần:
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add button
+npx galaxy-ui-cli@latest add button
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add button
+pnpm dlx galaxy-ui-cli@latest add button
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add button
+yarn dlx galaxy-ui-cli@latest add button
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add button
+bunx galaxy-ui-cli@latest add button
 ```
 
 ```bash [global]
-galaxy-ui add button
+galaxy-ui-cli add button
 ```
 
 :::
@@ -117,23 +117,23 @@ galaxy-ui add button
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add button input dialog
+npx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add button input dialog
+pnpm dlx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add button input dialog
+yarn dlx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add button input dialog
+bunx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [global]
-galaxy-ui add button input dialog
+galaxy-ui-cli add button input dialog
 ```
 
 :::
@@ -167,7 +167,7 @@ File `components.json` được tạo trong thư mục gốc:
 
 ```bash
 # Khởi tạo
-galaxy-ui init
+galaxy-ui-cli init
 
 # Dependencies được cài đặt:
 # - radix-vue
@@ -180,7 +180,7 @@ galaxy-ui init
 
 ```bash
 # Khởi tạo
-galaxy-ui init
+galaxy-ui-cli init
 
 # Dependencies được cài đặt:
 # - @radix-ui/react-slot
@@ -193,7 +193,7 @@ galaxy-ui init
 
 ```bash
 # Khởi tạo
-galaxy-ui init
+galaxy-ui-cli init
 
 # Dependencies được cài đặt:
 # - radix-ng

@@ -88,19 +88,19 @@ export class AppComponent {
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add radio-group
+npx galaxy-ui-cli@latest add radio-group
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add radio-group
+pnpm dlx galaxy-ui-cli@latest add radio-group
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add radio-group
+yarn dlx galaxy-ui-cli@latest add radio-group
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add radio-group
+bunx galaxy-ui-cli@latest add radio-group
 ```
 
 :::

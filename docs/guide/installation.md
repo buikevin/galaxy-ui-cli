@@ -18,19 +18,19 @@ You don't need to install the CLI globally. Use it directly with your package ma
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest init
+npx galaxy-ui-cli@latest init
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest init
+pnpm dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest init
+yarn dlx galaxy-ui-cli@latest init
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest init
+bunx galaxy-ui-cli@latest init
 ```
 
 :::
@@ -41,22 +41,22 @@ bunx galaxy-ui@latest init
 
 ```bash [npm]
 npm install -g @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 ```bash [pnpm]
 pnpm add -g @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 ```bash [yarn]
 yarn global add @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 ```bash [bun]
 bun add -g @galaxy-ui-cli/cli
-galaxy-ui init
+galaxy-ui-cli init
 ```
 
 :::
@@ -91,23 +91,23 @@ Add the components you need:
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add button
+npx galaxy-ui-cli@latest add button
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add button
+pnpm dlx galaxy-ui-cli@latest add button
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add button
+yarn dlx galaxy-ui-cli@latest add button
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add button
+bunx galaxy-ui-cli@latest add button
 ```
 
 ```bash [global]
-galaxy-ui add button
+galaxy-ui-cli add button
 ```
 
 :::
@@ -125,23 +125,23 @@ You don't need to manually install these dependencies!
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add button input dialog
+npx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add button input dialog
+pnpm dlx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add button input dialog
+yarn dlx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add button input dialog
+bunx galaxy-ui-cli@latest add button input dialog
 ```
 
 ```bash [global]
-galaxy-ui add button input dialog
+galaxy-ui-cli add button input dialog
 ```
 
 :::
@@ -175,7 +175,7 @@ The `components.json` file is created in your root directory:
 
 ```bash
 # Initialize
-galaxy-ui init
+galaxy-ui-cli init
 
 # Dependencies installed:
 # - radix-vue
@@ -188,7 +188,7 @@ galaxy-ui init
 
 ```bash
 # Initialize
-galaxy-ui init
+galaxy-ui-cli init
 
 # Dependencies installed:
 # - @radix-ui/react-slot
@@ -201,7 +201,7 @@ galaxy-ui init
 
 ```bash
 # Initialize
-galaxy-ui init
+galaxy-ui-cli init
 
 # Dependencies installed:
 # - @radix-ng/primitives

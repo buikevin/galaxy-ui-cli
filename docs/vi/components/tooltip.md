@@ -74,19 +74,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add tooltip
+npx galaxy-ui-cli@latest add tooltip
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add tooltip
+pnpm dlx galaxy-ui-cli@latest add tooltip
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add tooltip
+yarn dlx galaxy-ui-cli@latest add tooltip
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add tooltip
+bunx galaxy-ui-cli@latest add tooltip
 ```
 
 :::
@@ -97,7 +97,7 @@ bunx galaxy-ui@latest add tooltip
 
 ```vue
 <script setup lang="ts">
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@galaxy-ui/vue'
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui'
 </script>
 
 <template>
@@ -115,7 +115,7 @@ import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@galax
 ### React
 
 ```tsx
-import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@galaxy-ui/react'
+import { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from '@/components/ui'
 
 export default function TooltipDemo() {
   return (
@@ -135,7 +135,7 @@ export default function TooltipDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { TooltipComponent } from '@galaxy-ui/angular';
+import { TooltipComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-tooltip-demo',

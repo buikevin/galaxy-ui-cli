@@ -65,15 +65,15 @@ export class TableDemoComponent {}
 
 ::: code-group
 ```bash [React]
-npx galaxy-ui add table
+npx galaxy-ui-cli add table
 ```
 
 ```bash [Vue]
-npx galaxy-ui add table
+npx galaxy-ui-cli add table
 ```
 
 ```bash [Angular]
-npx galaxy-ui add table
+npx galaxy-ui-cli add table
 ```
 :::
 

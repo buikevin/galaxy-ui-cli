@@ -63,15 +63,15 @@ export class CalendarDemoComponent {
 
 ::: code-group
 ```bash [React]
-npx galaxy-ui add calendar
+npx galaxy-ui-cli add calendar
 ```
 
 ```bash [Vue]
-npx galaxy-ui add calendar
+npx galaxy-ui-cli add calendar
 ```
 
 ```bash [Angular]
-npx galaxy-ui add calendar
+npx galaxy-ui-cli add calendar
 ```
 :::
 

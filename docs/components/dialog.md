@@ -106,19 +106,19 @@ export class AppComponent {
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add dialog
+npx galaxy-ui-cli@latest add dialog
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add dialog
+pnpm dlx galaxy-ui-cli@latest add dialog
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add dialog
+yarn dlx galaxy-ui-cli@latest add dialog
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add dialog
+bunx galaxy-ui-cli@latest add dialog
 ```
 
 :::
@@ -135,7 +135,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription
-} from '@galaxy-ui/vue'
+} from '@/components/ui'
 </script>
 
 <template>
@@ -160,7 +160,7 @@ import {
   DialogContent,
   DialogTitle,
   DialogDescription
-} from '@galaxy-ui/react'
+} from '@/components/ui'
 
 export default function DialogDemo() {
   return (
@@ -181,7 +181,7 @@ export default function DialogDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { DialogComponent } from '@galaxy-ui/angular';
+import { DialogComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-dialog-demo',

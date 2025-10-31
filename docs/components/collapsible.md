@@ -72,19 +72,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add collapsible
+npx galaxy-ui-cli@latest add collapsible
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add collapsible
+pnpm dlx galaxy-ui-cli@latest add collapsible
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add collapsible
+yarn dlx galaxy-ui-cli@latest add collapsible
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add collapsible
+bunx galaxy-ui-cli@latest add collapsible
 ```
 
 :::
@@ -95,7 +95,7 @@ bunx galaxy-ui@latest add collapsible
 
 ```vue
 <script setup lang="ts">
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@galaxy-ui/vue'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui'
 import { ref } from 'vue'
 
 const isOpen = ref(false)
@@ -114,7 +114,7 @@ const isOpen = ref(false)
 ### React
 
 ```tsx
-import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@galaxy-ui/react'
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@/components/ui'
 
 export default function CollapsibleDemo() {
   return (
@@ -136,7 +136,7 @@ import {
   CollapsibleComponent,
   CollapsibleTriggerComponent,
   CollapsibleContentComponent
-} from '@galaxy-ui/angular';
+} from '@/components/ui';
 
 @Component({
   selector: 'app-collapsible-demo',

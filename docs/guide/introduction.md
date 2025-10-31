@@ -34,7 +34,7 @@ npm install some-ui-library
 ### Galaxy UI Approach
 
 ```bash
-galaxy-ui add button
+galaxy-ui-cli add button
 ```
 
 **Benefits:**
@@ -88,17 +88,17 @@ export class AppComponent {}
 
 ## How It Works
 
-1. **Initialize** your project with `galaxy-ui init`
-2. **Add** components you need with `galaxy-ui add [component]`
+1. **Initialize** your project with `galaxy-ui-cli init`
+2. **Add** components you need with `galaxy-ui-cli add [component]`
 3. **Customize** the copied code as needed
 4. **Ship** your application
 
 ```bash
 # Step 1: Initialize
-galaxy-ui init
+galaxy-ui-cli init
 
 # Step 2: Add components
-galaxy-ui add button input card
+galaxy-ui-cli add button input card
 
 # Step 3: Use in your app
 # Components are now in your src/components/ui folder

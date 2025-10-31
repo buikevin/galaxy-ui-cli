@@ -63,19 +63,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add aspect-ratio
+npx galaxy-ui-cli@latest add aspect-ratio
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add aspect-ratio
+pnpm dlx galaxy-ui-cli@latest add aspect-ratio
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add aspect-ratio
+yarn dlx galaxy-ui-cli@latest add aspect-ratio
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add aspect-ratio
+bunx galaxy-ui-cli@latest add aspect-ratio
 ```
 
 :::

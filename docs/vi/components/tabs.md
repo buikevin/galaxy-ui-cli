@@ -92,19 +92,19 @@ export class AppComponent {
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add tabs
+npx galaxy-ui-cli@latest add tabs
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add tabs
+pnpm dlx galaxy-ui-cli@latest add tabs
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add tabs
+yarn dlx galaxy-ui-cli@latest add tabs
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add tabs
+bunx galaxy-ui-cli@latest add tabs
 ```
 
 :::
@@ -115,7 +115,7 @@ bunx galaxy-ui@latest add tabs
 
 ```vue
 <script setup lang="ts">
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@galaxy-ui/vue'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui'
 </script>
 
 <template>
@@ -137,7 +137,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@galaxy-ui/vue'
 ### React
 
 ```tsx
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@galaxy-ui/react'
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui'
 
 export default function TabsDemo() {
   return (
@@ -161,7 +161,7 @@ export default function TabsDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { TabsComponent, TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '@galaxy-ui/angular';
+import { TabsComponent, TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-tabs-demo',

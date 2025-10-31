@@ -53,19 +53,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add textarea
+npx galaxy-ui-cli@latest add textarea
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add textarea
+pnpm dlx galaxy-ui-cli@latest add textarea
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add textarea
+yarn dlx galaxy-ui-cli@latest add textarea
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add textarea
+bunx galaxy-ui-cli@latest add textarea
 ```
 
 :::
@@ -76,7 +76,7 @@ bunx galaxy-ui@latest add textarea
 
 ```vue
 <script setup lang="ts">
-import { Textarea } from '@galaxy-ui/vue'
+import { Textarea } from '@/components/ui'
 import { ref } from 'vue'
 
 const message = ref('')
@@ -90,7 +90,7 @@ const message = ref('')
 ### React
 
 ```tsx
-import { Textarea } from '@galaxy-ui/react'
+import { Textarea } from '@/components/ui'
 
 export default function TextareaDemo() {
   return <Textarea placeholder="Nhập tin nhắn của bạn tại đây." />
@@ -101,7 +101,7 @@ export default function TextareaDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { TextareaComponent } from '@galaxy-ui/angular';
+import { TextareaComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-textarea-demo',

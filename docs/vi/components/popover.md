@@ -79,19 +79,19 @@ export class AppComponent {}
 ::: code-group
 
 ```bash [npm]
-npx galaxy-ui@latest add popover
+npx galaxy-ui-cli@latest add popover
 ```
 
 ```bash [pnpm]
-pnpm dlx galaxy-ui@latest add popover
+pnpm dlx galaxy-ui-cli@latest add popover
 ```
 
 ```bash [yarn]
-yarn dlx galaxy-ui@latest add popover
+yarn dlx galaxy-ui-cli@latest add popover
 ```
 
 ```bash [bun]
-bunx galaxy-ui@latest add popover
+bunx galaxy-ui-cli@latest add popover
 ```
 
 :::
@@ -102,7 +102,7 @@ bunx galaxy-ui@latest add popover
 
 ```vue
 <script setup lang="ts">
-import { Popover, PopoverTrigger, PopoverContent } from '@galaxy-ui/vue'
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui'
 </script>
 
 <template>
@@ -121,7 +121,7 @@ import { Popover, PopoverTrigger, PopoverContent } from '@galaxy-ui/vue'
 ### React
 
 ```tsx
-import { Popover, PopoverTrigger, PopoverContent } from '@galaxy-ui/react'
+import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui'
 
 export default function PopoverDemo() {
   return (
@@ -142,7 +142,7 @@ export default function PopoverDemo() {
 
 ```typescript
 import { Component } from '@angular/core';
-import { PopoverComponent } from '@galaxy-ui/angular';
+import { PopoverComponent } from '@/components/ui';
 
 @Component({
   selector: 'app-popover-demo',
