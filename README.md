@@ -206,12 +206,12 @@ Components built with Radix primitives include:
 
 ## 📚 Documentation
 
-Full documentation available at: **https://galaxy-ui-docs.vercel.app**
+Full documentation available at: **https://galaxy-ui-cli.vercel.app**
 
-- [Getting Started](https://galaxy-ui-docs.vercel.app/guide/introduction)
-- [Installation](https://galaxy-ui-docs.vercel.app/guide/installation)
-- [Components](https://galaxy-ui-docs.vercel.app/components/overview)
-- [CLI Usage](https://galaxy-ui-docs.vercel.app/guide/cli-usage)
+- [Getting Started](https://galaxy-ui-cli.vercel.app/guide/introduction)
+- [Installation](https://galaxy-ui-cli.vercel.app/guide/installation)
+- [Components](https://galaxy-ui-cli.vercel.app/components/overview)
+- [CLI Usage](https://galaxy-ui-cli.vercel.app/guide/cli-usage)
 
 ## 📖 Usage Examples
 
@@ -370,7 +370,7 @@ bun run dev
 - **Documentation**: 82+ pages (41 EN + 41 VI) in VitePress
 - **CLI**: ✅ Fully functional (init & add commands)
 - **Build Status**: ✅ All components compile successfully
-- **Deployment**: ✅ Docs deployed at https://galaxy-ui-docs.vercel.app
+- **Deployment**: ✅ Docs deployed at https://galaxy-ui-cli.vercel.app
 - **Status**: Production-ready & ready for npm publish
 
 ## 🤝 Contributing
@@ -405,7 +405,7 @@ MIT © 2025 Bùi Trọng Hiếu (kevinbui)
 ## 🔗 Links
 
 - **Repository**: https://github.com/buikevin/galaxy-ui-cli
-- **Documentation**: https://galaxy-ui-docs.vercel.app
+- **Documentation**: https://galaxy-ui-cli.vercel.app
 - **npm Package**: https://www.npmjs.com/package/galaxy-ui-cli (Coming Soon)
 - **Changelog**: See [CHANGELOG.md](CHANGELOG.md)
 

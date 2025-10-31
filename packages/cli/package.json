@@ -9,7 +9,7 @@
     "url": "https://github.com/buikevin/galaxy-ui-cli.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://galaxy-ui-docs.vercel.app",
+  "homepage": "https://galaxy-ui-cli.vercel.app",
   "bugs": {
     "url": "https://github.com/buikevin/galaxy-ui-cli/issues"
   },
