@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DialogRoot, type DialogRootProps } from 'radix-vue'
-interface Props extends DialogRootProps {}
+interface Props extends /* @vue-ignore */ DialogRootProps {}
 defineProps<Props>()
 </script>
 

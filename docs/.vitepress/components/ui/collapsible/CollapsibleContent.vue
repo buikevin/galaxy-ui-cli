@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CollapsibleContent, type CollapsibleContentProps } from 'radix-vue'
 
-interface Props extends CollapsibleContentProps {}
+interface Props extends /* @vue-ignore */ CollapsibleContentProps {}
 
 defineProps<Props>()
 </script>

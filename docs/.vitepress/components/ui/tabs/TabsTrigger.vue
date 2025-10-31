@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { TabsTrigger, type TabsTriggerProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends TabsTriggerProps {
+interface Props extends /* @vue-ignore */ TabsTriggerProps {
   class?: HTMLAttributes['class']
 }
 

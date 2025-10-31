@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { CollapsibleRoot, type CollapsibleRootProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends CollapsibleRootProps {
+interface Props extends /* @vue-ignore */ CollapsibleRootProps {
   class?: HTMLAttributes['class']
 }
 

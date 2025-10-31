@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { AccordionItem, type AccordionItemProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends AccordionItemProps {
+interface Props extends /* @vue-ignore */ AccordionItemProps {
   class?: HTMLAttributes['class']
 }
 

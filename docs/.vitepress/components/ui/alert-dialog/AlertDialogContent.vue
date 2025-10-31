@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { AlertDialogContent, AlertDialogPortal, AlertDialogOverlay, type AlertDialogContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends AlertDialogContentProps {
+interface Props extends /* @vue-ignore */ AlertDialogContentProps {
   class?: HTMLAttributes['class']
 }
 

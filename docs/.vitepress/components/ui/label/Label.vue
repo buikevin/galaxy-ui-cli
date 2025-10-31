@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { Label as RadixLabel, type LabelProps as RadixLabelProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface LabelProps extends RadixLabelProps {
+interface LabelProps extends /* @vue-ignore */ RadixLabelProps {
   class?: HTMLAttributes['class']
 }
 

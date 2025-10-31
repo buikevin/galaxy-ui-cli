@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { ContextMenuRoot, type ContextMenuRootProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends ContextMenuRootProps {
+interface Props extends /* @vue-ignore */ ContextMenuRootProps {
   class?: HTMLAttributes['class']
 }
 

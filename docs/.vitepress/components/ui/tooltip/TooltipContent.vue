@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { TooltipContent, TooltipPortal, type TooltipContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends TooltipContentProps {
+interface Props extends /* @vue-ignore */ TooltipContentProps {
   class?: HTMLAttributes['class']
 }
 

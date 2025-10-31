@@ -2,7 +2,7 @@
 import { ContextMenuLabel, type ContextMenuLabelProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends ContextMenuLabelProps {
+interface Props extends /* @vue-ignore */ ContextMenuLabelProps {
   class?: string
 }
 

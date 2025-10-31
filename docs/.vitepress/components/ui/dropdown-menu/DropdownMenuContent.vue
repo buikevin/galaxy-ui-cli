@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { DropdownMenuContent, DropdownMenuPortal, type DropdownMenuContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends DropdownMenuContentProps {
+interface Props extends /* @vue-ignore */ DropdownMenuContentProps {
   class?: HTMLAttributes['class']
 }
 

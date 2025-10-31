@@ -2,7 +2,7 @@
 import { NavigationMenuContent, type NavigationMenuContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends NavigationMenuContentProps {
+interface Props extends /* @vue-ignore */ NavigationMenuContentProps {
   class?: string
 }
 

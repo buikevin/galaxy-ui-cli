@@ -4,7 +4,7 @@ import { SelectTrigger, SelectIcon, type SelectTriggerProps } from 'radix-vue'
 import { ChevronDown } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
-interface Props extends SelectTriggerProps {
+interface Props extends /* @vue-ignore */ SelectTriggerProps {
   class?: HTMLAttributes['class']
 }
 

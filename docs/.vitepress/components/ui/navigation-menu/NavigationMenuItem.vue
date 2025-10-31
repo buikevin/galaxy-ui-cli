@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { NavigationMenuItem, type NavigationMenuItemProps } from 'radix-vue'
 
-interface Props extends NavigationMenuItemProps {}
+interface Props extends /* @vue-ignore */ NavigationMenuItemProps {}
 
 defineProps<Props>()
 </script>

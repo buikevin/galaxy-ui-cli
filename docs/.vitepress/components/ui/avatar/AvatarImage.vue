@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { AvatarImage, type AvatarImageProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends AvatarImageProps {
+interface Props extends /* @vue-ignore */ AvatarImageProps {
   class?: HTMLAttributes['class']
 }
 

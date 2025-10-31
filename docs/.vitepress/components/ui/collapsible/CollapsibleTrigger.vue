@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CollapsibleTrigger, type CollapsibleTriggerProps } from 'radix-vue'
 
-interface Props extends CollapsibleTriggerProps {}
+interface Props extends /* @vue-ignore */ CollapsibleTriggerProps {}
 
 defineProps<Props>()
 </script>

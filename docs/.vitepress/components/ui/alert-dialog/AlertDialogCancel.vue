@@ -2,7 +2,7 @@
 import { AlertDialogCancel, type AlertDialogCancelProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends AlertDialogCancelProps {
+interface Props extends /* @vue-ignore */ AlertDialogCancelProps {
   class?: string
 }
 

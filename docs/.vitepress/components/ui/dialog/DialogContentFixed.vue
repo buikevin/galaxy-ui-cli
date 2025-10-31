@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { DialogContent, DialogOverlay, type DialogContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends DialogContentProps {
+interface Props extends /* @vue-ignore */ DialogContentProps {
   class?: HTMLAttributes['class']
 }
 

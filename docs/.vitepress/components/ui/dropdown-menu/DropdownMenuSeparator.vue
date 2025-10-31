@@ -2,7 +2,7 @@
 import { DropdownMenuSeparator, type DropdownMenuSeparatorProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends DropdownMenuSeparatorProps {
+interface Props extends /* @vue-ignore */ DropdownMenuSeparatorProps {
   class?: string
 }
 

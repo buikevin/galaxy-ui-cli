@@ -4,7 +4,7 @@ import { AccordionHeader, AccordionTrigger, type AccordionTriggerProps } from 'r
 import { ChevronDown } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
-interface Props extends AccordionTriggerProps {
+interface Props extends /* @vue-ignore */ AccordionTriggerProps {
   class?: HTMLAttributes['class']
 }
 

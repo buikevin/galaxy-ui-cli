@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PopoverRoot, type PopoverRootProps } from 'radix-vue'
 
-interface Props extends PopoverRootProps {}
+interface Props extends /* @vue-ignore */ PopoverRootProps {}
 defineProps<Props>()
 </script>
 

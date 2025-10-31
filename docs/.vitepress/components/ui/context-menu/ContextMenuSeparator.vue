@@ -2,7 +2,7 @@
 import { ContextMenuSeparator, type ContextMenuSeparatorProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends ContextMenuSeparatorProps {
+interface Props extends /* @vue-ignore */ ContextMenuSeparatorProps {
   class?: string
 }
 

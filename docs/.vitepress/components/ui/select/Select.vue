@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { SelectRoot, type SelectRootProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends SelectRootProps {
+interface Props extends /* @vue-ignore */ SelectRootProps {
   class?: HTMLAttributes['class']
 }
 

@@ -2,7 +2,7 @@
 import { DialogTitle, type DialogTitleProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends DialogTitleProps {
+interface Props extends /* @vue-ignore */ DialogTitleProps {
   class?: string
 }
 

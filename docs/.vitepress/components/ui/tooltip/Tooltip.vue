@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TooltipRoot, type TooltipRootProps } from 'radix-vue'
-interface Props extends TooltipRootProps {}
+interface Props extends /* @vue-ignore */ TooltipRootProps {}
 defineProps<Props>()
 </script>
 

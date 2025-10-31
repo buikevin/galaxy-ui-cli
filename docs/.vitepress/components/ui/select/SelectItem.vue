@@ -4,7 +4,7 @@ import { SelectItem, SelectItemIndicator, SelectItemText, type SelectItemProps }
 import { Check } from 'lucide-vue-next'
 import { cn } from '@/lib/utils'
 
-interface Props extends SelectItemProps {
+interface Props extends /* @vue-ignore */ SelectItemProps {
   class?: HTMLAttributes['class']
 }
 

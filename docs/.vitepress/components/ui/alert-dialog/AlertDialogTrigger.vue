@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AlertDialogTrigger, type AlertDialogTriggerProps } from 'radix-vue'
 
-interface Props extends AlertDialogTriggerProps {}
+interface Props extends /* @vue-ignore */ AlertDialogTriggerProps {}
 
 defineProps<Props>()
 </script>

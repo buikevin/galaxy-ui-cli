@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { MenubarRoot, type MenubarRootProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends MenubarRootProps {
+interface Props extends /* @vue-ignore */ MenubarRootProps {
   class?: HTMLAttributes['class']
 }
 

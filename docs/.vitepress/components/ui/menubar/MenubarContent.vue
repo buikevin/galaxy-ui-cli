@@ -2,7 +2,7 @@
 import { MenubarContent, type MenubarContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends MenubarContentProps {
+interface Props extends /* @vue-ignore */ MenubarContentProps {
   class?: string
 }
 

@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { PopoverContent, PopoverPortal, type PopoverContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends PopoverContentProps {
+interface Props extends /* @vue-ignore */ PopoverContentProps {
   class?: HTMLAttributes['class']
 }
 

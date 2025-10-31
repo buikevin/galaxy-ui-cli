@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { MenubarMenu, type MenubarMenuProps } from 'radix-vue'
 
-interface Props extends MenubarMenuProps {}
+interface Props extends /* @vue-ignore */ MenubarMenuProps {}
 
 defineProps<Props>()
 </script>

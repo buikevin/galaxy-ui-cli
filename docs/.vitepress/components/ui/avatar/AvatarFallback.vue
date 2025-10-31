@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { AvatarFallback, type AvatarFallbackProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends AvatarFallbackProps {
+interface Props extends /* @vue-ignore */ AvatarFallbackProps {
   class?: HTMLAttributes['class']
 }
 

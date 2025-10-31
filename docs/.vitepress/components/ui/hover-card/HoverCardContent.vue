@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { HoverCardContent, HoverCardPortal, type HoverCardContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends HoverCardContentProps {
+interface Props extends /* @vue-ignore */ HoverCardContentProps {
   class?: HTMLAttributes['class']
 }
 

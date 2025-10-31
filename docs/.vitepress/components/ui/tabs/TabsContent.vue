@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { TabsContent, type TabsContentProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends TabsContentProps {
+interface Props extends /* @vue-ignore */ TabsContentProps {
   class?: HTMLAttributes['class']
 }
 

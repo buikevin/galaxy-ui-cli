@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { SliderRange, SliderRoot, SliderThumb, SliderTrack, type SliderRootProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends SliderRootProps {
+interface Props extends /* @vue-ignore */ SliderRootProps {
   class?: HTMLAttributes['class']
 }
 

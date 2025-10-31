@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { HoverCardTrigger, type HoverCardTriggerProps } from 'radix-vue'
 
-interface Props extends HoverCardTriggerProps {}
+interface Props extends /* @vue-ignore */ HoverCardTriggerProps {}
 
 defineProps<Props>()
 </script>

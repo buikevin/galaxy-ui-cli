@@ -2,7 +2,7 @@
 import { AlertDialogAction, type AlertDialogActionProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends AlertDialogActionProps {
+interface Props extends /* @vue-ignore */ AlertDialogActionProps {
   class?: string
 }
 

@@ -3,7 +3,7 @@ import { type HTMLAttributes, computed } from 'vue'
 import { NavigationMenuRoot, type NavigationMenuRootProps } from 'radix-vue'
 import { cn } from '@/lib/utils'
 
-interface Props extends NavigationMenuRootProps {
+interface Props extends /* @vue-ignore */ NavigationMenuRootProps {
   class?: HTMLAttributes['class']
 }
 
