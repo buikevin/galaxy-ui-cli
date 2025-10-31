@@ -13,10 +13,12 @@ export const sharedConfig = defineConfig({
   },
 
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
-    ['meta', { name: 'theme-color', content: '#3b82f6' }],
+    ['link', { rel: 'icon', type: 'image/png', href: '/favicon.png' }],
+    ['link', { rel: 'apple-touch-icon', href: '/logo.png' }],
+    ['meta', { name: 'theme-color', content: '#06B6D4' }],
     ['meta', { name: 'og:type', content: 'website' }],
-    ['meta', { name: 'og:site_name', content: 'Galaxy UI' }],
+    ['meta', { name: 'og:site_name', content: 'Galaxy UI CLI' }],
+    ['meta', { name: 'og:image', content: 'https://galaxy-ui-cli.vercel.app/galaxy-logo.png' }],
     ['meta', { name: 'author', content: 'Bùi Trọng Hiếu (kevinbui)' }],
     ['meta', { name: 'og:author', content: 'Bùi Trọng Hiếu (kevinbui)' }],
   ],
@@ -33,7 +35,7 @@ export const sharedConfig = defineConfig({
   },
 
   themeConfig: {
-    logo: '/logo.svg',
+    logo: '/logo.png',
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/buikevin/galaxy-ui-cli' }

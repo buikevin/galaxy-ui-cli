@@ -6,7 +6,7 @@ hero:
   text: "Multi-Framework Component Library"
   tagline: Beautiful, accessible components for Vue, React, and Angular with Radix primitives + Tailwind CSS
   image:
-    src: /logo.svg
+    src: /galaxy-logo.png
     alt: Galaxy UI
   actions:
     - theme: brand

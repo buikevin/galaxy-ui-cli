@@ -6,7 +6,7 @@ hero:
   text: "Thư Viện Component Đa Framework"
   tagline: Component đẹp, dễ tiếp cận cho Vue, React và Angular với Radix primitives + Tailwind CSS
   image:
-    src: /logo.svg
+    src: /galaxy-logo.png
     alt: Galaxy UI
   actions:
     - theme: brand
