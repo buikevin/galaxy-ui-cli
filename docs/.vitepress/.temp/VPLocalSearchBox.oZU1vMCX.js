@@ -14,7 +14,7 @@ import "clsx";
 import "tailwind-merge";
 import "lucide-vue-next";
 import "class-variance-authority";
-const localSearchIndex = { "root": () => import("./@localSearchIndexroot.BF0SZKk9.js"), "vi": () => import("./@localSearchIndexvi.CIo9Gco1.js") };
+const localSearchIndex = { "root": () => import("./@localSearchIndexroot.DFTnkZim.js"), "vi": () => import("./@localSearchIndexvi.BhHLoIbo.js") };
 class LRUCache {
   constructor(max = 10) {
     __publicField(this, "max");
