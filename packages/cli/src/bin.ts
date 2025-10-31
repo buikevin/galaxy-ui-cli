@@ -6,9 +6,9 @@ import { addCommand } from './commands/add.js';
 const program = new Command();
 
 program
-  .name('galaxy-ui')
+  .name('galaxy-ui-cli')
   .description('CLI tool for Galaxy UI component library')
-  .version('0.0.1');
+  .version('0.1.0');
 
 program
   .command('init')
