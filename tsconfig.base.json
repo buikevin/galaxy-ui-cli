@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "strict": true,
     "target": "es2022",
+    "baseUrl": ".",
     "customConditions": ["@galaxy-ui-cli/source"],
     "paths": {
       "@galaxy-ui-cli/angular": ["packages/angular/src/index.ts"]

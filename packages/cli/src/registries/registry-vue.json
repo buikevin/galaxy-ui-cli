@@ -6,10 +6,10 @@
       "name": "Button",
       "type": "form",
       "description": "Displays a button or a component that looks like a button",
-      "dependencies": [],
+      "dependencies": ["class-variance-authority"],
       "devDependencies": [],
       "registryDependencies": [],
-      "files": ["button.vue"],
+      "files": ["Button.vue", "variants.ts", "index.ts"],
       "category": "form"
     },
     "input": {
@@ -251,24 +251,138 @@
       "registryDependencies": [],
       "files": ["tooltip.vue"],
       "category": "navigation"
+    },
+    "empty": {
+      "name": "Empty",
+      "type": "feedback",
+      "description": "Displays an empty state placeholder",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Empty.vue", "index.ts"],
+      "category": "feedback"
+    },
+    "kbd": {
+      "name": "Kbd",
+      "type": "data-display",
+      "description": "Displays keyboard key combinations",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Kbd.vue", "index.ts"],
+      "category": "data-display"
+    },
+    "typography": {
+      "name": "Typography",
+      "type": "data-display",
+      "description": "Text formatting and typography components",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Typography.vue", "index.ts"],
+      "category": "data-display"
+    },
+    "pagination": {
+      "name": "Pagination",
+      "type": "navigation",
+      "description": "Page navigation with previous, next, and page numbers",
+      "dependencies": ["lucide-vue-next"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Pagination.vue", "index.ts"],
+      "category": "navigation"
+    },
+    "table": {
+      "name": "Table",
+      "type": "data-display",
+      "description": "A responsive table component for displaying data",
+      "dependencies": [],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Table.vue", "index.ts"],
+      "category": "data-display"
+    },
+    "calendar": {
+      "name": "Calendar",
+      "type": "form",
+      "description": "A date picker calendar component",
+      "dependencies": ["radix-vue", "lucide-vue-next"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Calendar.vue", "index.ts"],
+      "category": "form"
+    },
+    "calendar-range": {
+      "name": "Calendar Range",
+      "type": "form",
+      "description": "A date range picker calendar component",
+      "dependencies": ["radix-vue", "lucide-vue-next"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["CalendarRange.vue", "index.ts"],
+      "category": "form"
+    },
+    "command": {
+      "name": "Command",
+      "type": "navigation",
+      "description": "Command palette for keyboard-first navigation and search",
+      "dependencies": ["lucide-vue-next"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Command.vue", "index.ts"],
+      "category": "navigation"
+    },
+    "sheet": {
+      "name": "Sheet",
+      "type": "layout",
+      "description": "Slide-over panel that slides in from the edge of the screen",
+      "dependencies": ["radix-vue", "lucide-vue-next"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Sheet.vue", "index.ts"],
+      "category": "layout"
+    },
+    "toolbar": {
+      "name": "Toolbar",
+      "type": "layout",
+      "description": "A container for grouping a set of controls",
+      "dependencies": ["radix-vue"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["Toolbar.vue", "index.ts"],
+      "category": "layout"
+    },
+    "tags-input": {
+      "name": "Tags Input",
+      "type": "form",
+      "description": "Input field for entering multiple tags or values",
+      "dependencies": ["lucide-vue-next"],
+      "devDependencies": [],
+      "registryDependencies": [],
+      "files": ["TagsInput.vue", "index.ts"],
+      "category": "form"
     }
   },
   "groups": {
     "form": {
       "name": "Form Components",
-      "components": ["button", "input", "label", "select", "checkbox", "radio-group", "switch", "slider", "textarea", "form"]
+      "components": ["button", "input", "label", "select", "checkbox", "radio-group", "switch", "slider", "textarea", "form", "calendar", "calendar-range", "tags-input"]
     },
     "layout": {
       "name": "Layout Components",
-      "components": ["card", "separator", "accordion", "tabs", "dialog"]
+      "components": ["card", "separator", "accordion", "tabs", "dialog", "sheet", "toolbar"]
     },
     "feedback": {
       "name": "Feedback Components",
-      "components": ["alert", "toast", "progress", "skeleton", "badge"]
+      "components": ["alert", "toast", "progress", "skeleton", "badge", "empty"]
+    },
+    "data-display": {
+      "name": "Data Display Components",
+      "components": ["kbd", "typography", "table"]
     },
     "navigation": {
       "name": "Navigation Components",
-      "components": ["dropdown-menu", "navigation-menu", "breadcrumb", "popover", "tooltip"]
+      "components": ["dropdown-menu", "navigation-menu", "breadcrumb", "popover", "tooltip", "pagination", "command"]
     }
   }
 }

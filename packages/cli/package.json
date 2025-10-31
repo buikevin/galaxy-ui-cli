@@ -1,7 +1,7 @@
 {
-  "name": "@galaxy-ui-cli/cli",
+  "name": "galaxy-ui",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -37,6 +37,16 @@
               "input": "packages/cli/src",
               "glob": "registry.json",
               "output": "."
+            },
+            {
+              "input": "packages/cli/src/registries",
+              "glob": "*.json",
+              "output": "./registries"
+            },
+            {
+              "input": "packages/cli/src/schemas",
+              "glob": "*.json",
+              "output": "./schemas"
             },
             {
               "input": "packages/cli/src",

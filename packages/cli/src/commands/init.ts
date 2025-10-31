@@ -1,26 +1,25 @@
 import prompts from 'prompts';
 import chalk from 'chalk';
 import ora from 'ora';
-import { execa } from 'execa';
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import { readFileSync } from 'fs';
 import {
   detectFramework,
   detectPackageManager,
-  isGalaxyInitialized,
-  isTailwindInstalled,
+  type Framework as DetectedFramework,
 } from '../utils/detect.js';
 import {
-  loadConfig,
-  createConfig,
-  configExists,
+  createComponentsConfig,
+  hasComponentsConfig,
+  loadComponentsConfig,
+  type Framework,
+} from '../utils/components-config.js';
+import {
   getDefaultConfig,
-} from '../utils/config.js';
-import { writeFile, ensureDir, fileExists } from '../utils/files.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+  type BaseColor,
+  type IconLibrary,
+} from '../utils/config-schema.js';
+import { writeFile, ensureDir } from '../utils/files.js';
+import { installDependencies } from '../utils/package-manager.js';
+import { resolve } from 'path';
 
 interface InitOptions {
   yes?: boolean;
@@ -28,13 +27,13 @@ interface InitOptions {
 }
 
 export async function initCommand(options: InitOptions) {
-  console.log(chalk.bold.cyan('\n🌌 Galaxy UI CLI\n'));
+  console.log(chalk.bold.cyan('\n🌌 Galaxy UI CLI - Multi-Framework Edition\n'));
 
   const cwd = options.cwd;
 
   // Check if already initialized
-  if (await configExists(cwd)) {
-    console.log(chalk.yellow('⚠ Galaxy UI is already initialized in this project.'));
+  if (hasComponentsConfig(cwd)) {
+    console.log(chalk.yellow('⚠ components.json already exists in this project.'));
     const { overwrite } = await prompts({
       type: 'confirm',
       name: 'overwrite',
@@ -60,82 +59,149 @@ export async function initCommand(options: InitOptions) {
     return;
   }
 
-  if (detectedFramework !== 'angular') {
-    console.log(
-      chalk.yellow(
-        `⚠ Detected ${detectedFramework} framework, but Galaxy UI currently only supports Angular.`
-      )
-    );
-    console.log(chalk.gray('Support for React and Vue is coming soon!'));
+  console.log(chalk.green(`✓ Detected ${chalk.bold(detectedFramework)} framework`));
+
+  // Map detected framework to Framework type
+  const frameworkMap: Record<DetectedFramework, Framework | null> = {
+    angular: 'angular',
+    react: 'react',
+    vue: 'vue',
+    unknown: null,
+  };
+
+  const framework = frameworkMap[detectedFramework];
+  if (!framework) {
+    console.log(chalk.red('❌ Unsupported framework detected.'));
     return;
   }
-
-  console.log(chalk.green(`✓ Detected ${chalk.bold(detectedFramework)} framework`));
 
   // Detect package manager
   const packageManager = detectPackageManager(cwd);
   console.log(chalk.green(`✓ Using ${chalk.bold(packageManager)} package manager`));
 
-  // Get configuration from user
-  let config = getDefaultConfig(detectedFramework);
+  // Get configuration from user (or use defaults with --yes)
+  let config = getDefaultConfig(framework);
 
   if (!options.yes) {
-    const responses = await prompts([
+    console.log(chalk.cyan('\n📝 Configuration\n'));
+
+    const answers = await prompts([
       {
-        type: 'text',
-        name: 'componentsPath',
-        message: 'Where would you like to place your components?',
-        initial: config.componentsPath,
+        type: 'toggle',
+        name: 'typescript',
+        message: 'Would you like to use TypeScript?',
+        initial: true,
+        active: 'yes',
+        inactive: 'no',
+      },
+      {
+        type: 'select',
+        name: 'baseColor',
+        message: 'Which base color would you like to use?',
+        choices: [
+          { title: 'Slate', value: 'slate' },
+          { title: 'Gray', value: 'gray' },
+          { title: 'Zinc', value: 'zinc' },
+          { title: 'Neutral', value: 'neutral' },
+          { title: 'Stone', value: 'stone' },
+        ],
+        initial: 0,
+      },
+      {
+        type: 'select',
+        name: 'iconLibrary',
+        message: 'Which icon library would you like to use?',
+        choices: [
+          { title: 'Lucide (Recommended)', value: 'lucide' },
+          { title: 'Heroicons', value: 'heroicons' },
+          { title: 'Radix Icons', value: 'radix-icons' },
+        ],
+        initial: 0,
       },
       {
         type: 'text',
-        name: 'utilsPath',
-        message: 'Where would you like to place your utils file?',
-        initial: config.utilsPath,
-      },
-      {
-        type: 'confirm',
-        name: 'configureTailwind',
-        message: 'Would you like to configure Tailwind CSS?',
-        initial: !isTailwindInstalled(cwd),
+        name: 'cssFile',
+        message: `Where is your global CSS file?`,
+        initial: config.tailwind.css,
       },
     ]);
 
-    if (!responses.componentsPath) {
+    if (Object.keys(answers).length === 0) {
       console.log(chalk.gray('Initialization cancelled.'));
       return;
     }
 
+    // Update config with user choices
     config = {
       ...config,
-      componentsPath: responses.componentsPath,
-      utilsPath: responses.utilsPath,
+      typescript: answers.typescript ?? config.typescript,
+      iconLibrary: (answers.iconLibrary as IconLibrary) ?? config.iconLibrary,
+      tailwind: {
+        ...config.tailwind,
+        baseColor: (answers.baseColor as BaseColor) ?? config.tailwind.baseColor,
+        css: answers.cssFile ?? config.tailwind.css,
+      },
     };
   }
 
-  console.log('\n');
+  console.log(chalk.cyan('\n📦 Installing dependencies...\n'));
 
   // Install dependencies
   const spinner = ora('Installing dependencies...').start();
 
-  const dependencies = ['lucide-angular@^0.548.0', 'clsx@^2.1.1', 'tailwind-merge@^3.3.1'];
+  const dependencies: string[] = [];
+  const devDependencies: string[] = [];
 
-  if (!isTailwindInstalled(cwd)) {
-    dependencies.push('tailwindcss@^3.4.0', 'autoprefixer@^10.4.0', 'postcss@^8.4.0');
+  // Common dependencies
+  dependencies.push('clsx', 'tailwind-merge');
+
+  // Framework-specific dependencies
+  switch (framework) {
+    case 'vue':
+      dependencies.push('radix-vue');
+      devDependencies.push('tailwindcss', 'autoprefixer', 'postcss');
+      if (config.iconLibrary === 'lucide') {
+        dependencies.push('lucide-vue-next');
+      }
+      break;
+
+    case 'react':
+      dependencies.push('@radix-ui/react-slot');
+      devDependencies.push('tailwindcss', 'autoprefixer', 'postcss');
+      if (config.iconLibrary === 'lucide') {
+        dependencies.push('lucide-react');
+      }
+      if (config.typescript) {
+        devDependencies.push('@types/react', '@types/react-dom');
+      }
+      break;
+
+    case 'angular':
+      // Angular components use Radix NG primitives
+      dependencies.push('@radix-ng/primitives');
+      if (config.iconLibrary === 'lucide') {
+        dependencies.push('lucide-angular');
+      }
+      break;
   }
 
   try {
-    const installCommand =
-      packageManager === 'npm'
-        ? 'npm install'
-        : packageManager === 'bun'
-        ? 'bun add'
-        : `${packageManager} add`;
+    // Install dependencies
+    if (dependencies.length > 0) {
+      await installDependencies(dependencies, {
+        cwd,
+        silent: true,
+      });
+    }
 
-    await execa(installCommand, dependencies, {
-      cwd,
-      shell: true,
-    });
+    // Install devDependencies
+    if (devDependencies.length > 0) {
+      await installDependencies(devDependencies, {
+        cwd,
+        dev: true,
+        silent: true,
+      });
+    }
 
     spinner.succeed('Dependencies installed');
   } catch (error) {
@@ -148,11 +214,12 @@ export async function initCommand(options: InitOptions) {
   const dirSpinner = ora('Creating directories...').start();
 
   try {
-    const componentsDir = resolve(cwd, config.componentsPath);
-    const utilsDir = dirname(resolve(cwd, config.utilsPath));
+    const componentsPath = resolve(cwd, config.aliases.components.replace('@/', ''));
+    const utilsPath = resolve(cwd, config.aliases.utils.replace('@/', ''));
 
-    ensureDir(componentsDir);
-    ensureDir(utilsDir);
+    await ensureDir(componentsPath);
+    await ensureDir(resolve(componentsPath, 'ui'));
+    await ensureDir(utilsPath.replace('/utils', '')); // Create lib dir
 
     dirSpinner.succeed('Directories created');
   } catch (error) {
@@ -162,57 +229,59 @@ export async function initCommand(options: InitOptions) {
   }
 
   // Create utils file
-  const utilsSpinner = ora('Creating utils file...').start();
+  const utilsSpinner = ora('Creating utility functions...').start();
 
   try {
-    const utilsPath = resolve(cwd, config.utilsPath);
-    const templatePath = resolve(__dirname, '../templates/utils.ts.template');
-    const template = readFileSync(templatePath, 'utf-8');
+    const utilsPath = resolve(cwd, config.aliases.utils.replace('@/', '') + '.ts');
+    const utilsContent = getUtilsContent();
+    writeFile(utilsPath, utilsContent);
 
-    writeFile(utilsPath, template);
-
-    utilsSpinner.succeed('Utils file created');
+    utilsSpinner.succeed('Utility functions created');
   } catch (error) {
-    utilsSpinner.fail('Failed to create utils file');
+    utilsSpinner.fail('Failed to create utility functions');
     console.error(chalk.red(error));
     return;
   }
 
-  // Configure Tailwind
-  if (!isTailwindInstalled(cwd) || !fileExists(resolve(cwd, 'tailwind.config.js'))) {
-    const tailwindSpinner = ora('Configuring Tailwind CSS...').start();
-
-    try {
-      const tailwindConfigPath = resolve(cwd, 'tailwind.config.js');
-      const templatePath = resolve(__dirname, '../templates/tailwind.config.template');
-      const template = readFileSync(templatePath, 'utf-8');
-
-      writeFile(tailwindConfigPath, template);
-
-      tailwindSpinner.succeed('Tailwind CSS configured');
-    } catch (error) {
-      tailwindSpinner.fail('Failed to configure Tailwind CSS');
-      console.error(chalk.red(error));
-    }
-  }
-
-  // Save configuration
-  const configSpinner = ora('Saving configuration...').start();
+  // Save components.json
+  const configSpinner = ora('Creating components.json...').start();
 
   try {
-    await createConfig(cwd, config);
-    configSpinner.succeed('Configuration saved');
+    createComponentsConfig(cwd, framework);
+    configSpinner.succeed('components.json created');
   } catch (error) {
-    configSpinner.fail('Failed to save configuration');
+    configSpinner.fail('Failed to create components.json');
     console.error(chalk.red(error));
     return;
   }
 
   // Success message
-  console.log('\n' + chalk.green.bold('✓ Galaxy UI initialized successfully!\n'));
+  console.log(chalk.green('\n✨ Success! Galaxy UI has been initialized.\n'));
+  console.log(chalk.cyan('Next steps:\n'));
+  console.log(chalk.white(`  1. Configure Tailwind CSS in ${config.tailwind.config}`));
+  console.log(chalk.white(`  2. Import utilities in ${config.tailwind.css}`));
+  console.log(chalk.white(`  3. Add components:`));
+  console.log(chalk.gray(`     galaxy-ui add button`));
+  console.log(chalk.gray(`     galaxy-ui add input card`));
+  console.log(chalk.gray(`     galaxy-ui add --all\n`));
 
-  console.log(chalk.gray('Next steps:'));
-  console.log(chalk.gray('  1. Run') + chalk.cyan(' galaxy add <component>') + chalk.gray(' to add components'));
-  console.log(chalk.gray('  2. Import components in your Angular modules'));
-  console.log(chalk.gray('  3. Start building amazing UIs! 🚀\n'));
+  console.log(chalk.cyan('Learn more:'));
+  console.log(chalk.white('  Documentation: https://galaxy-ui.com'));
+  console.log(chalk.white('  GitHub: https://github.com/buikevin/galaxy-ui-cli\n'));
+}
+
+/**
+ * Get utils.ts content
+ */
+function getUtilsContent(): string {
+  return `import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+/**
+ * Merge Tailwind CSS classes
+ */
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+`;
 }

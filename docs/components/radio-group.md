@@ -1,0 +1,162 @@
+# Radio Group
+
+A set of checkable buttons where only one can be checked at a time.
+
+<ComponentPreview name="RadioGroupDemo">
+  <template #preview>
+    <DemoContainer>
+      <RadioGroupDemo />
+    </DemoContainer>
+  </template>
+  <template #code>
+
+::: code-group
+
+```vue [Vue]
+<script setup lang="ts">
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
+</script>
+
+<template>
+  <RadioGroup default-value="option-one">
+    <div class="flex items-center space-x-2">
+      <RadioGroupItem id="option-one" value="option-one" />
+      <Label for="option-one">Option One</Label>
+    </div>
+    <div class="flex items-center space-x-2">
+      <RadioGroupItem id="option-two" value="option-two" />
+      <Label for="option-two">Option Two</Label>
+    </div>
+  </RadioGroup>
+</template>
+```
+
+```tsx [React]
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
+
+export default function App() {
+  return (
+    <RadioGroup defaultValue="option-one">
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="option-one" id="option-one" />
+        <Label htmlFor="option-one">Option One</Label>
+      </div>
+      <div className="flex items-center space-x-2">
+        <RadioGroupItem value="option-two" id="option-two" />
+        <Label htmlFor="option-two">Option Two</Label>
+      </div>
+    </RadioGroup>
+  )
+}
+```
+
+```typescript [Angular]
+import { Component } from '@angular/core';
+import { RadioGroupComponent } from '@/components/ui/radio-group';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RadioGroupComponent],
+  template: `
+    <ui-radio-group [(value)]="selectedValue">
+      <div class="flex items-center space-x-2">
+        <ui-radio-group-item value="option-one"></ui-radio-group-item>
+        <ui-label>Option One</ui-label>
+      </div>
+      <div class="flex items-center space-x-2">
+        <ui-radio-group-item value="option-two"></ui-radio-group-item>
+        <ui-label>Option Two</ui-label>
+      </div>
+    </ui-radio-group>
+  `
+})
+export class AppComponent {
+  selectedValue = 'option-one';
+}
+```
+
+:::
+
+  </template>
+</ComponentPreview>
+
+## Installation
+
+::: code-group
+
+```bash [npm]
+npx galaxy-ui@latest add radio-group
+```
+
+```bash [pnpm]
+pnpm dlx galaxy-ui@latest add radio-group
+```
+
+```bash [yarn]
+yarn dlx galaxy-ui@latest add radio-group
+```
+
+```bash [bun]
+bunx galaxy-ui@latest add radio-group
+```
+
+:::
+
+## Usage
+
+### Vue
+```vue
+<script setup lang="ts">
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import { Label } from '@/components/ui/label'
+</script>
+
+<template>
+  <RadioGroup default-value="option-one">
+    <div class="flex items-center space-x-2">
+      <RadioGroupItem id="option-one" value="option-one" />
+      <Label for="option-one">Option One</Label>
+    </div>
+    <div class="flex items-center space-x-2">
+      <RadioGroupItem id="option-two" value="option-two" />
+      <Label for="option-two">Option Two</Label>
+    </div>
+  </RadioGroup>
+</template>
+```
+
+### React
+```tsx
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Label } from "@/components/ui/label"
+
+<RadioGroup defaultValue="option-one">
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-one" id="option-one" />
+    <Label htmlFor="option-one">Option One</Label>
+  </div>
+  <div className="flex items-center space-x-2">
+    <RadioGroupItem value="option-two" id="option-two" />
+    <Label htmlFor="option-two">Option Two</Label>
+  </div>
+</RadioGroup>
+```
+
+### Angular
+```typescript
+@Component({
+  template: `
+    <ui-radio-group [(value)]="selectedValue">
+      <div class="flex items-center space-x-2">
+        <ui-radio-group-item value="option-one" />
+        <ui-label>Option One</ui-label>
+      </div>
+    </ui-radio-group>
+  `
+})
+```
+
+**Bùi Trọng Hiếu (kevinbui)** - MIT © 2025

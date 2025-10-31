@@ -1,16 +1,12 @@
-# Introduction | Giới Thiệu
+# Introduction
 
 Welcome to **Galaxy UI** - a universal component library that brings beautiful, accessible components to Vue, React, and Angular.
 
-Chào mừng đến với **Galaxy UI** - thư viện component đa nền tảng mang đến các component đẹp mắt, dễ tiếp cận cho Vue, React và Angular.
-
-## What is Galaxy UI? | Galaxy UI là gì?
+## What is Galaxy UI?
 
 Galaxy UI is a collection of re-usable components built on top of **Radix primitives** and styled with **Tailwind CSS**. Unlike traditional component libraries, Galaxy UI follows the **copy-paste** philosophy pioneered by [shadcn/ui](https://ui.shadcn.com/).
 
-Galaxy UI là bộ sưu tập các component có thể tái sử dụng được xây dựng trên **Radix primitives** và tạo kiểu với **Tailwind CSS**. Khác với các thư viện component truyền thống, Galaxy UI theo triết lý **copy-paste** do [shadcn/ui](https://ui.shadcn.com/) khởi xướng.
-
-### Key Features | Tính Năng Chính
+### Key Features
 
 - **🎨 Multi-Framework** - Support for Vue 3, React, and Angular
 - **♿ Accessible** - Built on Radix primitives with ARIA support
@@ -21,37 +17,35 @@ Galaxy UI là bộ sưu tập các component có thể tái sử dụng được
 - **📱 Responsive** - Mobile-first design
 - **🔧 TypeScript** - Full type safety
 
-## Why Copy-Paste? | Tại Sao Copy-Paste?
+## Why Copy-Paste?
 
-### Traditional Libraries | Thư Viện Truyền Thống
+### Traditional Libraries
 
 ```bash
 npm install some-ui-library
 ```
 
-**Problems | Vấn Đề:**
-- ❌ Version conflicts | Xung đột phiên bản
-- ❌ Bundle size bloat | Kích thước bundle phình to
-- ❌ Limited customization | Tùy chỉnh hạn chế
-- ❌ Breaking changes in updates | Thay đổi gây lỗi khi cập nhật
+**Problems:**
+- ❌ Version conflicts
+- ❌ Bundle size bloat
+- ❌ Limited customization
+- ❌ Breaking changes in updates
 
-### Galaxy UI Approach | Cách Tiếp Cận của Galaxy UI
+### Galaxy UI Approach
 
 ```bash
 galaxy-ui add button
 ```
 
-**Benefits | Lợi Ích:**
-- ✅ Full code ownership | Sở hữu toàn bộ code
-- ✅ Complete customization | Tùy chỉnh hoàn toàn
-- ✅ No version conflicts | Không xung đột phiên bản
-- ✅ Tree-shaking friendly | Tối ưu tree-shaking
+**Benefits:**
+- ✅ Full code ownership
+- ✅ Complete customization
+- ✅ No version conflicts
+- ✅ Tree-shaking friendly
 
-## Framework Support | Hỗ Trợ Framework
+## Framework Support
 
 Galaxy UI provides the same beautiful components across three major frameworks:
-
-Galaxy UI cung cấp cùng các component đẹp mắt trên ba framework chính:
 
 ### Vue 3
 
@@ -92,7 +86,7 @@ import { ButtonComponent } from '@/components/ui/button';
 export class AppComponent {}
 ```
 
-## How It Works | Cách Hoạt Động
+## How It Works
 
 1. **Initialize** your project with `galaxy-ui init`
 2. **Add** components you need with `galaxy-ui add [component]`
@@ -100,21 +94,19 @@ export class AppComponent {}
 4. **Ship** your application
 
 ```bash
-# Step 1: Initialize | Khởi tạo
+# Step 1: Initialize
 galaxy-ui init
 
-# Step 2: Add components | Thêm components
+# Step 2: Add components
 galaxy-ui add button input card
 
-# Step 3: Use in your app | Sử dụng trong ứng dụng
+# Step 3: Use in your app
 # Components are now in your src/components/ui folder
 ```
 
-## Architecture | Kiến Trúc
+## Architecture
 
 Galaxy UI is built on three pillars:
-
-Galaxy UI được xây dựng trên ba trụ cột:
 
 ### 1. Radix Primitives
 
@@ -139,15 +131,13 @@ Thin wrappers around Radix primitives:
 - React hooks
 - Angular services
 
-## Philosophy | Triết Lý
+## Philosophy
 
-### Own Your Code | Sở Hữu Code Của Bạn
+### Own Your Code
 
 When you use Galaxy UI, you're not installing a black-box package. You're copying well-tested, production-ready code into your project.
 
-Khi bạn sử dụng Galaxy UI, bạn không cài đặt một package hộp đen. Bạn đang sao chép code đã được kiểm tra kỹ, sẵn sàng production vào dự án của bạn.
-
-### Customize Without Limits | Tùy Chỉnh Không Giới Hạn
+### Customize Without Limits
 
 Every component is just TypeScript/JavaScript and Tailwind classes. Modify anything:
 - Change colors, spacing, borders
@@ -155,25 +145,17 @@ Every component is just TypeScript/JavaScript and Tailwind classes. Modify anyth
 - Integrate with your state management
 - Adapt to your design system
 
-### Learn By Reading | Học Bằng Cách Đọc
+### Learn By Reading
 
 The best way to learn is by reading code. With Galaxy UI, every component's source is in your project. Learn how things work!
 
-Cách tốt nhất để học là đọc code. Với Galaxy UI, source code của mọi component đều có trong dự án của bạn. Học cách mọi thứ hoạt động!
-
-## What's Next? | Tiếp Theo?
+## What's Next?
 
 Ready to get started? Follow our installation guide:
 
-Sẵn sàng bắt đầu? Làm theo hướng dẫn cài đặt:
+→ [Installation Guide](./installation)
 
-<div style="margin-top: 2rem;">
-  <a href="./installation" style="display: inline-block; padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600;">
-    Installation Guide →
-  </a>
-</div>
-
-## Credits | Công Trạng
+## Credits
 
 Galaxy UI is inspired by and built upon the work of:
 

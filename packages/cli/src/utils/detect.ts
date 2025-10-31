@@ -41,7 +41,7 @@ export function detectFramework(cwd: string): Framework {
  * Detect the package manager being used
  */
 export function detectPackageManager(cwd: string): PackageManager {
-  if (existsSync(resolve(cwd, 'bun.lockb'))) {
+  if (existsSync(resolve(cwd, 'bun.lockb')) || existsSync(resolve(cwd, 'bun.lock'))) {
     return 'bun';
   }
   if (existsSync(resolve(cwd, 'pnpm-lock.yaml'))) {

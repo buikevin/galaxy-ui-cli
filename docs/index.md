@@ -2,8 +2,8 @@
 layout: home
 
 hero:
-  name: Galaxy UI
-  text: Universal Component Library
+  name: "Galaxy UI"
+  text: "Multi-Framework Component Library"
   tagline: Beautiful, accessible components for Vue, React, and Angular with Radix primitives + Tailwind CSS
   image:
     src: /logo.svg
@@ -59,15 +59,41 @@ features:
 
 ## Quick Start
 
-<div class="language-bash"><pre><code><span class="line"><span style="color:#676E95;"># Install the CLI</span></span>
-<span class="line"><span style="color:#A6ACCD;">npm install -g @galaxy-ui/cli</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#676E95;"># Initialize in your project</span></span>
-<span class="line"><span style="color:#A6ACCD;">galaxy-ui init</span></span>
-<span class="line"></span>
-<span class="line"><span style="color:#676E95;"># Add components</span></span>
-<span class="line"><span style="color:#A6ACCD;">galaxy-ui add button input card</span></span>
-</code></pre></div>
+::: code-group
+
+```bash [npm]
+# Initialize your project
+npx galaxy-ui@latest init
+
+# Add components
+npx galaxy-ui@latest add button input dialog
+```
+
+```bash [pnpm]
+# Initialize your project
+pnpm dlx galaxy-ui@latest init
+
+# Add components
+pnpm dlx galaxy-ui@latest add button input dialog
+```
+
+```bash [yarn]
+# Initialize your project
+yarn dlx galaxy-ui@latest init
+
+# Add components
+yarn dlx galaxy-ui@latest add button input dialog
+```
+
+```bash [bun]
+# Initialize your project
+bunx galaxy-ui@latest init
+
+# Add components
+bunx galaxy-ui@latest add button input dialog
+```
+
+:::
 
 ## Framework Support
 
@@ -131,13 +157,14 @@ Galaxy UI stands on the shoulders of giants:
 - **[shadcn-vue](https://www.shadcn-vue.com/)** - Copy-paste Vue components
 - **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first CSS framework
 
-## Ready to get started?
+## Author
 
-<div style="margin-top: 2rem;">
-  <a href="/guide/introduction" style="display: inline-block; padding: 0.75rem 1.5rem; background: #3b82f6; color: white; border-radius: 0.5rem; text-decoration: none; font-weight: 600; margin-right: 1rem;">
-    Get Started →
-  </a>
-  <a href="/components/overview" style="display: inline-block; padding: 0.75rem 1.5rem; border: 1px solid #e5e7eb; border-radius: 0.5rem; text-decoration: none; font-weight: 600;">
-    Browse Components
-  </a>
-</div>
+Created by **Bùi Trọng Hiếu (kevinbui)**
+
+- GitHub: [@buikevin](https://github.com/buikevin)
+- Email: kevinbui210191@gmail.com
+- Repository: [buikevin/galaxy-ui-cli](https://github.com/buikevin/galaxy-ui-cli)
+
+## License
+
+MIT © 2025 Bùi Trọng Hiếu (kevinbui)
