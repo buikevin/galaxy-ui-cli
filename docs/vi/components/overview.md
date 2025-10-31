@@ -1,6 +1,6 @@
 # Tổng quan Components
 
-Galaxy UI cung cấp 28 components production-ready cho Vue, React và Angular. Tất cả components được xây dựng với khả năng tiếp cận (accessibility) cao, sử dụng Radix primitives và styled với Tailwind CSS.
+Galaxy UI cung cấp 40+ components production-ready cho Vue, React và Angular. Tất cả components được xây dựng với khả năng tiếp cận (accessibility) cao, sử dụng Radix primitives và styled với Tailwind CSS.
 
 ## Cài đặt
 
@@ -22,6 +22,10 @@ yarn dlx galaxy-ui@latest add button
 
 ```bash [bun]
 bunx galaxy-ui@latest add button
+```
+
+```bash [global]
+galaxy-ui add button
 ```
 
 :::
@@ -46,6 +50,10 @@ yarn dlx galaxy-ui@latest add button input dialog
 bunx galaxy-ui@latest add button input dialog
 ```
 
+```bash [global]
+galaxy-ui add button input dialog
+```
+
 :::
 
 ## Phân loại Components
@@ -63,6 +71,9 @@ Các controls cơ bản cho form nhập liệu:
 - **[Switch](./switch)** - Công tắc bật/tắt
 - **[Textarea](./textarea)** - Nhập văn bản nhiều dòng
 - **[Label](./label)** - Nhãn cho trường form
+- **[Calendar](./calendar)** - Lịch chọn ngày
+- **[Calendar Range](./calendar-range)** - Chọn khoảng thời gian
+- **[Tags Input](./tags-input)** - Nhập nhiều giá trị tag
 
 ### Layout Components
 
@@ -74,6 +85,8 @@ Components để tổ chức nội dung:
 - **[Tabs](./tabs)** - Giao diện tab
 - **[Aspect Ratio](./aspect-ratio)** - Duy trì tỷ lệ khung hình cho nội dung media
 - **[Resizable](./resizable)** - Nhóm panel có thể thay đổi kích thước với hỗ trợ bàn phím
+- **[Sheet](./sheet)** - Panel trượt từ cạnh màn hình
+- **[Toolbar](./toolbar)** - Container nhóm các controls
 
 ### Navigation Components
 
@@ -83,6 +96,8 @@ Components cho điều hướng và menu:
 - **[Menubar](./menubar)** - Thanh menu với dropdown
 - **[Context Menu](./context-menu)** - Menu ngữ cảnh (chuột phải)
 - **[Dropdown Menu](./dropdown-menu)** - Menu dropdown
+- **[Pagination](./pagination)** - Phân trang với số trang
+- **[Command](./command)** - Command palette cho điều hướng bằng bàn phím
 
 ### Interactive Components
 
@@ -107,6 +122,11 @@ Components để hiển thị dữ liệu và phản hồi:
 
 - **[Avatar](./avatar)** - Avatar người dùng với fallback
 - **[Progress](./progress)** - Thanh tiến trình
+- **[Table](./table)** - Bảng dữ liệu responsive
+- **[Kbd](./kbd)** - Hiển thị phím bàn phím
+- **[Typography](./typography)** - Components định dạng văn bản
+- **[Empty](./empty)** - Placeholder trạng thái rỗng
+- **[Skeleton](./skeleton)** - Placeholder khi đang tải
 
 ## Hỗ trợ Framework
 
